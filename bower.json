@@ -1,0 +1,35 @@
+{
+  "name": "SancorzepApp",
+  "description": "Web App para Sancorzep, manejo de documentacion, usuarios e información de las empresas",
+  "main": "app.js",
+  "authors": [
+    "Luis Alonso Gonzalez Varela"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "web",
+    "App",
+    "sancorzep"
+  ],
+  "homepage": "https://github.com/xalonso518/SancorzepApp",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-toastr": "~0.5.2",
+    "angular-animate": "~1.3.12",
+    "lodash": "~3.1.0",
+    "async": "~0.9.2",
+    "angular-ui-router": "^0.3.2",
+    "angular-socket-io": "^0.7.0",
+    "bootstrap": "^3.3.7",
+    "components-font-awesome": "^4.7.0",
+    "Ionicons": "ionicons#^2.0.1"
+  }
+}
