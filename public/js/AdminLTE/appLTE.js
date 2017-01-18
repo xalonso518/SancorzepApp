@@ -17,7 +17,6 @@ $(function() {
     //Enable sidebar toggle
     $("[data-toggle='offcanvas']").click(function(e) {
         e.preventDefault();
-
         //If window is small enough, enable sidebar push menu
         if ($(window).width() <= 992) {
             $('.row-offcanvas').toggleClass('active');
@@ -44,6 +43,7 @@ $(function() {
     /*     
      * Add collapse and remove events to boxes
      */
+     /*
     $("[data-widget='collapse']").click(function() {
         //Find the box parent        
         var box = $(this).parents(".box").first();

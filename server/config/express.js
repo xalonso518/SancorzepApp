@@ -25,7 +25,7 @@ module.exports = function(app, config){
 	//Instalar y correr Redis
 	app.use(session({ store : new redisStore({
 		disableTTL : true
-	}), secret : 'teamapp next'}));
+	}), secret : 'teamappSancorzep'}));
 	
 	app.use(passport.initialize());
 	app.use(passport.session());

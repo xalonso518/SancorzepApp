@@ -1,15 +1,40 @@
-<div class="form-box" id="login-box">
-    <div class="header">Registro de usuarios</div>
-    <form ng-submit="register()">
+<div class="form-box" id="login-box" data-ng-init="init()">
+    <div class="header headerLogin">Registro de usuarios</div>
+    <form name="userForm" ng-submit="register()">
         <div class="body bg-gray">
             <div class="form-group">
-                <input type="text" name="nombre" ng-model="usuario.nombre" class="form-control" placeholder="Nombre Completo"/>
+                <input type="text" name="nombre" ng-model="usuario.nombre" class="form-control" placeholder="Nombre Completo" required ng-minlength="3" ng-maxlength="8" ng-pattern="patternNombre"/>
+           
+    <div ng-show="userForm.$submitted || userForm.nombre.$touched">
+
+<p ng-show="!userForm.nombre.$valid">NO valido.</p>
+<p ng-show="userForm.nombre.$error.minlength">Username is too short.</p>
+
+    <!-- show an error if username is too long -->
+    <p ng-show="userForm.nombre.$error.maxlength">Username is too long.</p>
+
+    <!-- show an error if this isn't filled in -->
+                <p ng-show="userForm.nombre.$error.required">Your username is required.</p>
+</div>
+
             </div>
              <div class="form-group">
                 <input type="text" name="nombre_usuario" ng-model="usuario.nombre_usuario" class="form-control" placeholder="Nombre de usuario"/>
             </div>
             <div class="form-group">
                 <input type="password" name="password" ng-model="usuario.password" class="form-control" placeholder="Password"/>
+            </div>
+            <div class="form-group">
+                <select name="empresa" id="empresa" class="form-control" ng-model="usuario.empresa">
+                    <option value="" disabled selected hidden>Empresa</option>
+                    <option ng-repeat="emp in empresaNombres" value="{{emp._id}}">{{emp.nombre}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select name="tipo" id="tipo" class="form-control" ng-model="usuario.tipo">
+                    <option value="" disabled selected hidden>Tipo de Usuario</option>
+                    <option ng-repeat="tipo in tiposUsuario" value="{{tipo}}">{{tipo}}</option>
+                </select>
             </div>
         </div>
         <div class="footer">

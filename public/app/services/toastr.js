@@ -5,5 +5,11 @@ angular.module('Teamapp').service('ToastService', function (toastr){
 	},
 	this.error = function(msg){
 		toastr.error(msg);
+	},
+	this.info = function(msg){
+		toastr.info(msg);
+	},
+	this.warning = function(msg){
+		toastr.warning(msg);
 	}
 });

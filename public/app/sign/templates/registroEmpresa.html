@@ -1,0 +1,26 @@
+<div class="form-box" id="login-box">
+    <div class="header headerLogin">Registro de Empresa</div>
+    <form ng-submit="registerEmpresa()" enctype="multipart/form-data">
+        <div class="body bg-gray">
+            <div class="form-group">
+                <input type="text" name="nombre" ng-model="empresa.nombre" class="form-control" placeholder="Nombre"/>
+            </div>
+             <div class="form-group">
+                <input type="text" name="responsable" ng-model="empresa.responsable" class="form-control" placeholder="Nombre del responsable"/>
+            </div>
+            <div class="form-group">
+                <input type="text" name="rfc" ng-model="empresa.rfc" class="form-control" placeholder="RFC"/>
+            </div>  
+            <div class="form-group">
+                <label for="archivos">Seleccionar Logo</label>
+                <input type="file" file-input="files"/>
+            </div>
+            <div class="form-group">
+                <li ng-repeat="file in files">{{file.name}} </li>           
+            </div>
+        </div>
+        <div class="footer">
+            <button type="submit" ng-disabled="enviando" class="btn bg-olive btn-block">Alta</button>
+        </div>
+    </form>
+</div>

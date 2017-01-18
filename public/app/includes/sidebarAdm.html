@@ -1,0 +1,54 @@
+ <section class="sidebar">
+
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src="/img/avatar1.png" class="img-circle" alt="User Image" />
+        </div>
+        <div class="pull-left info">
+            <p>Hola, {{usuario.nombre_usuario}}</p>
+
+            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+    </div>
+    
+                    <div class="nav-side-menu">
+                        <div class="menu-list">
+                            <ul id="menu-content" class="menu-content  out">
+                                <li>
+                                    <a hui-sref="app.dashboard">
+                                        <i class="fa fa-home fa-lg"></i> Inicio
+                                    </a>
+                                </li>
+                                <li data-toggle="collapse" data-target="#usuarios" class="">
+                                    <a href="#"><i class="fa fa-user fa-lg"></i> Usuarios <span class="arrow"></span></a>
+                                </li>
+                                <ul class="sub-menu collapse" id="usuarios" aria-expanded="false" style="height: 0px;">
+
+                                    <li class="collapse"><a ui-sref="app.dashboard">Usuarios</a></li>
+                                    <li><a ui-sref="app.dashboard">Agregar</a></li>
+                                    <li><a ui-sref="app.dashboard">Bajas</a></li>
+                                </ul>
+                                <li data-toggle="collapse" data-target="#empresa" class="">
+                                    <a href="#"><i class="fa fa-industry fa-lg"></i> Empresas <span class="arrow"></span></a>
+                                </li>
+                                <ul class="sub-menu collapse" id="empresa">
+                                    <li><a ui-sref="app.dashboard">Empresas</a></li>
+                                    <li><a ui-sref="app.dashboard">Agregar</a></li>
+                                </ul>
+                                <li data-toggle="collapse" data-target="#archivos" class="">
+                                    <a href="#"><i class="fa fa-folder fa-lg"></i> Archivos <span class="arrow"></span></a>
+                                </li>
+                                <ul class="sub-menu collapse" id="archivos">
+                                    <li><a ui-sref="app.dashboard">Archivos</a></li>
+                                    <li><a ui-sref="app.dashboard">Agregar</a></li>
+                                    <li><a ui-sref="app.dashboard">HIstorial</a></li>
+                                </ul>
+                                <li>
+                                    <a hui-sref="app.dashboard">
+                                        <i class="fa fa-calendar fa-lg"></i> Historial
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+</section>

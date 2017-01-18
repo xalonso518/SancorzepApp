@@ -37,6 +37,8 @@ app.controller('indexCtrl', function($rootScope,$state, $scope, Session){
 		var isLogged = response.data.isLogged;
 		if (!isLogged) {
 			$state.go('login');
+		}else {
+			if($scope.usuario.tipo == 'Admin') $state.go('appAdm');
 		}
 
 	});

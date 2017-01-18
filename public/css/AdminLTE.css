@@ -197,7 +197,7 @@ img {
   background-color: #0073b7 !important;
 }
 .bg-light-blue {
-  background-color: #3c8dbc !important;
+  background-color: #476596 !important;
 }
 .bg-green {
   background-color: #00a65a !important;
@@ -209,7 +209,7 @@ img {
   background-color: #39cccc !important;
 }
 .bg-olive {
-  background-color: #3d9970 !important;
+  background-color: #36568a !important;
 }
 .bg-lime {
   background-color: #01ff70 !important;
@@ -457,10 +457,15 @@ Gradient Background colors
 -------------------------------------------------
 */
 .header {
-  position: relative;
+  position: fixed;
   max-height: 100px;
   z-index: 1030;
 }
+
+.headerLogin{
+  position: relative !important;
+}
+
 .header .navbar {
   height: 50px;
   margin-bottom: 0;
@@ -521,16 +526,16 @@ Gradient Background colors
   top: 3px;
 }
 .header .logo {
-  float: left;
-  font-size: 20px;
-  line-height: 50px;
-  text-align: center;
-  padding: 0 10px;
-  width: 220px;
-  font-family: 'Kaushan Script', cursive;
-  font-weight: 500;
-  height: 50px;
-  display: block;
+float: left;
+    /* font-size: 20px; */
+    /* line-height: 50px; */
+    text-align: center;
+    padding: 0 11px;
+    width: 220px;
+    font-family: 'Kaushan Script', cursive;
+    font-weight: 500;
+    height: 50px;
+    display: block;
 }
 .header .logo .icon {
   margin-right: 10px;
@@ -622,6 +627,16 @@ Gradient Background colors
   body.fixed .sidebar-offcanvas {
     margin-top: 100px!important;
   }
+
+.left-side {
+    z-index: 999 !important;
+    top: 100px !important;
+    position: absolute !important;
+}
+
+.header .logo img{
+    height: 100% !important;
+  }
 }
 /*
     Component: Sidebar
@@ -676,6 +691,7 @@ Gradient Background colors
 }
 .user-panel {
   padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
 }
 .user-panel:before,
 .user-panel:after {
@@ -716,6 +732,20 @@ Gradient Background colors
  *  Gives us the push menu effect
  */
 @media screen and (max-width: 992px) {
+
+  .left-side{
+    z-index: 999;
+    top: 50px;
+  }
+
+.collapse {
+    /*display: block !important;*/
+}
+  /* Left side collapse */
+  .left-side.collapse-left {
+    left: -220px;
+    z-index: 999;
+  }
   .relative {
     position: relative;
   }
@@ -987,7 +1017,7 @@ Gradient Background colors
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header {
   height: 175px;
   padding: 10px;
-  background: #3c8dbc;
+  background: #476596;
   text-align: center;
 }
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header > img {
@@ -1128,9 +1158,10 @@ Gradient Background colors
 -----------------------------------------------------------------
 */
 .form-control {
+  /*
   -webkit-border-radius: 0px !important;
   -moz-border-radius: 0px !important;
-  border-radius: 0px !important;
+  border-radius: 0px !important;*/
   box-shadow: none;
 }
 .form-control:focus {
@@ -1160,7 +1191,7 @@ Gradient Background colors
 }
 /* Input group */
 .input-group .input-group-addon {
-  border-radius: 0;
+  /*border-radius: 0;*/
   background-color: #f4f4f4;
 }
 /* button groups */
@@ -2393,9 +2424,41 @@ Component: timeline
 /* 
     Page: register and login
 */
+
+#login-box form{
+  box-shadow: 0px 3px 12px -3px #222;
+}
+
+.login_footer{  
+    height: 80px;
+    text-align: center;
+    width: 100%;
+}
+
+.login_footer img{  
+  height: 100% !important;
+}
+
+.login_footer .lf_sancorzep{
+  height: 100%;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.login_footer .lf_tnd{
+    text-align: center;
+    color: #9872b3;
+    margin-top: 70px;
+    padding-left: 20px;
+}
+
+.login_footer .lf_tnd img{
+  height: 40px !important;
+}
+
 .form-box {
   width: 360px;
-  margin: 90px auto 0 auto;
+  margin: 55px auto 0 auto;
 }
 .form-box .header {
   -webkit-border-top-left-radius: 4px;
@@ -2410,7 +2473,7 @@ Component: timeline
   border-top-right-radius: 4px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-  background: #3d9970;
+  background: #36568a;
   box-shadow: inset 0px -3px 0px rgba(0, 0, 0, 0.2);
   padding: 20px 10px;
   text-align: center;
@@ -2548,7 +2611,7 @@ Component: timeline
 */
 /* skin-blue navbar */
 .skin-blue .navbar {
-  background-color: #3c8dbc;
+  background-color: #36568a;
 }
 .skin-blue .navbar .nav a {
   color: rgba(255, 255, 255, 0.8);
@@ -2573,7 +2636,7 @@ Component: timeline
 }
 /* skin-blue logo */
 .skin-blue .logo {
-  background-color: #367fa9;
+  background-color: #476596;
   color: #f9f9f9;
 }
 .skin-blue .logo > a {
@@ -2584,6 +2647,7 @@ Component: timeline
 }
 /* skin-blue content header */
 .skin-blue .right-side > .content-header {
+  margin-top: 50px;
   background: #fbfbfb;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -2623,6 +2687,7 @@ Component: timeline
 }
 .skin-blue .left-side {
   background: #f4f4f4;
+  position: fixed;
   -webkit-box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.1);
   box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.07);
@@ -3534,4 +3599,148 @@ fieldset[disabled] .btn-vk.active {
 .btn-vk .badge {
   color: #587ea3;
   background-color: #ffffff;
+}
+
+/***NAV BAR**/
+
+.nav-side-menu {
+    overflow: auto;
+    /* font-family: verdana; */
+    font-size: 16px;
+    font-weight: 200;
+    background-color: #f4f4f4;
+    /* position: fixed; */
+    top: 0px;
+    /* width: 24%; */
+    height: 100%;
+    color: #404040;
+}
+.nav-side-menu .brand {
+    background-color: #23282e;
+    line-height: 50px;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+}
+.nav-side-menu .toggle-btn {
+    display: none;
+}
+.nav-side-menu ul,
+.nav-side-menu li {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    line-height: 35px;
+    cursor: pointer;
+    /*    
+      .collapsed{
+         .arrow:before{
+                   font-family: FontAwesome;
+                   content: "\f053";
+                   display: inline-block;
+                   padding-left:10px;
+                   padding-right: 10px;
+                   vertical-align: middle;
+                   float:right;
+              }
+       }
+    */
+}
+.nav-side-menu ul :not(collapsed) .arrow:before,
+.nav-side-menu li :not(collapsed) .arrow:before {
+    font-family: FontAwesome;
+    content: "\f078";
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+    float: right;
+}
+.nav-side-menu ul .active,
+.nav-side-menu li .active {
+    border-left: 3px solid #d19b3d;
+    background-color: #4f5b69;
+}
+.nav-side-menu ul .sub-menu li.active,
+.nav-side-menu li .sub-menu li.active {
+    color: #d19b3d;
+}
+.nav-side-menu ul .sub-menu li.active a,
+.nav-side-menu li .sub-menu li.active a {
+    color: #d19b3d;
+}
+.nav-side-menu ul .sub-menu li,
+.nav-side-menu li .sub-menu li {
+    background-color: #e8e8e8;
+    border: none;
+    line-height: 28px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-left: 0px;
+}
+.nav-side-menu ul .sub-menu li:hover,
+.nav-side-menu li .sub-menu li:hover {
+    background-color: #c5c4c4;
+}
+.nav-side-menu ul .sub-menu li:before,
+.nav-side-menu li .sub-menu li:before {
+    font-family: FontAwesome;
+    content: "\f105";
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+.nav-side-menu li {
+    padding-left: 0px;
+    border-left: 3px solid #476596;
+    border-bottom: 1px solid #e0e0e0;
+}
+.nav-side-menu li a {
+    text-decoration: none;
+    color: #e1ffff;
+}
+.nav-side-menu li a i {
+    padding-left: 10px;
+    width: 20px;
+    padding-right: 30px;
+}
+.nav-side-menu li:hover {
+    border-left: 3px solid #64acce;
+    background-color: #dadada;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+}
+@media (max-width: 767px) {
+    .nav-side-menu {
+        position: relative;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .nav-side-menu .toggle-btn {
+        display: block;
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 10 !important;
+        padding: 3px;
+        background-color: #ffffff;
+        color: #000;
+        width: 40px;
+        text-align: center;
+    }
+    .brand {
+        text-align: left !important;
+        font-size: 22px;
+        padding-left: 20px;
+        line-height: 50px !important;
+    }
+}
+@media (min-width: 767px) {
+    .nav-side-menu .menu-list .menu-content {
+        display: block;
+    }
 }

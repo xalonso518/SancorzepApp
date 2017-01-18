@@ -1,8 +1,34 @@
 var Usuario = require('../models/usuarios');
 var passport = require('../config/passport');
+var LoginModel = require('../models/logins');
+var crypto = require('crypto');
+
+exports.cambiarPassword = function(req, res, next){
+	var pass = crypto.createHash('sha256').update(req.body.usuario.passwordO).digest("hex");
+	Usuario.findOne({nombre_usuario : req.body.usuario.username, password : pass})
+	.exec(function (err, user){
+		if (err) {
+			res.send({success : false});
+		}else{
+			if(user){
+				user.password = crypto.createHash('sha256').update(req.body.usuario.passwordN).digest("hex");
+				user.fisrt_login = false;
+				user.save(function(e) {
+			    	if (e) console.log('error');
+					else res.send({success : true});
+				});
+			} else {
+				res.send({success : false});
+			}
+		}
+	});
+};
+
 
 exports.registro = function(req, res, next){
 	var usuario = new Usuario(req.body);
+	var sha256 = crypto.createHash('sha256').update(req.body.password).digest("hex");
+	usuario.password = sha256;
 	usuario.save(function (err, usuario){
 		if (err) {
 			res.send({success : false, message : err});
@@ -22,7 +48,7 @@ exports.registro = function(req, res, next){
 
 
 exports.login =	function (req, res, next){
-	var auth = passport.authenticate('local', function (err, user){
+	var auth = passport.authenticate('local', function (err, user, firstL){
 		if (err) {
 			console.log(err);
 			return next(err);
@@ -36,11 +62,23 @@ exports.login =	function (req, res, next){
 				console.log("Error al loguearse!");
 				return next(err)
 			}
-			res.send({success : true, user : user});
+			altaLogin(user._id);
+			res.send({success : true, user : user, flogin : firstL});
 		});
 	});
 	auth(req, res, next);
 };
+
+altaLogin = function (user){
+	var logModel = new LoginModel({});
+	var b = true;
+	logModel.usuario = user;
+	logModel.fecha = Date.now();
+	logModel.save(function (err, log){
+		if (err) b = false;
+	});
+	return b;
+}
 
 exports.userAuthenticated = function(req, res, next){
 	if (req.isAuthenticated()) {
