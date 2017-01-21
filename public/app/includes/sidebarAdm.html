@@ -14,8 +14,8 @@
                     <div class="nav-side-menu">
                         <div class="menu-list">
                             <ul id="menu-content" class="menu-content  out">
-                                <li>
-                                    <a hui-sref="app.dashboard">
+                                <li ui-sref="appAdm">
+                                    <a>
                                         <i class="fa fa-home fa-lg"></i> Inicio
                                     </a>
                                 </li>
@@ -24,27 +24,27 @@
                                 </li>
                                 <ul class="sub-menu collapse" id="usuarios" aria-expanded="false" style="height: 0px;">
 
-                                    <li class="collapse"><a ui-sref="app.dashboard">Usuarios</a></li>
-                                    <li><a ui-sref="app.dashboard">Agregar</a></li>
-                                    <li><a ui-sref="app.dashboard">Bajas</a></li>
+                                    <li ui-sref="appAdm.usuarios"><a>Usuarios</a></li>
+                                    <li ui-sref="appAdm.registro"><a>Agregar</a></li>
+                                    <li ui-sref="appAdm.usuarios_Bajas"><a>Bajas</a></li>
                                 </ul>
                                 <li data-toggle="collapse" data-target="#empresa" class="">
                                     <a href="#"><i class="fa fa-industry fa-lg"></i> Empresas <span class="arrow"></span></a>
                                 </li>
                                 <ul class="sub-menu collapse" id="empresa">
-                                    <li><a ui-sref="app.dashboard">Empresas</a></li>
-                                    <li><a ui-sref="app.dashboard">Agregar</a></li>
+                                    <li ui-sref="appAdm.dashboard"><a>Empresas</a></li>
+                                    <li ui-sref="app.dashboard"><a>Agregar</a></li>
                                 </ul>
                                 <li data-toggle="collapse" data-target="#archivos" class="">
                                     <a href="#"><i class="fa fa-folder fa-lg"></i> Archivos <span class="arrow"></span></a>
                                 </li>
                                 <ul class="sub-menu collapse" id="archivos">
-                                    <li><a ui-sref="app.dashboard">Archivos</a></li>
-                                    <li><a ui-sref="app.dashboard">Agregar</a></li>
-                                    <li><a ui-sref="app.dashboard">HIstorial</a></li>
+                                    <li ui-sref="app.dashboard"><a>Archivos</a></li>
+                                    <li ui-sref="app.dashboard"><a>Agregar</a></li>
+                                    <li ui-sref="app.dashboard"><a>HIstorial</a></li>
                                 </ul>
-                                <li>
-                                    <a hui-sref="app.dashboard">
+                                <li ui-sref="app.dashboard">
+                                    <a> 
                                         <i class="fa fa-calendar fa-lg"></i> Historial
                                     </a>
                                 </li>

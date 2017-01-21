@@ -2,7 +2,7 @@ var models = require('./models'),
 	Schema = models.Schema;
 
 var loginSchema = new Schema({
-	usuario : String,
+	usuario: {type: Schema.Types.ObjectId, ref: 'Usuario'},
 	fecha : Date
 });
 

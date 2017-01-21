@@ -1,5 +1,6 @@
 var usuarios = require('../controllers/usuarios');
 var empresas = require('../controllers/empresas');
+var historial = require('../controllers/historial');
 var passport = require('./passport');
 var multiparty = require('connect-multiparty')();
 
@@ -22,6 +23,24 @@ module.exports = function(app){
 	app.post('/logout', usuarios.logout);
 	
 	app.get('/session', usuarios.userAuthenticated);
+
+	app.get('/usuarios', usuarios.getUsuarios);
+
+	app.get('/usuariosBajas', usuarios.getUsuariosBajas);
+
+	app.get('/lastUsuarios', usuarios.getLastUsuarios);
+
+	app.get('/lastLogins', historial.getLastLogin);
+
+	app.post('/deleteUsuario', usuarios.deleteUsuario);
+
+	app.post('/restoreUsuario', usuarios.restoreUsuario);
+
+	app.post('/editUsuario', usuarios.editUsuario);
+	
+	app.post('/editPasswordUsuario', usuarios.editPasswordUsuario);
+
+	app.get('/usuario/:id_usuario', usuarios.getUsuario);
 	
 	app.get('*', function(req, res) {
 	  	res.render('index');

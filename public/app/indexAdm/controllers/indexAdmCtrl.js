@@ -8,6 +8,8 @@ app.controller('indexAdmCtrl', function($rootScope,$state, $scope, Session){
 
 		this.name = state.name.split('.')[1];
 
+		if(this.name)this.name = this.name.replace("_", " ");
+
 		this.getName = function(){
 			return this.name && this.name[0].toUpperCase() + this.name.slice(1);
 		};
@@ -17,6 +19,10 @@ app.controller('indexAdmCtrl', function($rootScope,$state, $scope, Session){
 	
 
 	/////////*********Scopes********//////////
+
+	$scope.doTheBack = function() {
+  		window.history.back();
+	};
 
 	$scope.desplazarSideNav = function(){
 		if ($(window).width() <= 992) {

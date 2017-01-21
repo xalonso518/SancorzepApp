@@ -11,7 +11,7 @@ var usuariosSchema = new Schema({
 	f_baja: Date,
 	fisrt_login: {type: Boolean, default: true},
 	status: {type: String, default: 1},
-	foto: {type: String, default: '/img/user.png'}
+	foto: {type: String, default: '/img/avatar1.png'}
 });
 
 usuariosSchema.methods = {

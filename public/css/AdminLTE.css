@@ -313,10 +313,12 @@ img {
   border-radius: 0 !important;
 }
 /* Change the color of the striped tables */
+/*
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th {
   background-color: #f3f4f5;
 }
+*/
 .table.no-border,
 .table.no-border td,
 .table.no-border th {
@@ -732,6 +734,10 @@ float: left;
  *  Gives us the push menu effect
  */
 @media screen and (max-width: 992px) {
+
+  .skin-blue .right-side > .content-header{
+    margin-top: 0px !important;
+  }
 
   .left-side{
     z-index: 999;
@@ -3743,4 +3749,120 @@ fieldset[disabled] .btn-vk.active {
     .nav-side-menu .menu-list .menu-content {
         display: block;
     }
+}
+
+.table img{
+  max-width: 30px !important;
+  border-radius: 50px;
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: #e2e2e2;
+}
+
+.th_noContent{
+  width: 10px;
+}
+
+.table thead{
+  color: #36568a;
+}
+
+.table tbody td{
+  color: #333;
+}
+
+.table td i{
+  color: #183769;
+}
+
+.box-info{
+  border-left: 3px solid #476596;
+}
+
+.box-info h4{
+  color: #36568a;    
+  display: inline-block;
+  margin-top: 0px;
+}
+
+.box-info hr{
+  margin-top: 0px;
+  margin-bottom: 5px;
+  border: 0;
+  border-top: 1px solid #ccc;  
+}
+
+.box-info div {
+  padding-left: 20px;
+}
+
+.box-info i{
+  float: right;
+  margin-top: 3px;
+  color: #36568a;
+}
+
+.bx-usuario{
+    font-size: 1.5rem;
+    color: #597ab1;
+    margin-right: 10px;
+}
+
+.bx-fecha{
+    font-size: 1rem;
+    color: #8a8484;
+}
+
+.msg_modal{
+  font-size: 2.5rem;
+  color: #496e9e;
+}
+
+.modal-header{
+  background: #fafafa;
+}
+
+.content-header h1{
+  display: inline-block;
+  color: #476596;
+}
+
+.content-header i{
+  cursor: pointer; 
+  float: right;    
+  color: #476596;
+  margin-top: 5px;
+}
+
+.form-boxAdm{
+  margin: auto;
+  box-shadow: 0px 6px 14px -6px #222;
+}
+
+.form-boxAdm .header{
+  z-index: 3;
+}
+
+.form-boxAdm .footer{
+
+}
+
+.form_error_msg{
+margin-left: 10px;
+    margin-top: 5px;
+}
+
+
+.form_error_msg p{
+      margin: 0px;
+    color: #ff4343;
+}
+
+.espacio_blanco{
+      height: 10px;
+    width: 100%;
+    background: #fff;
+    position: relative;
+    display: inline-block;
 }

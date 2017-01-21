@@ -15,6 +15,31 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			templateUrl : 'partials/indexAdm/templates/indexAdm.html',
 			controller : 'indexAdmCtrl'
 		})
+		.state('appAdm.usuarios',{
+			url : '/usuarios',
+			templateUrl : 'partials/usuarios/templates/usuarios.html',
+			controller : 'usuariosCtrl'
+		})
+		.state('appAdm.usuarios_Bajas',{
+			url : '/usuariosBajas',
+			templateUrl : 'partials/usuarios/templates/usuariosBajas.html',
+			controller : 'usuariosBajasCtrl'
+		})
+		.state('appAdm.Editar_Usuario',{
+			url : '/usuarioEditar/:id_usuario',
+			templateUrl : 'partials/usuarios/templates/editar.html',
+			controller : 'usuarioEditarCtrl'
+		})
+		.state('appAdm.Editar_Password',{
+			url : '/passwordEditar/:id_usuario',
+			templateUrl : 'partials/usuarios/templates/editarPassword.html',
+			controller : 'passwordEditarCtrl'
+		})
+		.state('appAdm.registro',{
+			url : '/registro',
+			templateUrl : 'partials/usuarios/templates/registro.html',
+			controller : 'registroCtrl'
+		})
 		.state('app.mainAdmin',{
 			url : '/mainAdmin',
 			templateUrl : 'partials/mainAdmin/templates/mainAdmin.html',
@@ -24,11 +49,6 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			url : '/main',
 			templateUrl : 'partials/main/templates/main.html',
 			controller : 'mainCtrl'
-		})
-		.state('registro',{
-			url : '/registro',
-			templateUrl : 'partials/sign/templates/registro.html',
-			controller : 'registroCtrl'
 		})
 		.state('registroEmpresa',{
 			url : '/registroEmpresa',
