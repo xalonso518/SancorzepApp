@@ -1,4 +1,4 @@
-var app = angular.module('Teamapp',['ui.router', 'ngAnimate', 'toastr']);
+var app = angular.module('Teamapp',['ui.router', 'ngAnimate', 'toastr', 'zingchart-angularjs']);
 
 app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMatcherFactoryProvider", function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider){
 	$urlRouterProvider.otherwise('/login');
@@ -34,6 +34,11 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			url : '/passwordEditar/:id_usuario',
 			templateUrl : 'partials/usuarios/templates/editarPassword.html',
 			controller : 'passwordEditarCtrl'
+		})
+		.state('appAdm.history',{
+			url : '/history',
+			templateUrl : 'partials/history/templates/history.html',
+			controller : 'historyCtrl'
 		})
 		.state('appAdm.registro',{
 			url : '/registro',

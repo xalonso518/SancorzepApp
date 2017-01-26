@@ -16,7 +16,7 @@ exports.getLastUsuarios = function(req, res, next){
 }
 
 exports.getUsuario = function(req, res, next){
-	console.log('ENTRO CON' + req.params.id_usuario);
+	//console.log('ENTRO CON' + req.params.id_usuario);
 	Usuario.findOne({status : '1', _id : req.params.id_usuario}).populate({path: 'empresa', select: 'nombre'}).select({_id: 1,	empresa: 1,	f_alta: 1,	nombre: 1,	nombre_usuario: 1,	foto: 1,	fisrt_login: 1,	tipo: 1})
 	.exec(function (err, usuario){
 		if (err) {

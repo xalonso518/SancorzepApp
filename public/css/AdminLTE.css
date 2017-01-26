@@ -3866,3 +3866,29 @@ margin-left: 10px;
     position: relative;
     display: inline-block;
 }
+
+.table_sm_img{
+  width: 15px !important;  
+}
+
+.th_click{
+  cursor: pointer;
+}
+
+.info_table{
+
+}
+
+.info_table p{
+    margin: 10px 0 5px 0;
+    font-size: 1.7rem;
+    color: #5d6f8e;
+}
+
+.chartStyle{
+  padding: 0px !important;
+}
+
+.chartStyle div{
+  padding: 0px !important;
+}

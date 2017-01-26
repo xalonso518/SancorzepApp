@@ -41,6 +41,8 @@ module.exports = function(app){
 	app.post('/editPasswordUsuario', usuarios.editPasswordUsuario);
 
 	app.get('/usuario/:id_usuario', usuarios.getUsuario);
+
+	app.post('/history', historial.getHistory);
 	
 	app.get('*', function(req, res) {
 	  	res.render('index');

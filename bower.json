@@ -30,6 +30,7 @@
     "angular-socket-io": "^0.7.0",
     "bootstrap": "^3.3.7",
     "components-font-awesome": "^4.7.0",
-    "Ionicons": "ionicons#^2.0.1"
+    "Ionicons": "ionicons#^2.0.1",
+    "ZingChart-AngularJS": "zingchart-angularjs#^1.2.0"
   }
 }
