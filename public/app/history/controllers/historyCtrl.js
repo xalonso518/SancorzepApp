@@ -84,14 +84,23 @@ angular.module('Teamapp').controller('historyCtrl', function($scope, $http, $sta
 	$scope.renderG1 = function(val){
 		var config = {
 		  "type": "area",
+		  "plot": {
+		    "tooltip": {
+		      "text": ($scope.month + 1) + "/%kt/" + $scope.year + " <br> %vt"
+		    },
+            "animation":{
+            	"effect":"11",
+                "method":"3",
+                "sequence":"ANIMATION_NO_SEQUENCE",
+                "speed":"ANIMATION_FAST"
+            },		    
+		  },		  
 		  "plotarea": {
 		    "adjust-layout":true /* For automatic margin adjustment. */
 		  },
 		  "scale-x": {
-		    "label":{ /* Add a scale title with a label object. */
-		      "text":"Above is an example of a category scale",
-		    },
-		    /* Add your scale labels with a labels array. */
+    		"values": "1:31:5",
+    		"format":"Día %v",
 		    "labels": val.labels
 		  },
 		  "series": [
@@ -108,13 +117,55 @@ angular.module('Teamapp').controller('historyCtrl', function($scope, $http, $sta
 	$scope.renderG2 = function(val){
 		var c = [];
 		angular.forEach(val.values, function(v, i){
-			c.push({"values":[v]});
+			c.push({"values":[v], "text":val.labels[i]});
 		});
 		var config = {
 		  "type":"ring",
 		  "plot":{
-		    //Use the "slice" attribute to adjust the size of the donut ring.
+		  	"layout":"auto",
+    		"value-box":{
+      			"font-size":12
+      		},
+		    "animation":{
+		 	    "on-legend-toggle": true, //set to true to show animation and false to turn off
+		 	    "effect": 2,
+		 	    "method": 0,
+		 	    "sequence": 'ANIMATION_BY_PLOT',
+		 	    "speed": 1
+		    },
 		  },
+		  "plotarea":{
+		    "margin":"0"
+		  },
+		  "legend":{
+		    "x":"75%",
+		    "y":"25%",
+		    "border-width":0,
+		    "border-color":"gray",
+		    "border-radius":"3px",
+		    "marker":{
+		      "type":"circle"
+		    },
+		    "toggle-action":"remove",
+		    "icon":{
+		      "line-color":"#9999ff"
+		    },
+		    "max-items":8,
+		    "overflow":"scroll"
+		  },    
+		  "tooltip":{
+	      "text":"%t: %v (%npv%)",
+	      "font-color":"black",
+	      "font-family":"Source Sans Pro",
+	      "text-alpha":1,
+	      "background-color":"white",
+	      "alpha":0.7,
+	      "border-width":1,
+	      "border-color":"#cccccc",
+	      "border-radius":"3px",
+	      "padding":"10%",
+	      "placement":"node:center"
+	    },
 		  "series": c
 		}
 

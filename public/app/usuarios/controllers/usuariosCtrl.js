@@ -4,11 +4,15 @@ angular.module('Teamapp').controller('usuariosCtrl', function($scope, $http, $st
 	$scope.lastUsuarios = {};
 	$scope.lastLogins = {};
 	$scope.userSlect = '';
+	$scope.registros = 0;
 	
 	$scope.init = function () {
 		UsuarioService.getUsuarios()
 		.then(function (response){
-			if(response.data.success) $scope.usuarios = response.data.usuarios;
+			if(response.data.success) {
+				$scope.usuarios = response.data.usuarios;
+				$scope.registros = response.data.usuarios.length;
+			}
 			else ToastService.error('Error al cargar los datos, vuelva a intentarlo');
 		});
 

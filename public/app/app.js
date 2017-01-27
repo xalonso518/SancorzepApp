@@ -45,6 +45,11 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			templateUrl : 'partials/usuarios/templates/registro.html',
 			controller : 'registroCtrl'
 		})
+		.state('appAdm.registro_Empresa',{
+			url : '/registroEmpresa',
+			templateUrl : 'partials/empresas/templates/registroEmpresa.html',
+			controller : 'registroEmpresaCtrl'
+		})
 		.state('app.mainAdmin',{
 			url : '/mainAdmin',
 			templateUrl : 'partials/mainAdmin/templates/mainAdmin.html',
@@ -54,11 +59,6 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			url : '/main',
 			templateUrl : 'partials/main/templates/main.html',
 			controller : 'mainCtrl'
-		})
-		.state('registroEmpresa',{
-			url : '/registroEmpresa',
-			templateUrl : 'partials/sign/templates/registroEmpresa.html',
-			controller : 'registroEmpresaCtrl'
 		})
 		.state('login',{
 			url : '/login',
