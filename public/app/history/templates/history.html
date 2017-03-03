@@ -42,7 +42,7 @@
                           <div class="input-group-addon">Año</div>
                               <select name="anio" id="anio" class="form-control" ng-model="year" required>
                                   <option value="" disabled selected hidden>Año</option>
-                                  <option ng-repeat="y in years" value="{{y}}">{{y}}</option>
+                                  <option ng-repeat="y in years" value="{{y}}" ng-selected="y == year">{{y}}</option>
                               </select>
                         </div>
                       </div>
@@ -50,8 +50,8 @@
                         <div class="input-group">
                           <div class="input-group-addon">Mes</div>
                               <select name="mes" id="mes" class="form-control" ng-model="month" required>
-                                  <option value="" disabled selected hidden>Mes</option>
-                                  <option ng-repeat="m in months" value="{{$index}}">{{m}}</option>
+                                
+                                  <option ng-repeat="m in months" value="{{$index}}" ng-selected="$index == month">{{m}}</option>
                               </select>
                         </div>
                       </div>

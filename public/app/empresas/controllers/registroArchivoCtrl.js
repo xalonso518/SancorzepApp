@@ -1,4 +1,4 @@
-angular.module('Teamapp').controller('registroEmpresaCtrl', function($scope, $http, $state, ToastService, EmpresaService, FilesService){
+angular.module('Teamapp').controller('registroArchivoCtrl', function($scope, $http, $state, ToastService, EmpresaService, FilesService){
 
 	$scope.empresa = {};
 	$(":file").filestyle({buttonName: "btn-primary",buttonText: " Archivo"});	
@@ -49,26 +49,5 @@ angular.module('Teamapp').controller('registroEmpresaCtrl', function($scope, $ht
         $scope.files = elm.files;
 		$scope.$apply();
 	}
-/* 
-	$scope.uploadFile = function(){
-        var fd = new FormData();
-        angular.forEach($scope.files, function (file){
-            fd.append('file',file);
-        });
-        fd.append('destinatarios',$scope.destinatarios);
-        fd.append('asunto',$scope.asunto);
-        
-        $http.post('/recurso', fd, 
-        {
-            transformRequest:angular.identity,
-            headers : {'Content-Type' : undefined}
-        })
-        .success(function (response){
-            Socket.emit('nuevo:recurso', response);
-            ToastService.success('Enviado correctamente!');
-            //$state.transitionTo('app.recursos');
-
-        });
-    };
-*/
+	
 });

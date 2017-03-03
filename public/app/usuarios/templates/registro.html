@@ -4,7 +4,7 @@
         <div class="body bg-gray col-sm-12">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" ng-model="usuario.nombre" class="form-control" placeholder="Nombre Completo" required ng-minlength="3" ng-maxlength="30" ng-pattern="patternLetCom"/>
+                <input type="text" name="nombre" ng-model="usuarioReg.nombre" class="form-control" placeholder="Nombre Completo" required ng-minlength="3" ng-maxlength="30" ng-pattern="patternLetCom"/>
                 <div ng-show="userForm.$submitted || userForm.nombre.$touched" class="form_error_msg">
                     <p ng-show="!userForm.nombre.$valid">Campo no valido (sólo letras)</p>
                     <p ng-show="userForm.nombre.$error.minlength">Nombre muy corto(min 3)</p>
@@ -14,7 +14,7 @@
             </div>
              <div class="form-group">
                 <label for="nombre_usuario">Usuario</label>
-                <input type="text" name="nombre_usuario" ng-model="usuario.nombre_usuario" class="form-control" placeholder="Usuario" required ng-minlength="5" ng-maxlength="15" ng-pattern="patternLetNum"/>
+                <input type="text" name="nombre_usuario" ng-model="usuarioReg.nombre_usuario" class="form-control" placeholder="Usuario" required ng-minlength="5" ng-maxlength="15" ng-pattern="patternLetNum"/>
                 <div ng-show="userForm.$submitted || userForm.nombre_usuario.$touched" class="form_error_msg">
                     <p ng-show="!userForm.nombre_usuario.$valid">Campo no valido (sólo letras y números)</p>
                     <p ng-show="userForm.nombre_usuario.$error.minlength">Nombre muy corto(min 5)</p>
@@ -25,7 +25,7 @@
             <div class="form-group">   
                 <label for="password">Password</label>
                 <div class="input-group">
-                    <input type="text" name="password" ng-model="usuario.password" class="form-control" placeholder="Password" required ng-minlength="5" ng-maxlength="15" ng-pattern="patternLetNum"/> 
+                    <input type="text" name="password" ng-model="usuarioReg.password" class="form-control" placeholder="Password" required ng-minlength="5" ng-maxlength="15" ng-pattern="patternLetNum"/> 
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" ng-click="generatePassword()">Generar</button>
                     </span>                
@@ -38,13 +38,13 @@
                     </div>  
             </div>             
             <div class="form-group">
-                <select name="empresa" id="empresa" class="form-control" ng-model="usuario.empresa" required>
+                <select name="empresa" id="empresa" class="form-control" ng-model="usuarioReg.empresa" required>
                     <option value="" disabled selected hidden>Empresa</option>
                     <option ng-repeat="emp in empresaNombres" value="{{emp._id}}">{{emp.nombre}}</option>
                 </select>
             </div>
             <div class="form-group">
-                <select name="tipo" id="tipo" class="form-control" ng-model="usuario.tipo" required>
+                <select name="tipo" id="tipo" class="form-control" ng-model="usuarioReg.tipo" required>
                     <option value="" disabled selected hidden>Tipo de Usuario</option>
                     <option ng-repeat="tipo in tiposUsuario" value="{{tipo}}">{{tipo}}</option>
                 </select>
@@ -67,8 +67,8 @@
       </div>
       <div class="modal-body">
         <p>Nuevo usuario creado con los siguientes datos:</p>
-        <p class="msg_modal">Usuario: <b>{{usuario.nombre_usuario}}</b></p>
-        <p class="msg_modal">Password: <b>{{usuario.password}}</b></p>
+        <p class="msg_modal">Usuario: <b>{{usuarioReg.nombre_usuario}}</b></p>
+        <p class="msg_modal">Password: <b>{{usuarioReg.password}}</b></p>
         <br>
         <p><i>*Favor de conservar el password</i></p>
       </div>

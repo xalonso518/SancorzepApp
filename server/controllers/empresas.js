@@ -24,83 +24,137 @@ exports.empresasNombres = function(req, res, next){
 
 
 exports.registro = function(req, res, next){
-	var imgDir = 'logo_s2.svg';
-
-	async.series({
-		img: function(callback){
-			console.log('1');
-			if(req.files.hasOwnProperty('file')){
-
-				imgDir = guardar_archivos(req, res, req.files.file,req.body.nombre);
-				callback(null, imgDir);
-
-			}else{
-				callback(null, 0);
-			};
-		}
-	}, function(err, results){
-		console.log('2');
-		if (!err) {
-			console.log('3');
-			empresa.nombre = req.body.nombre;
-			empresa.responsable = req.body.responsable;
-			empresa.rfc = req.body.rfc;
-			if(results.img != 0) imgDir = results.img;
-			empresa.img = '/recursos/' + imgDir;
-			var md5 = crypto.createHash('md5').update(req.body.nombre + req.body.rfc).digest("hex");
-			empresa.carpeta = md5.slice(0, 12);
-			empresa.f_alta = Date.now();
-			empresa.u_alta = 'USUARIO';
-
-			console.log('4');
-			empresa.save(function (err, empresa){
-				if (err) {
-
-			console.log('5');
-					return res.send({success : false, message : err});
-				}else{
-			console.log('5');
-					return res.send({success : true});
-				}
-			});			
-
-		}else{
-			res.send({success : false});
-			console.log(err);
-		}
-	});
-
-/*
-	imgDir = guardar_archivos(req, res, req.files.file,req.body.nombre);
-	console.log(imgDir);
 	
-	empresa.nombre = req.body.nombre;
-	empresa.responsable = req.body.responsable;
-	empresa.rfc = req.body.rfc;
-	empresa.img = '/recursos/' + imgDir;
-	var md5 = crypto.createHash('md5').update(req.body.nombre + req.body.rfc).digest("hex");
-	empresa.carpeta = md5.slice(0, 12);
-	empresa.f_alta = Date.now();
-	empresa.u_alta = 'USUARIO';
-	empresa.save(function (err, empresa){
-		if (err) {
-			res.send({success : false, message : err});
-		}else{
-			res.send({success : true});
-		}
-	});
-*/	
+	var imgDir = 'logo_s1.svg';
+	var error = 'Mensaje de ERROR';
+	var directoryN = createDirName(req.body.nombre, req.body.rfc);
+	var flag = {'eRFC':false, 'dCreated':false};
+	
+	if(req.body.nombre && req.body.rfc){
+
+		async.series([
+			function(callback){
+				console.log('1')	
+				rfcUniq(req.body.rfc, flag, callback);
+			},
+			function(callback){
+				console.log('2'+flag.eRFC);			
+				createDir(directoryN, flag, callback);
+				/*
+				if(flag.eRFC) createDir(directoryN, flag, callback);
+				else callback(new Error("Usuario Existente"), false);
+				*/
+			}
+		], function(err, results){
+				console.log('3');
+				console.log(results[0]+':'+results[1]);
+				
+				if(flag.eRFC && flag.dCreated) {
+					console.log(flag.eRFC+':'+flag.dCreated);
+					async.series({
+						img: function(callback){
+							if(req.files.hasOwnProperty('file')){
+								imgDir = guardar_archivos(req, res, req.files.file,req.body.nombre,directoryN);
+								callback(null, imgDir);
+							}else{
+								callback(null, 0);
+							};
+						}
+					}, function(err, results){
+						if (!err) {
+							empresa.nombre = req.body.nombre;
+							empresa.responsable = req.body.responsable;
+							empresa.rfc = req.body.rfc;
+							console.log('ssyn2:'+results[0]);
+							//cehkr esto de results[0];
+							if(results[0] != 0){ 
+								imgDir = results.img;
+								empresa.img = '/recursos/' + directoryN + '/' +imgDir;
+							}else{					
+								empresa.img = '/recursos/' + imgDir;
+							}
+							empresa.carpeta = directoryN;
+							empresa.f_alta = Date.now();
+							empresa.u_alta = req.body.usuario;
+							empresa.save(function (err, empresa){
+								if (err) {
+									deleteDir(directoryN);
+									return res.send({success : false, message : 'Error al crear la empresa, vuelva a intentarlo.'});
+								}else{
+									return res.send({success : true});
+								}
+							});			
+						}else{
+							res.send({success : false, message : 'Error al subir el archivo para la empresa, vuelva a intentarlo.'});
+							console.log(err);
+						}
+					});
+
+
+
+				}
+				else {
+					return res.send({success : false, message : err.toString()});
+				}
+		});
+
+	}
+
 };
 
-function guardar_archivos(req, res, file, name){
-	var extPermitidas = ['png','jpg','jpeg'];
+function createDirName(name, rfc){
+	var dir = '';
+	var md5 = crypto.createHash('md5').update(name + rfc).digest("hex");
+	dir = md5.slice(0, 12);
+	return dir;
+}
+
+function rfcUniq(nrfc, r, callback){
+	r.eRFC = false;
+	Empresa.findOne({status : 1, rfc : nrfc}).select({ _id: 1})
+	.exec(function (err, empresa){
+	    console.log('rfc1');	
+		if (err) {callback(new Error("Error al establecer la conexion DB"), false);}
+		else if(!empresa) {
+			console.log('rfc1.22222');
+			r.eRFC = true;
+			callback(null, true);  
+		} else {callback(new Error("Una empresa ya existe con el siguiente rfc: "+nrfc), false);}	
+		}
+	);
+}
+
+function createDir(name, r, callback){
+	r.dCreated = false;
+	var root = path.dirname(require.main.filename);
+	var dir = root + '/public/recursos/'+name;
+	if (!fs.existsSync(dir)){
+		console.log('e1.01');
+	    fs.mkdir(dir, function(err){
+			console.log('e1');
+	    	if(err) callback(new Error("Error al crear el directorio"), false);
+	    	else {
+	    		console.log('e1.2');
+	    		r.dCreated = true;
+				callback(null, true);
+			}
+	    });
+	}else {
+		console.log('e2');
+		callback(new Error("El directorio ya existe"), false);
+	}
+}
+
+function guardar_archivos(req, res, file, name, dir){
+	var extPermitidas = ['png','jpg','jpeg','svg'];
 	var root = path.dirname(require.main.filename);
 	var originalFilename = file.originalFilename.split('.')
 	var ext = originalFilename[originalFilename.length - 1];
 	var nombre_archivo = '';
 	if(extPermitidas.indexOf(ext) > -1){
 		nombre_archivo = name + '.' + ext;
-		var newPath = root + '/public/recursos/'+nombre_archivo;
+		//var newPath = root + '/public/recursos/'+nombre_archivo;
+		var newPath = root + '/public/recursos/' + dir + '/' + nombre_archivo;
 		var newFile = new fs.createWriteStream(newPath);
 		var oldFile = new fs.createReadStream(file.path);
 		var bytes_totales = req.headers['content-length'];
@@ -121,6 +175,11 @@ function guardar_archivos(req, res, file, name){
 			//res.end('Carga completa!');
 		});
 	}
-
 	return nombre_archivo;
+}
+
+function deleteDir(name){
+	fs.unlinkSync('/public/recursos/' + name);
+
+	console.log('successfully deleted /tmp/hello');
 }

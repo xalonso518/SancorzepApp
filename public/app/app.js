@@ -50,6 +50,11 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			templateUrl : 'partials/empresas/templates/registroEmpresa.html',
 			controller : 'registroEmpresaCtrl'
 		})
+		.state('appAdm.registro_Archivo',{
+			url : '/registroArchivo',
+			templateUrl : 'partials/empresas/templates/registroArchivo.html',
+			controller : 'registroArchivoCtrl'
+		})
 		.state('app.mainAdmin',{
 			url : '/mainAdmin',
 			templateUrl : 'partials/mainAdmin/templates/mainAdmin.html',

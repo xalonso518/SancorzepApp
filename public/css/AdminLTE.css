@@ -3892,3 +3892,11 @@ margin-left: 10px;
 .chartStyle div{
   padding: 0px !important;
 }
+
+#myChart1-license-text, #myChart2-license-text{
+  display: none;
+}
+
+[id$="-license-text"]{
+    display: none;
+}
