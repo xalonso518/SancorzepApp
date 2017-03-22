@@ -3900,3 +3900,58 @@ margin-left: 10px;
 [id$="-license-text"]{
     display: none;
 }
+
+.img_logo_form{
+      max-height: 70px;
+    border: 1px solid rgba(132, 132, 132, 0.53);
+    border-radius: 5px;
+    box-shadow: 0px 1px 6px -4px #222;
+}
+
+.table tbody td {
+    vertical-align: middle !important;
+}
+
+.info_tableArchivo{
+      margin-bottom: 15px;
+}
+
+.info_tableArchivo img{
+    max-height: 60px;
+    border-radius: 3px;
+    box-shadow: 0px 3px 3px -2px #222;
+    border: 1px solid #929292;
+}
+
+.table_archivos{
+  margin-top: 15px;
+}
+
+.icon_cell{
+  width: 50px;
+}
+
+.icon_cell i{
+  font-size: 24px;
+}
+
+.descarga_cell{
+  width: 80px;
+  text-align: center;
+}
+
+.descarga_cell i{
+  font-size: 15px;
+  color: #fff !important;
+}
+
+.eliminar_cell{
+  width: 50px;
+  text-align: center;
+
+}
+
+.eliminar_cell i{
+  font-size: 15px;
+  color: #fff !important;
+}

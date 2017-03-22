@@ -12,11 +12,33 @@ module.exports = function(app){
 	
 	app.post('/empresasNombres', empresas.empresasNombres);
 
+	app.post('/empresasImagenes', empresas.empresasImagenes);
+
+	app.post('/empresaImagen', empresas.empresaImagen);
+
 	app.post('/cambiarPassword', usuarios.cambiarPassword);
 
 	app.post('/registro', usuarios.registro);
 
 	app.post('/registroEmpresa', multiparty, empresas.registro);
+
+	app.post('/registroArchivo', multiparty, empresas.registroArchivo);
+
+	app.get('/empresasArchivos', empresas.empresasArchivos);
+
+	app.get('/lastArchivos', empresas.lastArchivos);
+	
+	app.get('/sizeDirectory', empresas.sizeDirectory);
+
+	app.post('/archivoDate', empresas.archivoDate);
+	
+	app.post('/archivoDateAll', empresas.archivoDateAll);
+
+	app.post('/deleteArchivo', empresas.deleteArchivo);
+
+	app.post('/deleteArchivoMes', empresas.deleteArchivoMes);
+	
+	app.post('/deleteArchivoAnio', empresas.deleteArchivoAnio);
 
 	app.post('/login', usuarios.login);
 

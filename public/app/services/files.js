@@ -6,7 +6,7 @@ angular.module('Teamapp').service('FilesService', function (){
 	}
 
 	this.checkExtension = function(file){
-		var aExt = ['png','jpg','svg','pdf','xls','rar','zip','doc','txt'];
+		var aExt = ['png','jpg','svg','pdf','xls','rar','zip','doc','txt','7zip','jpeg','pptx','ppt','docx','xlsx'];
 		var e = file.name;
 		e = e.split('.')[1].toLowerCase();
 		if(aExt.indexOf(e) > -1) return true;
@@ -14,7 +14,7 @@ angular.module('Teamapp').service('FilesService', function (){
 	}
 
 	this.checkExtensionImg = function(file){
-		var aExt = ['png','jpg','svg'];
+		var aExt = ['png','jpg','svg','jpeg'];
 		var e = file.name;
 		e = e.split('.')[1].toLowerCase();
 		if(aExt.indexOf(e) > -1) return true;
