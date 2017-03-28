@@ -22,7 +22,7 @@ passport.deserializeUser(function (user, done){
 
 passport.use('local',new LocalStrategy(
 	function(username, password, done){
-		Usuario.findOne({nombre_usuario : username, status:'1'}).select({ empresa: 0, __v: 0, status: 0, f_alta: 0})
+		Usuario.findOne({nombre_usuario : username, status:'1'}).select({ __v: 0, status: 0, f_alta: 0})
 		.exec(function (err, user){
 			password = crypto.createHash('sha256').update(password).digest("hex");
 			if (user && user.authenticate(password)) {

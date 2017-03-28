@@ -70,6 +70,11 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			templateUrl : 'partials/mainAdmin/templates/mainAdmin.html',
 			controller : 'mainAdminCtrl'
 		})
+		.state('app.archivos',{
+			url : '/archivosEmpresa/:id_empresa',
+			templateUrl : 'partials/archivos/templates/archivosEmpresa.html',
+			controller : 'archivosEmpresaCtrl'
+		})	
 		.state('app.main',{
 			url : '/main',
 			templateUrl : 'partials/main/templates/main.html',

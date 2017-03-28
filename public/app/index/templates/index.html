@@ -1,15 +1,14 @@
 <header class="header">
-    <a href="#" class="logo">
-        
-        TeamApp
+    <a href="#" class="logo">        
+        <img src="img/logo_s2n.svg">
     </a>
     
     <ng-include src="'partials/includes/navbar.html'" ></ng-include>
 </header>
 
 <!--Inicio de SideBar-->
-<div class="wrapper row-offcanvas row-offcanvas-left">
-    <aside class="left-side sidebar-offcanvas" >
+<div class="left-side">
+    <aside class="" >
         <ng-include src="'partials/includes/sidebar.html'" ></ng-include>
     </aside>
 </div>
@@ -20,9 +19,9 @@
     <section class="content-header">
         <h1>
             {{modulo}}
-            <small>Modulo</small>
         </h1>
-        EMPRESA
+        <i class="fa fa-reply fa-lg"  ng-click="doTheBack()"></i>
+        
         <!--ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="active">Dashboard</li>

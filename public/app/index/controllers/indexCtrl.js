@@ -8,15 +8,35 @@ app.controller('indexCtrl', function($rootScope,$state, $scope, Session){
 
 		this.name = state.name.split('.')[1];
 
+		if(this.name)this.name = this.name.replace("_", " ");
+
 		this.getName = function(){
 			return this.name && this.name[0].toUpperCase() + this.name.slice(1);
 		};
 	}
 	
+	
 	$scope.modulo = new Modulo($state.current).getName();
 	
 
 	/////////*********Scopes********//////////
+
+
+	$scope.doTheBack = function() {
+  		window.history.back();
+	};
+
+	$scope.desplazarSideNav = function(){
+		if ($(window).width() <= 992) {
+            $('.left-side').toggleClass("collapse-left");
+            $(".right-side").toggleClass("strech");
+        } else {
+            //Else, enable content streching
+            $('.left-side').toggleClass("collapse-left");
+            $(".right-side").toggleClass("strech");
+        }
+	}
+
 
 	$scope.logout = function(){
 		Session.logOut()
@@ -43,6 +63,9 @@ app.controller('indexCtrl', function($rootScope,$state, $scope, Session){
 
 	});
 
+	$scope.getEmpresa = function(){
+		return $scope.usuario.empresa;
+	}
 
 	//Events
 	$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){

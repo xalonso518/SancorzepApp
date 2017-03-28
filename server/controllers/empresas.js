@@ -32,36 +32,304 @@ exports.registroArchivo = function(req, res, next){
 		});
 };
 
+
 exports.deleteArchivo = function(req, res, next){
-	res.send({success : true});
-/*	
-	Usuario.findOne({_id : req.body.id})
-	.exec(function (err, user){
-		if (err) {
-			res.send({success : false});
-		}else{
-			if(user){
-				user.status = 0;
-				user.fisrt_login = true;
-				user.save(function(e) {
-			    	if (e) res.send({success : false});
-					else res.send({success : true});
-				});
-			} else {
-				res.send({success : false});
+	var lsuccess = [];
+	var lerror = [];
+
+	//var data = {id : req.body.id, anio : req.body.anio, mes : req.body.mes, nombre : req.body.name, u_carga : req.body.usuario, directory : ''};
+	var archivo = {id : req.body.id, carpeta : '', nombre : ''};
+	archivo.delBD = false;
+	archivo.delDIR = false;
+
+		async.series([
+			function(callback){
+				console.log('PPPP_________1');
+				getArchivo(callback, archivo);
+			},
+			function(callback){
+				console.log('PPPP_________2');
+				getExistFile(callback, archivo);
+			},
+			function(callback){				
+				console.log('PPPP_________3');
+				//callback(null, true);
+				if(archivo.delDIR) delFileDir(callback, archivo.carpeta, archivo.nombre);
+				else callback(null, true);
+			},
+			function(callback){	
+				//changeStatusFile(callback, archivo.id, 0);
+				console.log('PPPP_________4');
+				
+				if(archivo.delBD) changeStatusFile(callback, archivo.id, 0);
+				else callback(null, true);
+				
 			}
-		}
-	});
-*/
+		], function(err, results){			
+				console.log('PPPP_________FINAL');
+				if(err) return res.send({success : false, message : err.toString(), ls : lsuccess, le : lerror});
+				else return res.send({success : true, ls : lsuccess, le : lerror});
+		});
 };
 
-exports.deleteArchivoMes = function(req, res, next){
-	res.send({success : true});
+function changeStatusFile(callback, id, status){
+	console.log(id);
+	Empresa.update({ "archivos._id" : ObjectId(id) },  { $set: {  "archivos.$.status" : status  } }, function(error, doc){
+		if(error)	callback(new Error("Error al actualizr la base de datos"), true);
+		else callback(null, true);
+	});
+}
 
+function getArchivo(callback, archivo){
+	Empresa.aggregate([
+		{
+			$unwind: '$archivos'
+		}, {
+			$match: {'archivos.status': '1', "status" : "1", "archivos._id" : ObjectId(archivo.id)}
+		},{
+		    $project: {
+		        name: '$archivos.nombre',
+		        carpeta: '$carpeta'
+		    }
+		}, { $limit : 1 }], function (err, result) {
+	        if (err) {
+	            next(err);    
+				callback(new Error("No se encontro el registro en la BD"), false);
+	        } else {
+	        	if(result.length > 0){
+	        		archivo.nombre = result[0].name;
+	        		archivo.carpeta = result[0].carpeta;
+					callback(null, true);
+	        	}
+	        	else callback(new Error("No se encontro el registro en la BD"), false);
+	        }
+	    });
+}
+
+function getExistFile(callback, archivo){
+	var root = path.dirname(require.main.filename);
+	var dir = root + '/public/recursos/' + archivo.carpeta + '/' + archivo.nombre;
+	console.log(dir);
+	if (!fs.existsSync(dir)){
+		archivo.delDIR = false;
+		archivo.delBD = true;
+		console.log('NO EXISTE::::::' + archivo.delDIR);
+		callback(null, true);
+	}else {
+		archivo.delDIR = true;
+		archivo.delBD = true;
+		console.log('EXISTE::::::' + archivo.delDIR);
+		callback(null, true);
+	}
+	
+}
+
+function delFileDir(callback, carpeta, nombre){
+	var root = path.dirname(require.main.filename);
+	var dir = root + '/public/recursos/' + carpeta + '/' + nombre;
+	console.log('ArchABORRAR: ' + dir);
+	
+	fs.unlink(dir,function(err){
+        if(err) callback(new Error("Error al eliminar el archivo"), false);
+        callback(null, true);
+   	});  
+
+}
+
+function getArchivosMes(callback, archivos, id, mes, anio){
+
+	Empresa.aggregate([
+		{
+			$unwind: '$archivos'
+		},{
+			$match: {'archivos.status': '1', "status" : "1", "_id" : ObjectId(id), "archivos.mes" : mes, "archivos.anio" : anio}
+		},{
+		    $project: {
+		        nombre: '$archivos.nombre',		        
+		        id_Archivo: '$archivos._id',
+		        carpeta: '$carpeta'
+		    }
+		}], function (err, result) {
+	        if (err) {
+	            next(err);    
+				callback(new Error("No se encontraron registros en la BD"), false);
+	        } else {
+	        	if(result.length > 0){
+	        		archivos.push(result);
+					callback(null, true);
+	        	}
+	        	else callback(new Error("No se encontro el registro en la BD"), false);
+	        }
+	    });
+
+}
+
+function getArchivosAnio(callback, archivos, id, anio){
+
+	Empresa.aggregate([
+		{
+			$unwind: '$archivos'
+		},{
+			$match: {'archivos.status': '1', "status" : "1", "_id" : ObjectId(id), "archivos.anio" : anio}
+		},{
+		    $project: {
+		        nombre: '$archivos.nombre',		        
+		        id_Archivo: '$archivos._id',
+		        carpeta: '$carpeta'
+		    }
+		}], function (err, result) {
+	        if (err) {
+	            next(err);    
+				callback(new Error("No se encontraron registros en la BD"), false);
+	        } else {
+	        	if(result.length > 0){
+	        		archivos.push(result);
+					callback(null, true);
+	        	}
+	        	else callback(new Error("No se encontro el registro en la BD"), false);
+	        }
+	    });
+
+}
+
+exports.deleteArchivoMes = function(req, res, next){
+	var lsuccess = [];
+	var lerror = [];
+	var archivos = [];
+	var id = req.body.id;
+	var mes = parseInt(req.body.mes) + 1;		
+	mes = mes  < 10 ? '0' + mes : mes;
+	var anio = parseInt(req.body.anio);
+
+	async.series([
+		function(callback){
+				console.log('PPPP_________1');
+				getArchivosMes(callback, archivos, id, mes, anio);
+			}
+		], function(err, results){				
+				console.log(archivos[0]);
+				console.log('PPPP_________FINAL');
+				if(err) return res.send({success : false, message : err.toString()});
+				else if(archivos[0].length > 0){
+
+					async.each(archivos[0], function (archivo, callback1) {
+						async.series([
+							function(callback){
+								archivo.delBD = false;
+								archivo.delDIR = false;
+								console.log('WWWWWP_________1');
+								getExistFile(callback, archivo);
+							},
+							function(callback){				
+								console.log('WWWW_________2');
+								//callback(null, true);
+								if(archivo.delDIR) delFileDir(callback, archivo.carpeta, archivo.nombre);
+								else callback(null, true);
+							},
+							function(callback){	
+								//changeStatusFile(callback, archivo.id, 0);
+								console.log('PWWWW_________3');
+								//callback(null, true);	
+								if(archivo.delBD) changeStatusFile(callback, archivo.id_Archivo, 0);
+								else callback(null, true);
+								
+							}
+						], function(err, results){		
+								console.log('PWWWP_________FINAL');
+								//callback1(null, true);
+								if(err) {
+									lerror.push(archivo.nombre);									
+									callback1(null, true);
+									//callback(new Error("Error al elimnar algunos archivos"), false);								}
+								}
+								else {
+									lsuccess.push(archivo.nombre);
+									callback1(null, true);
+								}
+								//if(err) return res.send({success : false, message : err.toString(), ls : lsuccess, le : lerror});
+								//else return res.send({success : true, ls : lsuccess, le : lerror});
+						});
+					}, function(err){
+						if(err) res.send({success : false, message : err.toString(), ls : lsuccess, le : lerror});
+						else {
+							if(lerror.length > 0) res.send({success : false, message : "Algunos archivos no fueron eliminados correctamente", le : lerror});
+							else res.send({success : true, ls : lsuccess});
+						}
+					});					
+
+				}else res.send({success : false, message : "No se encontro el registro en la BD"});
+				//else return res.send({success : true, ls : lsuccess, le : lerror});
+		});
 };
 
 exports.deleteArchivoAnio = function(req, res, next){
-	res.send({success : true});
+
+	var lsuccess = [];
+	var lerror = [];
+	var archivos = [];
+	var id = req.body.id;
+	var anio = parseInt(req.body.anio);
+
+	async.series([
+		function(callback){
+				console.log('PPPP_________1');
+				getArchivosAnio(callback, archivos, id, anio);
+			}
+		], function(err, results){				
+				console.log(archivos[0]);
+				console.log('PPPP_________FINAL');
+				if(err) return res.send({success : false, message : err.toString()});
+				else if(archivos[0].length > 0){
+
+					async.each(archivos[0], function (archivo, callback1) {
+						async.series([
+							function(callback){
+								archivo.delBD = false;
+								archivo.delDIR = false;
+								console.log('WWWWWP_________1');
+								getExistFile(callback, archivo);
+							},
+							function(callback){				
+								console.log('WWWW_________2');
+								//callback(null, true);
+								if(archivo.delDIR) delFileDir(callback, archivo.carpeta, archivo.nombre);
+								else callback(null, true);
+							},
+							function(callback){	
+								//changeStatusFile(callback, archivo.id, 0);
+								console.log('PWWWW_________3');
+								//callback(null, true);	
+								if(archivo.delBD) changeStatusFile(callback, archivo.id_Archivo, 0);
+								else callback(null, true);
+								
+							}
+						], function(err, results){		
+								console.log('PWWWP_________FINAL');
+								//callback1(null, true);
+								if(err) {
+									lerror.push(archivo.nombre);									
+									callback1(null, true);
+									//callback(new Error("Error al elimnar algunos archivos"), false);								}
+								}
+								else {
+									lsuccess.push(archivo.nombre);
+									callback1(null, true);
+								}
+								//if(err) return res.send({success : false, message : err.toString(), ls : lsuccess, le : lerror});
+								//else return res.send({success : true, ls : lsuccess, le : lerror});
+						});
+					}, function(err){
+						if(err) res.send({success : false, message : err.toString(), ls : lsuccess, le : lerror});
+						else {
+							if(lerror.length > 0) res.send({success : false, message : "Algunos archivos no fueron eliminados correctamente", le : lerror});
+							else res.send({success : true, ls : lsuccess});
+						}
+					});					
+
+				}else res.send({success : false, message : "No se encontro el registro en la BD"});
+				//else return res.send({success : true, ls : lsuccess, le : lerror});
+		});
+
 
 };
 
@@ -219,10 +487,11 @@ function setFullEmpresasArchivos(res, empresas){
 
 exports.archivoDate = function(req, res, next){
 	var id = req.body.empresa;
-	var mes = 1 + req.body.mes;
+	var mes = 1 + parseInt(req.body.mes);
 	mes = mes  < 10 ? '0' + mes : mes;
-	var anio = req.body.anio;
+	var anio = parseInt(req.body.anio);
 	console.log(mes);
+	console.log(anio);
 	Empresa.aggregate([
 		{
 			$unwind: '$archivos'
@@ -238,7 +507,8 @@ exports.archivoDate = function(req, res, next){
 		},{
 		    $project: {
                 usuario: '$user.nombre_usuario',
-		        name: '$archivos.nombre',
+		        name: '$archivos.nombre',		        
+		        id_Archivo: '$archivos._id',
 		        fecha: '$archivos.f_carga'
 		    }
 		},{$sort: { 'fecha': -1 }}], function (err, result) {
@@ -271,6 +541,7 @@ exports.archivoDateAll = function(req, res, next){
 		},{
 		    $project: {
                 usuario: '$user.nombre_usuario',
+		        id_Archivo: '$archivos._id',
 		        name: '$archivos.nombre',
 		        fecha: '$archivos.f_carga'
 		    }

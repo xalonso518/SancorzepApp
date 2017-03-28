@@ -1,4 +1,4 @@
-angular.module('Teamapp').controller('archivosEmpresaAdmCtrl', function($scope, $http, $stateParams, $state, ToastService, EmpresaService, ArchivoService){
+angular.module('Teamapp').controller('archivosEmpresaCtrl', function($scope, $http, $stateParams, $state, ToastService, EmpresaService, ArchivoService){
 	
 	$scope.years = ['2017', '2016'];
 	$scope.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -42,33 +42,18 @@ angular.module('Teamapp').controller('archivosEmpresaAdmCtrl', function($scope, 
 	}
 
 	$scope.eliminarArchivo = function(id){
-		var	position = -1;
 		$('#myPleaseWait').modal('show');
 		ArchivoService.deleteArchivo(id)
 			.then(function (response){				
 				$('#myPleaseWait').modal('hide');
 				$('#myModal').modal('hide');
 				if(response.data.success){
-
 					ToastService.success('Se eliminó el archivo exitosamente');
-
-					$scope.archivoSelect = '';
-					angular.forEach($scope.archivos, function(archivo, key) {
-						if(archivo.id_Archivo == id) {
-							position = key; 
-							return true;
-						}
-					});
-					if (position > -1) {
-						quitarArchivo(position);
-					};
-
 				} else ToastService.error('Error al eliminar el archivo, vuelva a intentarlo');
 		});	
 	}
 
 	$scope.eliminarArchivoAll = function(){
-		var	position = -1;
 		$('#myPleaseWait').modal('show');
 		if($scope.tipoDelete == 0){
 			ArchivoService.deleteArchivoMes($scope.empresa._id, $scope.month, $scope.year)
@@ -76,45 +61,21 @@ angular.module('Teamapp').controller('archivosEmpresaAdmCtrl', function($scope, 
 				$('#myPleaseWait').modal('hide');
 				$('#myModal2').modal('hide');
 				if(response.data.success){
-					ToastService.success('Se eliminaron los archivos del mes de ' + $scope.month + ' ' + $scope.year + ': ' + response.data.ls.toString());
-				} else ToastService.error('Error al elimnar los archivos: ' + response.data.le.toString());
-				if(response.data.ls.length > 0){
-					for(var i=0; i < response.data.ls.length; i++){
-						angular.forEach($scope.archivos, function(archivo, key) {
-							if(archivo.name == response.data.ls[i]) {
-								position = key; 
-								return true;
-							}
-						});
-						if (position > -1) {
-							quitarArchivo(position);
-						};	
-					}				
-				}
+					ToastService.success('Se eliminaron ' + response.data.cantidad + 'archivos del mes de ' + $scope.month + ' ' + $scope.year);
+				} else ToastService.error('Error al elimnar los archivos, vuelva a intentarlo');
 			});	
 		} else {
-			
 			ArchivoService.deleteArchivoAnio($scope.empresa._id, $scope.year)
 			.then(function (response){
 				$('#myPleaseWait').modal('hide');
 				$('#myModal2').modal('hide');
 				if(response.data.success){
-					ToastService.success('Se eliminaron TODOS los archivos del año ' + $scope.year);
-					$scope.buscarArchivos();
-				} else {
-					ToastService.error('Error al elimnar los archivos: ' + response.data.le.toString());
-					$scope.buscarArchivos();
-				}				
-			});
+					ToastService.success('Se eliminaron ' + response.data.cantidad + 'archivos del año ' + $scope.year);
+				} else ToastService.error('Error al elimnar los archivos, vuelva a intentarlo');
+			});				
 		}
 
 	}
-
-
-	quitarArchivo = function(position){
-		$scope.archivos.splice(position,1);
-	}
-
 
 	$scope.buscarEmpresa = function(id){
 		var	position = -1;		
@@ -185,5 +146,6 @@ angular.module('Teamapp').controller('archivosEmpresaAdmCtrl', function($scope, 
 	        var id_empresa = $stateParams.id_empresa;
 	        $scope.buscarEmpresa(id_empresa);
 	    }		
+	 
 	};
 });
