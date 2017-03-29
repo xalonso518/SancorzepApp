@@ -65,6 +65,16 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			templateUrl : 'partials/archivos/templates/archivosEmpresaAdm.html',
 			controller : 'archivosEmpresaAdmCtrl'
 		})
+		.state('appAdm.historial_archivos',{
+			url : '/historialArchivos',
+			templateUrl : 'partials/archivos/templates/historialArchivos.html',
+			controller : 'historialArchivosCtrl'
+		})	
+		.state('appAdm.empresas',{
+			url : '/empresas',
+			templateUrl : 'partials/empresas/templates/empresas.html',
+			controller : 'empresasCtrl'
+		})		
 		.state('app.mainAdmin',{
 			url : '/mainAdmin',
 			templateUrl : 'partials/mainAdmin/templates/mainAdmin.html',

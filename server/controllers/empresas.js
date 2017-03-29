@@ -443,6 +443,18 @@ exports.empresasNombres = function(req, res, next){
 	});
 };	
 
+exports.getEmpresas = function(req, res, next){
+	Empresa.find({status : 1}).select({ _id: 1, nombre: 1 })
+	.exec(function (err, empresas){
+		if (err) {
+			res.send({success : false});
+		}else{
+			res.send({success : true, empresas : empresas});
+		}
+	});
+};	
+
+
 exports.empresasArchivos = function(req, res, next){
 
 
@@ -483,6 +495,43 @@ function setFullEmpresasArchivos(res, empresas){
 		}
 	}
 	);
+}
+
+exports.archivoDateHistory = function(req, res, next){
+	var mes = 1 + parseInt(req.body.mes);
+	mes = mes  < 10 ? '0' + mes : mes;
+	var anio = parseInt(req.body.anio);
+	console.log(mes);
+	console.log(anio);
+	Empresa.aggregate([
+		{
+			$unwind: '$archivos'
+		}, { 
+                    $lookup: {
+                        "from": "usuarios",
+                        "localField": "archivos.u_carga",
+                        "foreignField": "_id",
+                        "as": "user"
+                   }
+                },{
+			$match: {"status" : "1", "archivos.mes" : mes, "archivos.anio" : anio}
+		},{
+		    $project: {
+                empresa: '$nombre',
+                usuario: '$user.nombre_usuario',
+		        name: '$archivos.nombre',
+		        status: '$archivos.status',
+		        fecha: '$archivos.f_carga'
+		    }
+		},{$sort: { 'fecha': -1 }}], function (err, result) {
+	        if (err) {
+	            next(err);
+	            res.send({success : false});
+	        } else {
+				res.send({success : true, archivos : result});
+	        }
+	    });
+
 }
 
 exports.archivoDate = function(req, res, next){

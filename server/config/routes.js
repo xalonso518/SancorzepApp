@@ -10,6 +10,8 @@ module.exports = function(app){
 	  	res.render('../../public/app/' + req.params['0']);
 	});
 	
+	app.post('/empresas', empresas.getEmpresas);
+
 	app.post('/empresasNombres', empresas.empresasNombres);
 
 	app.post('/empresasImagenes', empresas.empresasImagenes);
@@ -39,6 +41,8 @@ module.exports = function(app){
 	app.post('/deleteArchivoMes', empresas.deleteArchivoMes);
 	
 	app.post('/deleteArchivoAnio', empresas.deleteArchivoAnio);
+
+	app.post('/archivoDateHistory', empresas.archivoDateHistory);
 
 	app.post('/login', usuarios.login);
 

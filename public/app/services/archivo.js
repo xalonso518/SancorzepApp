@@ -26,6 +26,9 @@ angular.module('Teamapp').factory('ArchivoService', function($http){
 		},
 		deleteArchivoAnio : function(id, anio){
 			return $http.post('/deleteArchivoAnio',{'id': id, 'anio' : anio});
+		},
+		getArchivoDateHistory : function(mes, anio){
+			return $http.post('/archivoDateHistory',{'mes': mes, 'anio': anio});
 		}
 	}
 });

@@ -17,6 +17,9 @@ angular.module('Teamapp').factory('EmpresaService', function($http){
 		},
 		getDetalle : function(recurso){
 			return $http.get('/recurso/'+recurso.id)
+		},
+		getEmpresas : function(){
+			return $http.post('/empresas')
 		}
 	}
 });
