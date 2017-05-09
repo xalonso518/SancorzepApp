@@ -4,7 +4,7 @@ angular.module('Teamapp').controller('registroEmpresaCtrl', function($scope, $ht
 	$(":file").filestyle({buttonName: "btn-primary",buttonText: " Archivo"});	
 	$scope.patternLetSim = /^[a-zA-Z]+$/;
 	$scope.patternLetCom = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
-	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
+	$scope.patternLetNum = /^[0-9a-zA-Z ]+$/;
 	$scope.files = null;
 
 	$scope.registerEmpresa = function(){
