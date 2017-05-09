@@ -22,7 +22,7 @@ var empresasSchema = new Schema({
 		anio: {type: Number, min: 2000, max: 3000},
 		mes: String,
 		tipo: String,
-		datos: String,
+		datos: {type: String, default: 'Na'},
 		status: {type: String, default: 1}
 	}]
 });

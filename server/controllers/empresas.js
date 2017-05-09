@@ -1,5 +1,6 @@
 var Empresa = require('../models/empresas');
 var passport = require('../config/passport');
+var Usuario = require('../models/usuarios');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 var fs = require('fs');
@@ -336,7 +337,7 @@ exports.deleteArchivoAnio = function(req, res, next){
 
 
 function empresaDir(callback, data){
-	Empresa.findOne({_id : data.empresa, status : 1}).select({ _id: 1, carpeta: 1})
+	Empresa.findOne({_id : ObjectId(data.empresa), status : 1}).select({ _id: 1, carpeta: 1})
 	.exec(function (err, empresa){
 		if (err) {
 			callback(new Error("Error al crear el registro, empresa no encontrada"), false);
@@ -351,17 +352,22 @@ function empresaDir(callback, data){
 };
 
 function altaRegistroArchivo(callback, data){
-	Empresa.findOne({_id : data.empresa})
+	console.log(data.empresa);
+	Empresa.findOne({_id : ObjectId(data.empresa)})
 	.exec(function (err, empresa){
 		if (err) {
 			callback(new Error("Error al conectar la base de datos"), false);
 		}else{
 			if(empresa){
 				var reg = {anio : data.anio, mes : data.mes, nombre : data.nombre, f_carga : Date.now(), u_carga : data.u_carga}
+				console.log(reg.mes);
+				console.log(reg.anio);
 				console.log(reg.nombre);
+				console.log(reg.f_carga);
+				console.log(reg.u_carga);
 				empresa.archivos.push(reg);
 				empresa.save(function(e) {
-			    	if (e) callback(new Error("Error al crear el registro."), false);
+			    	if (e) {console.log(e);callback(new Error("Error al crear el registro."), false);}
 					else callback(null, true);
 				});
 			} else {
@@ -409,7 +415,7 @@ function altaAchivo(callback, req, res, file, name, dir, data){
 }
 
 exports.empresaImagen = function(req, res, next){
-	Empresa.findOne({status : 1, _id: req.body.empresa}).select({ _id: 1, nombre: 1,  img: 1, carpeta: 1})
+	Empresa.findOne({status : 1, _id: ObjectId(req.body.empresa)}).select({ _id: 1, nombre: 1,  img: 1, carpeta: 1})
 	.exec(function (err, empresa){
 		if (err) {
 			console.log(err);
@@ -420,6 +426,70 @@ exports.empresaImagen = function(req, res, next){
 	});
 };	
 
+exports.empresaInfoEdit = function(req, res, next){
+	console.log(req.body.empresa.id);
+	Empresa.findOne({status : 1, _id: ObjectId(req.body.empresa.id)}).select({ _id: 1, nombre: 1,  img: 1, rfc: 1, responsable: 1})
+	.exec(function (err, empresa){
+		if (err) {
+			console.log(err);
+			res.send({success : false});
+		}else{
+			res.send({success : true, empresa : empresa});
+		}
+	});
+};	
+
+exports.editEmpresa = function(req, res, next){
+	
+	var imgDir = 'logo_s1.svg';
+
+	console.log(req.body._id);
+	Empresa.findOne({_id : req.body._id})
+	.exec(function (err, empresa){
+		if (err) {
+			res.send({success : false});
+		}else{
+			if(empresa && empresa.carpeta){	
+				var dir = root + '/public/recursos/'+empresa.carpeta;				
+				async.series({
+						img: function(callback){
+							/*NOta se puede generar la carpeta si no esta creada =)*/
+							if(req.files.hasOwnProperty('file') && fs.existsSync(dir)){
+								console.log(empresa.carpeta);
+								imgDir = guardar_archivos(req, res, req.files.file,"logo",empresa.carpeta);
+								callback(null, imgDir);
+							}else{
+								callback(null, 0);
+							};
+						}
+					}, function(err, results){
+						if (!err) {
+							console.log(empresa.img);
+							if(results.img != 0 && results[0] != 0){
+								console.log(results.img);
+								imgDir = results.img;
+								empresa.img = '/recursos/' + empresa.carpeta + '/' +imgDir;								
+							}
+							console.log(empresa.img);
+							empresa.nombre = req.body.nombre;
+							empresa.rfc = req.body.rfc;
+							empresa.responsable = req.body.responsable;
+							empresa.save(function(e) {
+			    			if (e) res.send({success : false});
+								else res.send({success : true});
+							});
+
+						}else{
+							res.send({success : false, message : 'Error al subir el archivo para la empresa, vuelva a intentarlo.'});
+							console.log(err);
+						}			
+			});	
+		} else {
+				res.send({success : false});
+			}
+		}
+	})
+}
 
 exports.empresasImagenes = function(req, res, next){
 	Empresa.find({status : 1}).select({ _id: 1, nombre: 1,  img: 1})
@@ -444,9 +514,10 @@ exports.empresasNombres = function(req, res, next){
 };	
 
 exports.getEmpresas = function(req, res, next){
-	Empresa.find({status : 1}).select({ _id: 1, nombre: 1 })
+	Empresa.find({status : 1}).populate({path: 'u_alta', select: 'nombre_usuario'}).select({ _id: 1, status:1,  nombre: 1, u_alta: 1, rfc: 1, responsable: 1 , f_alta: 1, img: 1}).sort({f_alta: -1})
 	.exec(function (err, empresas){
 		if (err) {
+			console.log(err);
 			res.send({success : false});
 		}else{
 			res.send({success : true, empresas : empresas});
@@ -454,10 +525,58 @@ exports.getEmpresas = function(req, res, next){
 	});
 };	
 
+exports.getEmpresasEliminadas = function(req, res, next){
+	Empresa.find({status : 0}).populate({path: 'u_alta', select: 'nombre_usuario'}).select({ _id: 1, status: 1, nombre: 1, u_alta: 1, rfc: 1, responsable: 1 , f_alta: 1, img: 1}).sort({f_alta: -1})
+	.exec(function (err, empresas){
+		if (err) {
+			console.log(err);
+			res.send({success : false});
+		}else{
+			res.send({success : true, empresas : empresas});
+		}
+	});
+};	
 
+exports.deleteEmpresa = function(req, res, next){
+
+	Empresa.findOne({_id : req.body.empresa})
+	.exec(function (err, empresa){
+		if (err) {
+			res.send({success : false});
+		}else{
+			if(empresa){
+				empresa.status = 0;
+				empresa.save(function(e) {
+			    	if (e) res.send({success : false});
+					else res.send({success : true});
+				});
+			} else {
+				res.send({success : false});
+			}
+		}
+	});
+};
+
+exports.restaurarEmpresa = function(req, res, next){
+
+	Empresa.findOne({_id : req.body.empresa})
+	.exec(function (err, empresa){
+		if (err) {
+			res.send({success : false});
+		}else{
+			if(empresa){
+				empresa.status = 1;
+				empresa.save(function(e) {
+			    	if (e) res.send({success : false});
+					else res.send({success : true});
+				});
+			} else {
+				res.send({success : false});
+			}
+		}
+	});
+};
 exports.empresasArchivos = function(req, res, next){
-
-
 
 	Empresa.find({status : 1}).select({ _id: 1, nombre: 1, rfc: 1, carpeta: 1, f_alta:1, img: 1})
 	.exec(function (err, empresas){
@@ -684,12 +803,13 @@ exports.registro = function(req, res, next){
 						}
 					}, function(err, results){
 						if (!err) {
+							var empresa = new Empresa({});
 							empresa.nombre = req.body.nombre;
 							empresa.responsable = req.body.responsable;
 							empresa.rfc = req.body.rfc;
 							console.log('ssyn2:'+results[0]);
 							//cehkr esto de results[0];
-							if(results[0] != 0){ 
+							if(results.img != 0 && results[0] != 0){ 
 								imgDir = results.img;
 								empresa.img = '/recursos/' + directoryN + '/' +imgDir;
 							}else{					
@@ -735,7 +855,7 @@ function rfcUniq(nrfc, r, callback){
 	r.eRFC = false;
 	Empresa.findOne({status : 1, rfc : nrfc}).select({ _id: 1})
 	.exec(function (err, empresa){
-	    console.log('rfc1');	
+	    console.log(nrfc);	
 		if (err) {callback(new Error("Error al establecer la conexion DB"), false);}
 		else if(!empresa) {
 			console.log('rfc1.22222');
@@ -766,6 +886,7 @@ function createDir(name, r, callback){
 		callback(new Error("El directorio ya existe"), false);
 	}
 }
+
 
 function guardar_archivos(req, res, file, name, dir){
 	var extPermitidas = ['png','jpg','jpeg','svg'];

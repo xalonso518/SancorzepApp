@@ -12,11 +12,21 @@ module.exports = function(app){
 	
 	app.post('/empresas', empresas.getEmpresas);
 
+	app.post('/empresasEliminadas', empresas.getEmpresasEliminadas);
+	
 	app.post('/empresasNombres', empresas.empresasNombres);
 
 	app.post('/empresasImagenes', empresas.empresasImagenes);
 
 	app.post('/empresaImagen', empresas.empresaImagen);
+
+	app.post('/empresaInfoEdit', empresas.empresaInfoEdit);
+
+	app.post('/editEmpresa',multiparty, empresas.editEmpresa);
+
+	app.post('/deleteEmpresa', empresas.deleteEmpresa);
+
+	app.post('/restaurarEmpresa', empresas.restaurarEmpresa);
 
 	app.post('/cambiarPassword', usuarios.cambiarPassword);
 

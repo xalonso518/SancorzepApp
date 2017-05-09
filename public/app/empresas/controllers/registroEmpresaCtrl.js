@@ -5,12 +5,13 @@ angular.module('Teamapp').controller('registroEmpresaCtrl', function($scope, $ht
 	$scope.patternLetSim = /^[a-zA-Z]+$/;
 	$scope.patternLetCom = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
 	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
+	$scope.files = null;
 
 	$scope.registerEmpresa = function(){
 		var fd = new FormData();
 		var ok = false;
 
-		if($scope.files[0]){
+		if($scope.files != null && $scope.files[0]){
 			if(FilesService.checkSize(2, $scope.files[0]) && FilesService.checkExtensionImg($scope.files[0])){
 				angular.forEach($scope.files,function (file){
 					fd.append('file',file);

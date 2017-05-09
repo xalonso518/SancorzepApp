@@ -1,30 +1,7 @@
 angular.module('Teamapp').controller('empresasCtrl', function($scope, $http, $state, ToastService, EmpresaService, ArchivoService){
 	
-	$scope.years = ['2017', '2016'];
-	$scope.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-
-	var today = new Date();
-	var mm = today.getMonth();
-	var yyyy = today.getFullYear();
-
 	$scope.empresas = {};
-	$scope.year = yyyy;
-	$scope.month = mm;
-
-	$scope.lastArchivos = {};
-	$scope.sizeFiles = {};
-	$scope.sizeTotal = 20 * 1024;
-	$scope.sizeRecursos = {};
-
-	$scope.registros = 0;
-
- 	$scope.$watch("sizeFiles",function(newValue,oldValue) {    
-	   	if(newValue.length > 0) {
-	   		$scope.renderG2($scope.getValuesG2(newValue));
-	   	}else {
-	   		$scope.renderG2({'labels': [], 'values':[]});
-	   	}
-  	});
+	$scope.empresaSelect;
 
 	$scope.buscarEmpresas = function(){
 		
@@ -36,7 +13,7 @@ angular.module('Teamapp').controller('empresasCtrl', function($scope, $http, $st
 					$scope.empresas = response.data.empresas;
 				}
 				else {
-					ToastService.info('No se encontraron datos en esa fecha, vuelva a intentarlo');
+					ToastService.info('No se encontraron datos, vuelva a intentarlo');
 					$scope.empresas = {};	
 				}
 			}
@@ -45,108 +22,190 @@ angular.module('Teamapp').controller('empresasCtrl', function($scope, $http, $st
 		
 	}
 
-	$scope.lastArchivos = function(){
-		ArchivoService.getLastArchivos()
+	$scope.buscarEmpresasEliminadas = function(){
+		
+		EmpresaService.getEmpresasEliminadas()
 		.then(function (response){
 			if(response.data.success){
-				if(response.data.empresas.length > 0) $scope.lastArchivos = response.data.empresas;
+				$scope.registros = response.data.empresas.length;
+				if($scope.registros > 0) {
+					$scope.empresas = response.data.empresas;
+				}
 				else {
-					ToastService.info('No se encontraron archivos, vuelva a intentarlo');
-					$scope.lastArchivos = {};	
+					ToastService.info('No se encontraron datos vuelva a intentarlo');
+					$scope.empresas = {};	
 				}
 			}
 			else ToastService.error('Error al cargar los datos, vuelva a intentarlo');
 		});		
-	}
-
-	$scope.sizeDirectory = function(){
-		ArchivoService.getSizeDirectory()
-		.then(function (response){
-			if(response.data.success){
-				$scope.sizeFiles = response.data.size;
-			}
-			else ToastService.error('Error al cargar los datos, vuelva a intentarlo');
-		});		
-	}
-
-	$scope.getValuesG2 = function(data){
-
-		var labels = [];
-		var values = [];
-		labels.push('Espacio Ocupado');
-		values.push(data);
-		labels.push('Espacio Disponible');
-		values.push($scope.sizeTotal - data);
-		//values.push(data);
 		
-		return {'labels': labels, 'values':values};		
 	}
 
-	$scope.renderG2 = function(val){
-		var c = [];
-		angular.forEach(val.values, function(v, i){
-			c.push({"values":[v], "text":val.labels[i]});
-		});
-		var config = {
-		  "type":"ring",
-		  "plot":{
-		  	"layout":"auto",
-    		"value-box":{
-      			"font-size":12
-      		},
-		    "animation":{
-		 	    "on-legend-toggle": true, //set to true to show animation and false to turn off
-		 	    "effect": 2,
-		 	    "method": 0,
-		 	    "sequence": 'ANIMATION_BY_PLOT',
-		 	    "speed": 1
-		    },
-		  },
-		  "plotarea":{
-		    "margin":"0"
-		  },
-		  "legend":{
-		    "x":"75%",
-		    "y":"25%",
-		    "border-width":0,
-		    "border-color":"gray",
-		    "border-radius":"3px",
-		    "marker":{
-		      "type":"circle"
-		    },
-		    "toggle-action":"remove",
-		    "icon":{
-		      "line-color":"#9999ff"
-		    },
-		    "max-items":8,
-		    "overflow":"scroll"
-		  },    
-		  "tooltip":{
-	      "text":"%t: %v (%npv%)",
-	      "font-color":"black",
-	      "font-family":"Source Sans Pro",
-	      "text-alpha":1,
-	      "background-color":"white",
-	      "alpha":0.7,
-	      "border-width":1,
-	      "border-color":"#cccccc",
-	      "border-radius":"3px",
-	      "padding":"10%",
-	      "placement":"node:center"
-	    },
-		  "series": c
-		}
-
-		zingchart.render({
-			id: 'myChart2',
-		    data:config,
-		    height: 150
-		});
+	$scope.showModalEliminar = function(user){
+		$scope.empresaSelect = user;
+		$('#myModal').modal('show');
 	}
+
+	$scope.eliminarEmpresa = function(id){
+		var	position = -1;
+		$('#myPleaseWait').modal('show');
+		EmpresaService.deleteEmpresa(id)
+			.then(function (response){				
+				$('#myPleaseWait').modal('hide');
+				$('#myModal').modal('hide');
+				if(response.data.success){
+
+					ToastService.success('Se eliminó la empresa exitosamente');
+
+					$scope.archivoSelect = '';
+					angular.forEach($scope.empresas, function(empresa, key) {
+						if(empresa._id == id) {
+							position = key; 
+							return true;
+						}
+					});
+					if (position > -1) {
+						quitarEmpresa(position);
+					};
+
+				} else ToastService.error('Error al eliminar la empresa, vuelva a intentarlo');
+		});	
+	}
+
+	$scope.restaurarEmpresa = function(id){
+		var	position = -1;
+		$('#myPleaseWait').modal('show');
+		EmpresaService.restaurarEmpresa(id)
+			.then(function (response){				
+				$('#myPleaseWait').modal('hide');
+				$('#myModal').modal('hide');
+				if(response.data.success){
+
+					ToastService.success('Se restauro la empresa exitosamente');
+
+					$scope.archivoSelect = '';
+					angular.forEach($scope.empresas, function(empresa, key) {
+						if(empresa._id == id) {
+							position = key; 
+							return true;
+						}
+					});
+					if (position > -1) {
+						quitarEmpresa(position);
+					};
+
+				} else ToastService.error('Error al restaurar la empresa, vuelva a intentarlo');
+		});	
+	}
+
+	quitarEmpresa = function(position){
+		$scope.empresas.splice(position,1);
+	}
+
 
 	$scope.init = function () {
 		$scope.buscarEmpresas();
 		//$scope.lastArchivos();
 		//$scope.sizeDirectory();
 	};
+});
+
+
+app.controller('empresaEditarCtrl', function($scope, $stateParams, $state, $http, FilesService, ToastService, EmpresaService){
+	
+	$scope.empresa = {};
+	$scope.tiposUsuario = ['Admin', 'Empresa'];
+	$scope.patternLetSim = /^[a-zA-Z]+$/;
+	$scope.patternLetCom = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
+	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
+	
+	$(":file").filestyle({buttonName: "btn-primary",buttonText: " Archivo"});
+ 	$scope.files = null;
+	
+	$scope.initEditar = function(){
+	
+		if ($stateParams.hasOwnProperty('id_empresa')) {
+			var id_empresa = $stateParams.id_empresa;
+	        EmpresaService.getEmpresaInfoEdit({id : id_empresa})
+	        .then(function (response){
+	        	if(response.data.success) {
+	        		$scope.empresa = response.data.empresa;
+	        	}
+				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
+	        });
+		}
+
+	}
+
+	$scope.editarEmpresa = function (){
+
+		var fd = new FormData();
+		var ok = false;
+		if($scope.files != null && $scope.files[0]){
+			if(FilesService.checkSize(2, $scope.files[0]) && FilesService.checkExtensionImg($scope.files[0])){
+				angular.forEach($scope.files,function (file){
+					fd.append('file',file);
+					ok = true;
+				});
+			}else{
+				ToastService.error('EL Archivo selecionado no cumple con las caraterísticas solicitadas(extensión y/o tamaño)');
+			}
+		} else ok = true;
+
+		if(ok){
+			fd.append('_id',$stateParams.id_empresa);
+			fd.append('nombre',$scope.empresa.nombre);
+			fd.append('responsable',$scope.empresa.responsable);
+			fd.append('rfc',$scope.empresa.rfc);
+			$http.post('/editEmpresa', fd, 
+	        {
+	            transformRequest:angular.identity,
+	            headers : {'Content-Type' : undefined}
+	        }).then(function(response){
+				//$scope.enviando = false;
+				var data = response.data;
+				if (data.success) {
+	        		ToastService.success('Se modificaron los datos de la empresa');
+				}else{
+					ToastService.error(data.message);
+					console.log("Error al registrar la empresa.");
+				}
+			});
+    	}
+	}
+
+	$scope.filesChanged = function(elm){
+        $scope.files = elm.files;
+		$scope.$apply();
+	}
+
+});
+
+app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state, $http, ToastService, EmpresaService){
+	
+	$scope.empresa = {};
+	$scope.tiposUsuario = ['Admin', 'Empresa'];
+	$scope.patternLetSim = /^[a-zA-Z]+$/;
+	$scope.patternLetCom = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
+	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
+	
+ 	$scope.files = null;
+	
+	$scope.init = function(){
+	
+		if ($stateParams.hasOwnProperty('id_empresa')) {
+			var id_empresa = $stateParams.id_empresa;
+			alert(id_empresa);
+			
+	        EmpresaService.getEmpresaInfoEdit({id : id_empresa})
+	        .then(function (response){
+	        	if(response.data.success) {
+	        		$scope.empresa = response.data.empresa;
+	        	}
+				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
+	        });
+        
+		}
+	}
+
 });

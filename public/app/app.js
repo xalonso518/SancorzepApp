@@ -74,7 +74,17 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			url : '/empresas',
 			templateUrl : 'partials/empresas/templates/empresas.html',
 			controller : 'empresasCtrl'
-		})		
+		})
+		.state('appAdm.Editar_Empresa',{
+			url : '/empresaEditar/:id_empresa',
+			templateUrl : 'partials/empresas/templates/editar.html',
+			controller : 'empresaEditarCtrl'
+		})
+		.state('appAdm.Datos_Anuales',{
+			url : '/Datos_Anuales/:id_empresa',
+			templateUrl : 'partials/empresas/templates/datosAnuales.html',
+			controller : 'empresaDatosAnualesCtrl'
+		})
 		.state('app.mainAdmin',{
 			url : '/mainAdmin',
 			templateUrl : 'partials/mainAdmin/templates/mainAdmin.html',

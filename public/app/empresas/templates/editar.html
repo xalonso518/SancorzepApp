@@ -1,0 +1,67 @@
+<div class="mailbox row" data-ng-init="initEditar()">
+    <div class="col-xs-12">
+        <div class="box box-solid">
+            <div class="box-body">
+              <div class="">
+                <div class="row">
+                  <div class="col-xs-12"> 
+
+<div class="form-box form-boxAdm" id="login-box">
+    <div class="header headerLogin"></div>
+    <form name="empresaForm" ng-submit="editarEmpresa()" enctype="multipart/form-data">
+        <div class="body bg-gray">
+
+            <div class="form-group text-center">
+                <img ng-src="{{empresa.img}}" class="img_logo_form">
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" ng-model="empresa.nombre" class="form-control" placeholder="Nombre de la Empresa" required ng-minlength="5" ng-maxlength="30" ng-pattern="patternLetCom"/>
+                <div ng-show="empresaForm.$submitted || empresaForm.nombre.$touched" class="form_error_msg">
+                    <p ng-show="!empresaForm.nombre.$valid">Campo no valido (sólo letras y números)</p>
+                    <p ng-show="empresaForm.nombre.$error.minlength">Nombre muy corto(min 5)</p>
+                    <p ng-show="empresaForm.nombre.$error.maxlength">Nombre muy largo(max 30)</p>
+                    <p ng-show="empresaForm.nombre.$error.required">Favor de completar este campo</p>
+                </div>
+            </div>
+             <div class="form-group">
+                <label for="responsable">Responsable</label>         
+                <input type="text" name="responsable" ng-model="empresa.responsable" class="form-control" placeholder="Nombre del responsable" required ng-minlength="5" ng-maxlength="30" ng-pattern="patternLetCom"/>
+                <div ng-show="empresaForm.$submitted || empresaForm.responsable.$touched" class="form_error_msg">
+                    <p ng-show="!empresaForm.responsable.$valid">Campo no valido (sólo letras)</p>
+                    <p ng-show="empresaForm.responsable.$error.minlength">Nombre muy corto(min 5)</p>
+                    <p ng-show="empresaForm.responsable.$error.maxlength">Nombre muy largo(max 30)</p>
+                    <p ng-show="empresaForm.responsable.$error.required">Favor de completar este campo</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="rfc">Rfc</label>
+                <input type="text" name="rfc" ng-model="empresa.rfc" class="form-control" placeholder="RFC" required ng-minlength="12" ng-maxlength="13" ng-pattern="patternLetNum"/>
+                <div ng-show="empresaForm.$submitted || empresaForm.rfc.$touched" class="form_error_msg">
+                    <p ng-show="!empresaForm.rfc.$valid">Campo no valido (sólo letras y números)</p>
+                    <p ng-show="empresaForm.rfc.$error.minlength">Nombre muy corto(min 12)</p>
+                    <p ng-show="empresaForm.rfc.$error.maxlength">Nombre muy largo(max 13)</p>
+                    <p ng-show="empresaForm.rfc.$error.required">Favor de completar este campo</p>
+                </div>
+            </div>  
+            <div class="form-group">
+                <label for="archivos">Logo (opcional)</label>
+                <input type="file" file-input="files" class="filestyle" data-buttonText=" Archivo" data-buttonName="btn-primary"/>
+                <p class="small text-primary">*Tamaño Máximo: 2MB. Extensiones permitidas: png, jpg, svg</p>
+            </div>
+        </div>
+        <div class="footer">
+            <button type="submit" ng-disabled="enviando" class="btn bg-olive btn-block">Editar</button>
+        </div>
+    </form>
+</div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
