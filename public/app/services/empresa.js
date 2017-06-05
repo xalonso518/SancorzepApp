@@ -15,6 +15,9 @@ angular.module('Teamapp').factory('EmpresaService', function($http){
 		getEmpresaImg : function(empresa){
 			return $http.post('/empresaImagen', {'empresa':empresa})
 		},
+		getEmpresaAnios : function(empresa){
+			return $http.post('/empresaAnios', {'empresa':empresa})
+		},
 		getEmpresaInfoEdit : function(empresa){
 			return $http.post('/empresaInfoEdit', {'empresa':empresa})
 		},
@@ -35,6 +38,18 @@ angular.module('Teamapp').factory('EmpresaService', function($http){
 		},
 		restaurarEmpresa : function(empresa){
 			return $http.post('/restaurarEmpresa', {'empresa':empresa})
+		},
+		addYearEmpresa : function(empresa){
+			return $http.post('/addYearEmpresa', {'empresa':empresa})
+		},
+		getEmpresaDatosAnuales : function(empresa){
+			return $http.post('/getEmpresaDatosAnuales', {'empresa':empresa})
+		},
+		getEmpresaDatosComparacion : function(empresa){
+			return $http.post('/getEmpresaDatosComparacion', {'empresa':empresa})
+		},
+		editDatosAnuales : function(empresa){
+			return $http.post('/editDatosAnuales', {'empresa':empresa})
 		}
 		
 	}

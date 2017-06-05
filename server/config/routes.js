@@ -1,6 +1,7 @@
 var usuarios = require('../controllers/usuarios');
 var empresas = require('../controllers/empresas');
 var historial = require('../controllers/historial');
+var tareas = require('../controllers/tareas');
 var passport = require('./passport');
 var multiparty = require('connect-multiparty')();
 
@@ -19,6 +20,16 @@ module.exports = function(app){
 	app.post('/empresasImagenes', empresas.empresasImagenes);
 
 	app.post('/empresaImagen', empresas.empresaImagen);
+
+	app.post('/empresaAnios', empresas.empresaAnios);
+	
+	app.post('/getEmpresaDatosAnuales', empresas.getEmpresaDatosAnuales);
+	
+	app.post('/getEmpresaDatosComparacion', empresas.getEmpresaDatosComparacion);
+
+	app.post('/editDatosAnuales', empresas.editDatosAnuales);
+	
+	app.post('/addYearEmpresa', empresas.addYearEmpresa);
 
 	app.post('/empresaInfoEdit', empresas.empresaInfoEdit);
 
@@ -53,6 +64,12 @@ module.exports = function(app){
 	app.post('/deleteArchivoAnio', empresas.deleteArchivoAnio);
 
 	app.post('/archivoDateHistory', empresas.archivoDateHistory);
+
+	app.post('/getTareasMes', tareas.getTareasMes);
+
+	app.post('/createTarea', tareas.createTarea);
+	
+	app.post('/changeTarea', tareas.changeTarea);
 
 	app.post('/login', usuarios.login);
 

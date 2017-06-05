@@ -3955,3 +3955,187 @@ margin-left: 10px;
   font-size: 15px;
   color: #fff !important;
 }
+
+.logo_small{
+    max-width: 75px !important;
+    border-radius: 3px;
+    box-shadow: 0px 0px 1px 0px #000000;
+}
+
+.da_thead_anio{
+    text-align: center;
+    font-size: 18px;
+    color: #36568a;
+    border: 2px solid #ddd;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.table_DataAnual th, .table_DataAnual td{
+    border-right: 1px solid #eaeaea;
+    border-left: 1px solid #eaeaea;
+}
+
+.table_DataAnual th:first-of-type, .table_DataAnual th:last-of-type, .table_DataAnual td:first-of-type, .table_DataAnual td:last-of-type{
+  border-right: none;
+  border-left: none;
+}
+
+.table_DataAnual tr:nth-child(odd) td:first-of-type {
+    background: #7192c7;
+    color: #fff;
+    padding: 10px;
+}
+
+.table_DataAnual tr:nth-child(even) td:first-of-type {
+    background: #566782;
+    color: #fff;
+    padding: 10px;
+}
+
+.table_DataAnual > tbody > tr:hover td:first-of-type{
+  background: #008d4c;
+  cursor: pointer;
+}
+
+.highlighted{
+  background: #badccc;
+}
+
+.highlightedMes{
+  background: #008d4c;
+  color: #fff;
+}
+
+.table_DataAnual .thMes{
+    width: 100px;
+    min-width: 80px;
+}
+
+.table_DataAnual input{
+      text-align: center;
+}
+
+.table_DataAnual .inputEdit{  
+    border-radius: 3px 3px 0 0;
+}
+
+.table_DataAnual .btnEdit{ 
+  width: 100%;
+  border-radius: 0px 0px 3px 3px;
+  color: #fff;
+    padding: 0px;
+    margin-top: -3px;
+}
+
+.table_DataAnual .btnEdit i{
+  color: #fff;
+  margin-top: -3px;
+}
+
+.table_DataAnual .inputEdit:hover{
+  border: 1px solid #3c8dbc;
+}
+
+.table_DataAnual>tbody>tr:hover {
+    background-color: #badccc;
+}
+
+.table_Gragicas thead{  
+    border-bottom: 1px solid #ccc8c8;
+}
+.table_Gragicas tr td:first-of-type{  
+    font-size: 1.8rem;
+    color: #868686;
+}
+
+.table_Gragicas tr td{
+    font-size: 2rem;
+    padding-left: 10px;
+    color: #205590;
+}
+
+.table_Gragicas th{
+    text-align: right;
+    font-size: 3rem;
+    color: #1c2e67;
+}
+
+.graficaModal{
+  min-width: 500px;
+}
+
+.modalSubitle{
+      text-align: center;
+    font-size: 3rem;
+    color: #227090;
+}
+
+.dasboardDatos .boxData{
+    box-shadow: 0px 0px 4px 0px #989898;
+    margin: 5px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.dasboardDatos .modalSubitle {
+    text-align: center;
+    font-size: 2rem;
+    color: #227090;
+}
+
+.dasboardDatos .table_Gragicas tr td:first-of-type {
+    font-size: 1.5rem;
+    color: #868686;
+}
+
+.dasboardDatos .table_Gragicas tr td {
+    font-size: 1.8rem;
+    padding-left: 10px;
+    color: #205590;
+}
+
+.tableTareas{
+
+}
+
+.tableTareas th{
+    max-width: 80px;
+    min-width: 50px;    background: #476596;
+    color: #fff;
+}
+
+.tableTareas td{
+}
+
+.tableTareas textarea{
+    display: inline-block;
+    font-size: 12px;
+    width: 75%;
+    padding: 3px;
+}
+
+.tableTareas .btnEditar{
+    display: inline-block;
+    width: 20%;
+    vertical-align: top;
+    margin-top: 4px;
+}
+
+.tableTareas .btnEditar i {
+    color: #ffffff;
+}
+
+.tableTareas img{
+      max-width: 30px !important;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.tableTareas .glyphicon-remove{
+      color: #de3d3d
+}
+
+.tableTareas .glyphicon-ok{
+  color: #1c8082;
+}

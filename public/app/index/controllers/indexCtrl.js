@@ -2,6 +2,8 @@ var app = angular.module('Teamapp');
 
 app.controller('indexCtrl', function($rootScope,$state, $scope, Session){
 
+	$scope.usuario = null;
+
 	function Modulo(state){
 
 		this.state = state.name;
@@ -14,8 +16,7 @@ app.controller('indexCtrl', function($rootScope,$state, $scope, Session){
 			return this.name && this.name[0].toUpperCase() + this.name.slice(1);
 		};
 	}
-	
-	
+		
 	$scope.modulo = new Modulo($state.current).getName();
 	
 
@@ -47,21 +48,26 @@ app.controller('indexCtrl', function($rootScope,$state, $scope, Session){
 		});
 	}
 
-	Session.getUsuario()
-	.then(function(response){
-		$scope.usuario = response.data.user.user;
-	});
-
 	Session.isLogged()
 	.then(function(response){
 		var isLogged = response.data.isLogged;
 		if (!isLogged) {
 			$state.go('login');
 		}else {
-			if($scope.usuario.tipo == 'Admin') $state.go('appAdm');
+			if(response.data.user.user.tipo == 'Admin') $state.go('appAdm.Tareas');
+			else{
+
+			}
 		}
 
 	});
+
+	Session.getUsuario()
+	.then(function(response){
+		$scope.usuario = response.data.user.user;
+		if(response.data.user.user.tipo == 'Admin') $state.go('appAdm.Tareas');
+		else $state.go('appEmpresa.dashboard', { id_empresa: $scope.usuario.empresa });
+	});	
 
 	$scope.getEmpresa = function(){
 		return $scope.usuario.empresa;
@@ -71,6 +77,9 @@ app.controller('indexCtrl', function($rootScope,$state, $scope, Session){
 	$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
 		$scope.modulo = new Modulo(toState).getName();
 	});
+
+
+
 });	
 
 

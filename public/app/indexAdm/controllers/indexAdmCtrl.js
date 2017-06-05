@@ -47,6 +47,7 @@ app.controller('indexAdmCtrl', function($rootScope,$state, $scope, Session){
 	Session.getUsuario()
 	.then(function(response){
 		$scope.usuario = response.data.user.user;
+		$state.go('appAdm.Tareas');
 	});
 
 	Session.isLogged()
@@ -55,7 +56,8 @@ app.controller('indexAdmCtrl', function($rootScope,$state, $scope, Session){
 		if (!isLogged) {
 			$state.go('login');
 		}else {
-			if($scope.usuario.tipo != 'Admin') $state.go('app');
+			if($scope.usuario.tipo != 'Admin') $state.go('appEmpresa');
+			//else{alert("!2");}
 		}
 
 	});

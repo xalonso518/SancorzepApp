@@ -1,0 +1,255 @@
+<div class="mailbox row" data-ng-init="init()">
+    <div class="col-xs-12">
+        <div class="box box-solid">
+            <div class="box-body">
+              <div class="">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="row">
+                      <div class="col-xs-12 col-md-5 info_table ">
+                        <p style="margin-top: 0px;">Año: <b>{{yearSelected}}</b></p>
+                        <p>Mes: <b>{{months[monthSelected]}}</b></p>
+                      </div>
+                      <form name="busForm" ng-submit="buscar()">
+                      <div class="col-xs-12 col-md-3">
+                        <div class="input-group">
+                          <div class="input-group-addon">Año</div>
+                              <select name="anio" id="anio" class="form-control" ng-model="year" required>
+                                  <option value="" disabled selected hidden>Año</option>
+                                  <option ng-repeat="y in years" value="{{y}}" ng-selected="y == year">{{y}}</option>
+                              </select>
+                              <div ng-show="busForm.$submitted || busForm.year.$touched" class="form_error_msg">
+                                  <p ng-show="busForm.year.$error.required">Favor de completar este campo</p>
+                              </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="input-group">
+                          <div class="input-group-addon">Mes</div>
+                              <select name="mes" id="mes" class="form-control" ng-model="month" required>
+                                  <option ng-repeat="m in months" value="{{$index}}" ng-selected="$index == month">{{m}}</option>
+                              </select>
+                              <div ng-show="busForm.$submitted || busForm.month.$touched" class="form_error_msg">
+                                  <p ng-show="busForm.month.$error.required">Favor de completar este campo</p>
+                              </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-1">
+                        <button type="submit" class="btn bg-olive btn-block" id="bt_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order"><i class="glyphicon glyphicon-search"></i></button>  
+                      </div>
+                      </form>                
+                    </div>
+                    <br>
+                    <div class=" table-responsive">
+                      <form name="datosAnualesForm" enctype="multipart/form-data">
+                      <table id="table_proyects" class="table table-bordered table-hover table-condensed tableTareas" ng-show="registros !== null">
+                        <thead>
+                        <tr>
+                          <th class="text-center" style="" colspan="2">Empresa</th>                    
+                          <th class="text-center thMes">{{tipos[1]}}</th>
+                          <th class="text-center thMes">{{tipos[2]}}</th>
+                          <th class="text-center thMes">{{tipos[3]}}</th>
+                          <th class="text-center thMes">{{tipos[4]}}</th>
+                          <th class="text-center thMes">{{tipos[5]}}</th>
+                          <th class="text-center thMes">{{tipos[6]}}</th>
+                          <th class="text-center thMes">{{tipos[7]}}</th>
+                          <th class="text-center thMes">{{tipos[8]}}</th>
+                          <th class="text-center thMes">{{tipos[9]}}</th>
+                          <th class="text-center thMes">{{tipos[10]}}</th>
+                          <th class="text-center thMes">{{tipos[11]}}</th>
+                          <th class="text-center thMes">{{tipos[12]}}</th>
+                          <th class="text-center thMes">{{tipos[13]}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="(key, registro) in registros" ng-class="{even: $even, odd: $odd}">                            
+                            <td class="text-center">                              
+                              <div class="text-center"><img ng-src="{{registro.img}}" class="logo_small"></div>
+                            </td>
+                            <td class="text-center">                              
+                              <span>{{registro.empresa}}</span>
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[1], 1)">
+                                <div ng-show="registro.datos[1] !== undefined" title="{{registro.datos[1].nombre_usuario}} ({{registro.datos[1].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[1].valor === '1', 'glyphicon-remove': registro.datos[1].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[1] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[2], 2)">
+                                <div ng-show="registro.datos[2] !== undefined" title="{{registro.datos[2].nombre_usuario}} ({{registro.datos[2].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[2].valor === '1', 'glyphicon-remove': registro.datos[2].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[2] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[3], 3)">
+                                <div ng-show="registro.datos[3] !== undefined" title="{{registro.datos[3].nombre_usuario}} ({{registro.datos[3].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[3].valor === '1', 'glyphicon-remove': registro.datos[3].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[3] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[4], 4)">
+                                <div ng-show="registro.datos[4] !== undefined" title="{{registro.datos[4].nombre_usuario}} ({{registro.datos[4].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[4].valor === '1', 'glyphicon-remove': registro.datos[4].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[4] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[5], 5)">
+                                <div ng-show="registro.datos[5] !== undefined" title="{{registro.datos[5].nombre_usuario}} ({{registro.datos[5].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[5].valor === '1', 'glyphicon-remove': registro.datos[5].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[5] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[6], 6)">
+                                <div ng-show="registro.datos[6] !== undefined" title="{{registro.datos[6].nombre_usuario}} ({{registro.datos[6].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[6].valor === '1', 'glyphicon-remove': registro.datos[6].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[6] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[7], 7)">
+                                <div ng-show="registro.datos[7] !== undefined" title="{{registro.datos[7].nombre_usuario}} ({{registro.datos[7].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[7].valor === '1', 'glyphicon-remove': registro.datos[7].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[7] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[8], 8)">
+                                <div ng-show="registro.datos[8] !== undefined" title="{{registro.datos[8].nombre_usuario}} ({{registro.datos[8].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[8].valor === '1', 'glyphicon-remove': registro.datos[8].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[8] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[9], 9)">
+                                <div ng-show="registro.datos[9] !== undefined" title="{{registro.datos[9].nombre_usuario}} ({{registro.datos[9].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[9].valor === '1', 'glyphicon-remove': registro.datos[9].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[9] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[10], 10)">
+                                <div ng-show="registro.datos[10] !== undefined" title="{{registro.datos[10].nombre_usuario}} ({{registro.datos[10].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[10].valor === '1', 'glyphicon-remove': registro.datos[10].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[10] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[11], 11)">
+                                <div ng-show="registro.datos[11] !== undefined" title="{{registro.datos[11].nombre_usuario}} ({{registro.datos[11].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[11].valor === '1', 'glyphicon-remove': registro.datos[11].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[11] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div ng-click="confirmarCambiarValor(key, registro.datos[12], 12)">
+                                <div ng-show="registro.datos[12] !== undefined" title="{{registro.datos[12].nombre_usuario}} ({{registro.datos[12].fecha  | date : 'short'}})">
+                                  <i class="glyphicon" ng-class="{'glyphicon-ok': registro.datos[12].valor === '1', 'glyphicon-remove': registro.datos[12].valor === '0'}"></i>                                  
+                                </div>
+                                <div ng-show="registro.datos[12] === undefined" title="Sin asignación">
+                                  <i class="glyphicon glyphicon-remove"></i>                              
+                                </div>
+                              </div>                          
+                            </td>
+                            <td class="text-center">
+                              <div title="{{registro.datos[13].nombre_usuario}} ({{registro.datos[13].fecha  | date : 'short'}})">
+                                <textarea class="form-control" rows="1" ng-model="registro.datos[13].valor"></textarea>
+                                <button type="button" class="btn btn-xs btn-primary btnEditar" ng-click="confirmarCambiarValorComentario(key, registro.datos[13], 13)"><i class="glyphicon glyphicon-pencil"></i>  </button></td>                                                            
+                              </div>                          
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" datos-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Cambiar estado</h4>
+      </div>
+      <div class="modal-body">
+        <p class="msg_modal">¿Seguro de cambiar el estado de la tarea {{tipos[regSelect.tipo]}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success" ng-click="cambiarValorTarea()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
+    role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-time">
+                    </span>Espere un momento
+                 </h4>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info
+                    progress-bar-striped active"
+                    style="width: 100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal ends Here -->

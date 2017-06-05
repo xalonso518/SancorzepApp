@@ -1,0 +1,176 @@
+<div class="mailbox row" data-ng-init="init()">
+    <div class="col-xs-12">
+        <div class="box box-solid">
+            <div class="box-body">
+              <div class="">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="row">
+                      <div class="col-xs-12 col-md-1 info_table">
+                        <div class="text-center"><img ng-src="{{empresa.img}}" class="logo_small"></div>
+                      </div>
+                      <div class="col-xs-12 col-md-3 info_table ">
+                        <p>Empresa: <b>{{empresa.nombre}}</b></p>
+                        <p>RFC: <b>{{empresa.rfc}}</b></p>
+                      </div>
+                      <form name="busForm" ng-submit="buscar()">
+                      <div class="col-xs-12 col-md-3">                                  
+                        <div class="input-group">
+                            <div class="input-group-addon">Tipo</div>           
+                          <select name="tipo" id="tipo" class="form-control" ng-model="tipo" required>
+                            <option ng-repeat="tipo in tipos" value="{{tipo.i}}" >{{tipo.tipo}}</option>
+                          </select>
+                          <div ng-show="busForm.$submitted || busForm.anio.$touched" class="form_error_msg">
+                              <p ng-show="busForm.anio.$error.required">Favor de completar este campo</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-2">                 
+                        <div class="input-group">
+                            <div class="input-group-addon">Fecha 1</div>                       
+                          <select name="anio1" id="anio1" class="form-control" ng-model="anio1" required>
+                            <option ng-repeat="dato in anios" value="{{dato.anio}}" ng-selected="dato.anio == anio">{{dato.anio}}</option>
+                          </select>
+                          <div ng-show="busForm.$submitted || busForm.anio.$touched" class="form_error_msg">
+                              <p ng-show="busForm.anio.$error.required">Favor de completar este campo</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-2">    
+                        <div class="input-group">
+                            <div class="input-group-addon">Fecha 2</div>                                           
+                          <select name="anio2" id="anio2" class="form-control" ng-model="anio2" required>
+                            <option ng-repeat="dato in anios" value="{{dato.anio}}" ng-selected="dato.anio == anio">{{dato.anio}}</option>
+                          </select>
+                          <div ng-show="busForm.$submitted || busForm.anio.$touched" class="form_error_msg">
+                              <p ng-show="busForm.anio.$error.required">Favor de completar este campo</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-1"> 
+                        <button type="submit" class="btn bg-olive btn-block" id="bt_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order"><i class="glyphicon glyphicon-search"></i></button>  
+                      </div>
+                      </form>              
+                    </div>
+                    <br>
+                    <div class="dasboardDatos" ng-show="datos.length > 0">
+
+                      <div class="col-xs-12 col-md-6">
+                        <div class="row boxData"> 
+                          <div class="modalSubitle">{{anio1}}</div>
+                          <br>
+                          <div class="col-xs-5 col-md-6">
+                            <table class="table_Gragicas">
+                              <thead></thead>
+                              <tbody>
+                                <tr class="text-right"><td>Enero</td><td>{{datos[0].m1}}</td></tr>
+                                <tr class="text-right"><td>Febrero</td><td>{{datos[0].m2}}</td></tr>
+                                <tr class="text-right"><td>Marzo</td><td>{{datos[0].m3}}</td></tr>
+                                <tr class="text-right"><td>Abril</td><td>{{datos[0].m4}}</td></tr>
+                                <tr class="text-right"><td>Mayo</td><td>{{datos[0].m5}}</td></tr>
+                                <tr class="text-right"><td>Junio</td><td>{{datos[0].m6}}</td></tr>
+                              </tbody>
+                            </table>
+                          </div>          
+                          <div class="col-xs-7 col-md-6">
+                            <table class="table_Gragicas">
+                              <thead></thead>
+                              <tbody>
+                                <tr class="text-right"><td>Julio</td><td>{{datos[0].m7}}</td></tr>
+                                <tr class="text-right"><td>Agosto</td><td>{{datos[0].m8}}</td></tr>
+                                <tr class="text-right"><td>Septiembre</td><td>{{datos[0].m9}}</td></tr>
+                                <tr class="text-right"><td>Octubre</td><td>{{datos[0].m10}}</td></tr>
+                                <tr class="text-right"><td>Noviembre</td><td>{{datos[0].m11}}</td></tr>
+                                <tr class="text-right"><td>Diciembre</td><td>{{datos[0].m12}}</td></tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <br>
+                      </div>
+
+
+                      <div class="col-xs-12 col-md-6">
+                        <div class="row boxData"> 
+                          <div class="modalSubitle">{{anio2}}</div>
+                          <br>
+                          <div class="col-xs-5 col-md-6">
+                            <table class="table_Gragicas">
+                              <thead></thead>
+                              <tbody>
+                                <tr class="text-right"><td>Enero</td><td>{{datos[1].m1}}</td></tr>
+                                <tr class="text-right"><td>Febrero</td><td>{{datos[1].m2}}</td></tr>
+                                <tr class="text-right"><td>Marzo</td><td>{{datos[1].m3}}</td></tr>
+                                <tr class="text-right"><td>Abril</td><td>{{datos[1].m4}}</td></tr>
+                                <tr class="text-right"><td>Mayo</td><td>{{datos[1].m5}}</td></tr>
+                                <tr class="text-right"><td>Junio</td><td>{{datos[1].m6}}</td></tr>
+                              </tbody>
+                            </table>
+                          </div>          
+                          <div class="col-xs-7 col-md-6">
+                            <table class="table_Gragicas">
+                              <thead></thead>
+                              <tbody>
+                                <tr class="text-right"><td>Julio</td><td>{{datos[1].m7}}</td></tr>
+                                <tr class="text-right"><td>Agosto</td><td>{{datos[1].m8}}</td></tr>
+                                <tr class="text-right"><td>Septiembre</td><td>{{datos[1].m9}}</td></tr>
+                                <tr class="text-right"><td>Octubre</td><td>{{datos[1].m10}}</td></tr>
+                                <tr class="text-right"><td>Noviembre</td><td>{{datos[1].m11}}</td></tr>
+                                <tr class="text-right"><td>Diciembre</td><td>{{datos[1].m12}}</td></tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <br>
+                      </div>
+
+
+
+                          <div class="col-xs-12 col-md-12">
+                            <div class="row boxData">                               
+                              <div id='myChart1' class="chartStyle"></div>
+                             </div> 
+                          </div>
+
+
+
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+
+
+<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
+    role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-time">
+                    </span>Espere un momento
+                 </h4>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info
+                    progress-bar-striped active"
+                    style="width: 100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal ends Here -->

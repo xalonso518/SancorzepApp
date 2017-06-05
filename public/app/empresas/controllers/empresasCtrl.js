@@ -184,20 +184,110 @@ app.controller('empresaEditarCtrl', function($scope, $stateParams, $state, $http
 app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state, $http, ToastService, EmpresaService){
 	
 	$scope.empresa = {};
+	$scope.datos = {};
+	$scope.datoSelected = {};
 	$scope.tiposUsuario = ['Admin', 'Empresa'];
 	$scope.patternLetSim = /^[a-zA-Z]+$/;
 	$scope.patternLetCom = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
 	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
+	$scope.tipos = ['','Pedimento Exportación', 'Pedimento Importación', 'Pedimento por vencer', 'Monto exportación', 'Monto Importación', 'IVA', 'DTA', 'Multas', 'Recargas'];
+	$scope.tiposSmall = ['','P. Exp', 'P. Imp', 'P. ven', 'M. exp', 'M. Imp', 'IVA', 'DTA', 'Mul', 'Rec'];
+ 	$scope.anios = null; 	
+ 	$scope.anio = null;
+ 	$scope.anioS = null;
+ 	$scope.id_empresa = null;
 	
- 	$scope.files = null;
-	
-	$scope.init = function(){
-	
+	$scope.editBandera = false;
+
+	var today = new Date();
+	var yyyy = today.getFullYear();
+
+	$scope.comparacion = function(){
+		$state.go('appAdm.Comparacion', { id_empresa: $scope.id_empresa});
+	}
+
+	$scope.mostrarGrafica = function(dato){
+		$scope.datoSelected = dato;
+		$scope.renderG1($scope.getValuesG1(dato));
+		$('#modalGrafica').modal('show');
+	}
+
+	$scope.changeEditBandera = function(){
+
+		$scope.editBandera = !$scope.editBandera;
+
+	}
+
+	$scope.confirmarAgregarAnio = function(){		
+		$('#myModal').modal('show');
+	}
+
+ 	$scope.agregarAnio = function(){
+		$('#myModal').modal('hide');
+ 		var anioMax = parseInt($scope.anios[$scope.anios.length - 1].anio);
+ 		if( anioMax - yyyy > 2) ToastService.error('No se puede agregar otro año, el año máximo actual es ' + anioMax);
+ 		else {
+	        EmpresaService.addYearEmpresa({id : $scope.id_empresa, anio : 1 + anioMax})
+	        .then(function (response){	      
+	        	if(response.data.success) {	        		
+	        		ToastService.success('Se agrego el año ' + (1 + anioMax) + ' a los datos anuales,vuelva a cargar la página para verificar los cambios');
+	        		$scope.anios.push({anio: 1 + anioMax});
+	        	}
+				else ToastService.error('Error al crear el año, vuelva a cargar la página');	            
+	        });
+ 		}
+ 	}
+
+ 	$scope.buscar = function(){
+
+	        EmpresaService.getEmpresaDatosAnuales({id : $scope.id_empresa, anio : parseInt($scope.anio)})
+	        .then(function (response){
+	        	if(response.data.success) {
+	        		$scope.datos = response.data.datos;
+	        		$scope.anioS = parseInt($scope.anio);
+	        	}
+				else ToastService.error(response.data.message);	            
+	        });
+
+ 	}
+
+	function validarDecimal(num){
+		//var regex = /^\d+(?:\.\d{0,2})$/;
+		var regex = /^\d+(\.\d{0,2})?$/;
+		return regex.test(num);
+	}
+
+ 	$scope.editarDatos = function(tipo, dato, mes){
+ 		var anio = $scope.anio;
+ 		var id = $scope.empresa._id;
+		
+ 		if(validarDecimal(dato)){
+
+ 		EmpresaService.editDatosAnuales({id : $scope.id_empresa, tipo : tipo, anio : anio,  mes : mes, dato : dato})
+	        .then(function (response){
+	        	if(response.data.success) {
+	        		ToastService.success('Dato actualizado correctamente');
+	        	}
+				else ToastService.error('Error al los datos, vuelva a cargar la página');	            
+	        });
+	    } else ToastService.error('Ingresar solo numeros enteros o decimales');	     
+ 	}
+
+ 	$scope.selectColumn = function(c){
+    	$('td:nth-child(' + c + ')').addClass('highlighted');
+    	$('th:nth-child(' + c + ')').addClass('highlightedMes');
+ 	}
+
+ 	$scope.unSelectColumn = function(c){		
+    	$('td:nth-child(' + c + ')').removeClass('highlighted');
+    	$('th:nth-child(' + c + ')').removeClass('highlightedMes');
+ 	} 	
+
+	$scope.init = function(){	
 		if ($stateParams.hasOwnProperty('id_empresa')) {
-			var id_empresa = $stateParams.id_empresa;
-			alert(id_empresa);
-			
-	        EmpresaService.getEmpresaInfoEdit({id : id_empresa})
+			$scope.id_empresa = $stateParams.id_empresa;
+
+	        EmpresaService.getEmpresaInfoEdit({id : $scope.id_empresa})
 	        .then(function (response){
 	        	if(response.data.success) {
 	        		$scope.empresa = response.data.empresa;
@@ -205,7 +295,190 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
 	        });
         
+	        EmpresaService.getEmpresaAnios({id : $scope.id_empresa})
+	        .then(function (response){
+	        	if(response.data.success) {
+	        		$scope.anios = response.data.anios;
+	        		$scope.anio = yyyy;
+	        	}
+				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
+	        });
+
 		}
+	}
+
+	$scope.getValuesG1 = function(data){
+		var labels = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+		angular.forEach(data, function(reg, index){
+			//alert(index + ":" +reg)
+			if(reg == "") reg = 0;
+			if(index != "tipo") {
+				data[index] = parseFloat(reg);
+			}
+		});
+
+		var values = [data.m1, data.m2, data.m3, data.m4, data.m5, data.m6, data.m7, data.m8, data.m9, data.m10, data.m11, data.m12];
+		
+		return {'labels': labels, 'values':values};
+	}	
+
+	$scope.renderG1 = function(val){
+		var config = {
+		  "type": "area",
+		  "plot": {
+		    "tooltip": {
+		      "text": "%kt <br> %vt"
+		    },
+            "animation":{
+            	"effect":"11",
+                "method":"3",
+                "sequence":"ANIMATION_NO_SEQUENCE",
+                "speed":"ANIMATION_FAST"
+            },		    
+		  },		  
+		  "plotarea": {
+		    "adjust-layout":true /* For automatic margin adjustment. */
+		  },
+		  "scale-x": {
+    		"format":"%v",
+		    "labels": val.labels
+		  },
+		  "series": [
+		    {"values":val.values}
+		  ]
+		};
+		zingchart.render({
+			id: 'myChart1',
+		    data:config,
+		    height: 150
+		});
+	}
+
+});
+
+app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, $http, ToastService, EmpresaService){
+
+	$scope.empresa = {};
+	$scope.datos = {};
+	$scope.tiposUsuario = ['Admin', 'Empresa'];
+ 	$scope.anios = null; 	
+ 	$scope.anio = null;
+ 	$scope.anioS = null;
+ 	$scope.id_empresa = null;
+
+	$scope.tipos = [{i : 1 , tipo : 'Pedimento Exportación'},
+					{i : 2 , tipo : 'Pedimento Importación'},
+					{i : 3 , tipo : 'Pedimento por vencer'},
+					{i : 4 , tipo : 'Monto exportación'},
+					{i : 5 , tipo : 'Monto Importación'},
+					{i : 6 , tipo : 'IVA'},
+					{i : 7 , tipo : 'DTA'},
+					{i : 8 , tipo : 'Multas'},
+					{i : 9 , tipo : 'Recargas'}];
+
+	$scope.tipo = 1;					
+
+	var today = new Date();
+	var yyyy = today.getFullYear();
+
+	$scope.mostrarGrafica = function(datos){		
+		$scope.renderG1($scope.getValuesG1(datos[0]), $scope.getValuesG1(datos[1]));
+	}
+
+ 	$scope.buscar = function(){
+
+ 		if($scope.tipo && $scope.anio1 && $scope.anio2){
+ 			if($scope.anio1 != $scope.anio2) {
+
+		        EmpresaService.getEmpresaDatosComparacion({id : $scope.id_empresa, tipo : $scope.tipo, anio1 : parseInt($scope.anio1), anio2 : parseInt($scope.anio2)})
+		        .then(function (response){
+		        	if(response.data.success) {
+		        		$scope.datos = response.data.datos;
+		        		$scope.mostrarGrafica($scope.datos);
+		        	}
+					else ToastService.error(response.data.message);	            
+		        });
+
+ 			} else ToastService.error("Favor de ingresar años diferentes");
+ 		}else ToastService.error("Favor de ingresar valores en los campos");
+
+ 	}
+
+	$scope.init = function(){	
+		if ($stateParams.hasOwnProperty('id_empresa')) {
+			$scope.id_empresa = $stateParams.id_empresa;
+
+	        EmpresaService.getEmpresaInfoEdit({id : $scope.id_empresa})
+	        .then(function (response){
+	        	if(response.data.success) {
+	        		$scope.empresa = response.data.empresa;
+	        	}
+				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
+	        });
+        
+	        EmpresaService.getEmpresaAnios({id : $scope.id_empresa})
+	        .then(function (response){
+	        	if(response.data.success) {
+	        		$scope.anios = response.data.anios;
+	        		$scope.anio1 = yyyy;
+	        		$scope.anio2 = yyyy;
+	        	}
+				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
+	        });
+
+		}
+	}
+
+	$scope.getValuesG1 = function(data){
+		var labels = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+		angular.forEach(data, function(reg, index){
+			//alert(index + ":" +reg)
+			if(reg == "") reg = 0;
+			if(index != "tipo") {
+				data[index] = parseFloat(reg);
+			}
+		});
+
+		var values = [data.m1, data.m2, data.m3, data.m4, data.m5, data.m6, data.m7, data.m8, data.m9, data.m10, data.m11, data.m12];
+		
+		return {'labels': labels, 'values':values};
+	}	
+
+	$scope.renderG1 = function(val, val2){
+		var config = {
+		  "type": "area",
+		  "legend":{
+  			},
+		  "plot": {
+		    "tooltip": {
+		      "text": "%kt <br> %vt"
+		    },
+            "animation":{
+            	"effect":"11",
+                "method":"3",
+                "sequence":"ANIMATION_NO_SEQUENCE",
+                "speed":"ANIMATION_FAST"
+            },		    
+		  },		  
+		  "plotarea": {
+		    "adjust-layout":true /* For automatic margin adjustment. */
+		  },
+		  "scale-x": {
+    		"format":"%v",
+		    "labels": val.labels
+		  },
+		  "series": [
+		    {"values":val.values, "text":$scope.anio1},
+		    {"values":val2.values, "text":$scope.anio2}
+		  ]
+		};
+		zingchart.render({
+			id: 'myChart1',
+		    data:config,
+		    height: 250
+		});
 	}
 
 });

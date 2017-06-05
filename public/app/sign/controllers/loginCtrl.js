@@ -14,7 +14,7 @@ angular.module('Teamapp').controller('loginCtrl', function($scope, $http, $state
 				if(response.data.flogin) $state.transitionTo('cambioPassword');
 				else {
 					if(response.data.user.tipo == 'Admin') $state.transitionTo('appAdm');
-					else $state.transitionTo('app');
+					else $state.transitionTo('appEmpresa');
 				}
 			}else{
 				ToastService.error('Error de autenticación, verifica tus datos!');
@@ -29,7 +29,7 @@ angular.module('Teamapp').controller('loginCtrl', function($scope, $http, $state
 	.then(function(response){
 		var isLogged = response.data.isLogged;
 		if (isLogged) {
-			$state.go('app');
+			$state.go('appEmpresa');
 		}
 	});
 

@@ -5,8 +5,8 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 	$locationProvider.html5Mode(true);
 
 	$stateProvider
-		.state('app',{
-			url : '/app',
+		.state('appEmpresa',{
+			url : '/appEmpresa',
 			templateUrl : 'partials/index/templates/index.html',
 			controller : 'indexCtrl'
 		})
@@ -54,7 +54,7 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			url : '/registroArchivo',
 			templateUrl : 'partials/archivos/templates/registroArchivo.html',
 			controller : 'registroArchivoCtrl'
-		})
+		})	
 		.state('appAdm.archivos',{
 			url : '/archivos',
 			templateUrl : 'partials/archivos/templates/archivos.html',
@@ -85,20 +85,26 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			templateUrl : 'partials/empresas/templates/datosAnuales.html',
 			controller : 'empresaDatosAnualesCtrl'
 		})
-		.state('app.mainAdmin',{
-			url : '/mainAdmin',
-			templateUrl : 'partials/mainAdmin/templates/mainAdmin.html',
-			controller : 'mainAdminCtrl'
+		.state('appAdm.Tareas',{
+			url : '/tareas',
+			templateUrl : 'partials/empresas/templates/tareas.html',
+			controller : 'tareasCtrl'
 		})
-		.state('app.archivos',{
+		.state('appAdm.Comparacion',{
+			url : '/Comparacion/:id_empresa',
+			templateUrl : 'partials/empresas/templates/comparacion.html',
+			controller : 'empresaComparacionCtrl'
+		})
+		.state('appEmpresa.archivos',{
 			url : '/archivosEmpresa/:id_empresa',
 			templateUrl : 'partials/archivos/templates/archivosEmpresa.html',
 			controller : 'archivosEmpresaCtrl'
 		})	
-		.state('app.main',{
-			url : '/main',
-			templateUrl : 'partials/main/templates/main.html',
-			controller : 'mainCtrl'
+		.state('appEmpresa.dashboard',{
+			url : '/dashboard',
+      		params : { id_empresa: null },
+			templateUrl : 'partials/index/templates/dashboard.html',
+			controller : 'dashboardCtrl'
 		})
 		.state('login',{
 			url : '/login',

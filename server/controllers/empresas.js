@@ -426,6 +426,196 @@ exports.empresaImagen = function(req, res, next){
 	});
 };	
 
+exports.empresaAnios = function(req, res, next){
+	var anios = [];
+	var aniosA = [];
+	aniosA.push({anio: "2015"});
+	aniosA.push({anio: "2016"});
+	
+
+	var id = req.body.empresa.id;
+	Empresa.aggregate([
+		{
+			$unwind: '$datos_Anuales'
+		},{
+			$match: {'datos_Anuales.status': '1', "status" : "1", "_id" : ObjectId(id)}
+		},{
+            $group: {
+            	_id: '$datos_Anuales.anio'
+            }
+		},{$sort: { '_id': 1 }}], function (err, result) {
+	        if (err) {
+	            next(err);    
+				res.send({success : true, anios : aniosA});
+	        } else {
+	        	if(result.length > 0){
+	        		//archivos.push(result);
+	        		//acomodarDatosAnuales(datos)
+	        		for(var i = 0; i < result.length; i++){
+	        			console.log(result[i]["_id"]);
+						anios.push({anio: result[i]["_id"]});
+	        		}
+	        		res.send({success : true, anios : anios});
+	        	}
+	        	else res.send({success : true, anios : aniosA});
+	        }
+	    });
+
+	//res.send({success : true, anios : anios});
+};	
+
+exports.getEmpresaDatosComparacion = function(req, res, next){
+	var id = req.body.empresa.id;
+	var anio1 = req.body.empresa.anio1;	
+	var anio2 = req.body.empresa.anio2;
+	var tipo = req.body.empresa.tipo.toString();
+
+	Empresa.aggregate([
+		{
+			$unwind: '$datos_Anuales'
+		},{
+			$match: {
+				'datos_Anuales.status': '1', "status" : "1", "_id" : ObjectId(id), "datos_Anuales.tipo" : tipo,
+					 $or:[
+						{"datos_Anuales.anio" : anio1},
+						{"datos_Anuales.anio" : anio2}
+             		]
+			}
+		},{
+		    $project: {
+		        anio: '$datos_Anuales.anio',
+		        mes: '$datos_Anuales.mes',
+		        dato: '$datos_Anuales.datos'
+		    }
+		}], function (err, result) {
+	        if (err) {
+	            next(err);    
+				res.send({success : false, message : 'Error al buscar datos.'});
+	        } else {
+	        	if(result.length > 0){
+	        		res.send({success : true, datos : acomodarDatosComparacion(result)});
+	        	}
+	        	else res.send({success : false, message : 'No se encontraron datos.'});
+	        }
+	    });
+}
+
+function acomodarDatosComparacion(datos){
+	var emp = [];
+	for(var i = 0; i < datos.length; i += 12){
+		emp.push({
+			"anio" : datos[i]["anio"], 
+			"m1" : datos[i]["dato"] == 'Na' ? '0' : datos[i]["dato"], 
+			"m2" : datos[i + 1]["dato"] == 'Na' ? '0' : datos[i + 1]["dato"],
+			"m3" : datos[i + 2]["dato"] == 'Na' ? '0' : datos[i + 2]["dato"],
+			"m4" : datos[i + 3]["dato"] == 'Na' ? '0' : datos[i + 3]["dato"],
+			"m5" : datos[i + 4]["dato"] == 'Na' ? '0' : datos[i + 4]["dato"],
+			"m6" : datos[i + 5]["dato"] == 'Na' ? '0' : datos[i + 5]["dato"],
+			"m7" : datos[i + 6]["dato"] == 'Na' ? '0' : datos[i + 6]["dato"],
+			"m8" : datos[i + 7]["dato"] == 'Na' ? '0' : datos[i + 7]["dato"],
+			"m9" : datos[i + 8]["dato"] == 'Na' ? '0' : datos[i + 8]["dato"],
+			"m10" : datos[i + 9]["dato"] == 'Na' ? '0' : datos[i + 9]["dato"],
+			"m11" : datos[i + 10]["dato"] == 'Na' ? '0' : datos[i + 10]["dato"],
+			"m12" : datos[i + 11]["dato"] == 'Na' ? '0' : datos[i + 11]["dato"]
+		});
+	}
+	return emp;
+}
+
+
+exports.getEmpresaDatosAnuales = function(req, res, next){
+	var id = req.body.empresa.id;
+	var anioM = req.body.empresa.anio;
+	Empresa.aggregate([
+		{
+			$unwind: '$datos_Anuales'
+		},{
+			$match: {'datos_Anuales.status': '1', "status" : "1", "_id" : ObjectId(id), "datos_Anuales.anio" : anioM}
+		},{
+		    $project: {
+		        mes: '$datos_Anuales.mes',
+		        tipo: '$datos_Anuales.tipo',
+		        dato: '$datos_Anuales.datos'
+		    }
+		}], function (err, result) {
+	        if (err) {
+	            next(err);    
+				res.send({success : false, message : 'Error al buscar datos.'});
+	        } else {
+	        	if(result.length > 0){
+	        		//archivos.push(result);
+	        		//acomodarDatosAnuales(datos)
+	        		res.send({success : true, datos : acomodarDatosAnuales(result)});
+	        	}
+	        	else res.send({success : false, message : 'No se encontraron datos.'});
+	        }
+	    });
+}
+
+function acomodarDatosAnuales(datos){
+
+	var emp = [];
+	for(var i = 0; i < 108; i += 12){
+		emp.push({
+			"tipo" : datos[i]["tipo"], 
+			"m1" : datos[i]["dato"] == 'Na' ? '' : datos[i]["dato"], 
+			"m2" : datos[i + 1]["dato"] == 'Na' ? '' : datos[i + 1]["dato"],
+			"m3" : datos[i + 2]["dato"] == 'Na' ? '' : datos[i + 2]["dato"],
+			"m4" : datos[i + 3]["dato"] == 'Na' ? '' : datos[i + 3]["dato"],
+			"m5" : datos[i + 4]["dato"] == 'Na' ? '' : datos[i + 4]["dato"],
+			"m6" : datos[i + 5]["dato"] == 'Na' ? '' : datos[i + 5]["dato"],
+			"m7" : datos[i + 6]["dato"] == 'Na' ? '' : datos[i + 6]["dato"],
+			"m8" : datos[i + 7]["dato"] == 'Na' ? '' : datos[i + 7]["dato"],
+			"m9" : datos[i + 8]["dato"] == 'Na' ? '' : datos[i + 8]["dato"],
+			"m10" : datos[i + 9]["dato"] == 'Na' ? '' : datos[i + 9]["dato"],
+			"m11" : datos[i + 10]["dato"] == 'Na' ? '' : datos[i + 10]["dato"],
+			"m12" : datos[i + 11]["dato"] == 'Na' ? '' : datos[i + 11]["dato"]
+		});
+	}
+	return emp;
+
+}
+
+exports.editDatosAnuales = function(req,res, next){
+	var id = req.body.empresa.id;
+	var tipo = req.body.empresa.tipo.toString();;
+	var mes = req.body.empresa.mes.toString();;
+	var dato = req.body.empresa.dato;
+	var anio = parseInt(req.body.empresa.anio);
+
+	Empresa.aggregate([
+		{
+			$unwind: '$datos_Anuales'
+		},{
+			$match: {'datos_Anuales.status': '1', "status" : "1", "_id" : ObjectId(id), "datos_Anuales.anio" : anio, "datos_Anuales.tipo" : tipo, "datos_Anuales.mes" : mes}
+		},{
+		    $project: {
+		        id: '$datos_Anuales._id'
+		    }
+		}], function (err, result) {
+	        if (err) {
+	            next(err);    
+				res.send({success : false, message : 'Error al buscar datos.'});
+	        } else {
+	        	if(result.length > 0){
+	        		console.log(result[0]["id"]);
+					Empresa.update({ "datos_Anuales._id" : ObjectId(result[0]["id"]) },  { $set: {  "datos_Anuales.$.datos" : dato  } }, function(error, doc){
+						if(error) res.send({success : false, message : 'Error al actualizar la base de datos.'});
+						else res.send({success : true});
+					});
+
+	        	}
+	        	else res.send({success : false, message : 'No se encontraron datos.'});
+	        }
+	    });
+}
+
+
+
+
+
+
+
 exports.empresaInfoEdit = function(req, res, next){
 	console.log(req.body.empresa.id);
 	Empresa.findOne({status : 1, _id: ObjectId(req.body.empresa.id)}).select({ _id: 1, nombre: 1,  img: 1, rfc: 1, responsable: 1})
@@ -439,6 +629,34 @@ exports.empresaInfoEdit = function(req, res, next){
 	});
 };	
 
+exports.addYearEmpresa = function(req, res, next){
+	console.log(req.body.empresa.id);
+	var tipos = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+	var anioM = req.body.empresa.anio;
+
+	Empresa.findOne({status : 1, _id: ObjectId(req.body.empresa.id)})
+	.exec(function (err, empresa){
+		if (err) {
+			console.log(err);
+			res.send({success : false});
+		}else{
+
+			tipos.forEach(function(tipo) {
+				for(var i = 1; i < 13; i++){
+					var reg = {anio : anioM, mes : i, tipo : tipo};
+					empresa.datos_Anuales.push(reg);
+				}
+			});
+
+			empresa.save(function(e) {
+			    if (e) {console.log(e);res.send({success : false});}
+				else res.send({success : true});
+			});
+
+		}
+	});
+}
+
 exports.editEmpresa = function(req, res, next){
 	
 	var imgDir = 'logo_s1.svg';
@@ -450,12 +668,13 @@ exports.editEmpresa = function(req, res, next){
 			res.send({success : false});
 		}else{
 			if(empresa && empresa.carpeta){	
+				var root = path.dirname(require.main.filename);
 				var dir = root + '/public/recursos/'+empresa.carpeta;				
 				async.series({
 						img: function(callback){
 							/*NOta se puede generar la carpeta si no esta creada =)*/
 							if(req.files.hasOwnProperty('file') && fs.existsSync(dir)){
-								console.log(empresa.carpeta);
+								console.log("1111" + empresa.carpeta);
 								imgDir = guardar_archivos(req, res, req.files.file,"logo",empresa.carpeta);
 								callback(null, imgDir);
 							}else{
@@ -464,9 +683,9 @@ exports.editEmpresa = function(req, res, next){
 						}
 					}, function(err, results){
 						if (!err) {
-							console.log(empresa.img);
+							console.log("22222" + empresa.img);
 							if(results.img != 0 && results[0] != 0){
-								console.log(results.img);
+								console.log("333" + results.img);
 								imgDir = results.img;
 								empresa.img = '/recursos/' + empresa.carpeta + '/' +imgDir;								
 							}
@@ -898,6 +1117,7 @@ function guardar_archivos(req, res, file, name, dir){
 		nombre_archivo = name + '.' + ext;
 		//var newPath = root + '/public/recursos/'+nombre_archivo;
 		var newPath = root + '/public/recursos/' + dir + '/' + nombre_archivo;
+		console.log("asda" + newPath);
 		var newFile = new fs.createWriteStream(newPath);
 		var oldFile = new fs.createReadStream(file.path);
 		var bytes_totales = req.headers['content-length'];
