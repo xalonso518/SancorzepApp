@@ -1,6 +1,9 @@
 angular.module('Teamapp').controller('loginCtrl', function($scope, $http, $state, ToastService, Session){
-	$scope.master = {};
-
+	$scope.master = {};	
+	$('body').height("100%");	
+	$('html').height("100%");
+	$('#wrap').height("100%");
+	
 	$scope.contactanos =function(){
 		ToastService.info('Comunicate con nosotros al teléfono: 442 303 55 72');
 	}

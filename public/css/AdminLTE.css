@@ -4139,3 +4139,42 @@ margin-left: 10px;
 .tableTareas .glyphicon-ok{
   color: #1c8082;
 }
+
+.window_login{
+    width: 100%;
+    display: flex;
+    height: 100%;
+}
+
+.wl_r{
+  width: 60%;
+  display: inline-block;
+}
+
+.wl_r section{
+      border-right: 4px solid #36568a;
+    box-shadow: -1px 0px 9px 1px #717171;
+      background-image: url("../img/login1.jpg");
+    background-repeat: no-repeat;
+    /* width: 100%; */
+    background-position: center; 
+    background-size: auto 100%;
+        height: 100%;
+}
+
+.wl_l{
+  display: inline-block;
+  width: 39%;
+}
+
+/*Give content full width on xs screens*/
+@media screen and (max-width: 992px) {
+  .wl_r{
+    display: none;
+  }
+
+  .wl_l{
+    width: 100%;
+  }
+  
+}
