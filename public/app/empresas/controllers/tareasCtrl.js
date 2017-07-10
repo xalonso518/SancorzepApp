@@ -13,8 +13,8 @@ angular.module('Teamapp').controller('tareasCtrl', function($scope, $http, $stat
 	$scope.month = mm;
 	$scope.registros = 0;
 
-	$scope.yearSelected = 'NA'
-	$scope.monthSelected = 'NA';
+	$scope.yearSelected = null
+	$scope.monthSelected = '';
 	$scope.monthValSelected = '';
 
 	$scope.registros = null;

@@ -4176,5 +4176,9 @@ margin-left: 10px;
   .wl_l{
     width: 100%;
   }
+
+  .input-group {
+    margin-bottom: 10px;
+  }
   
 }

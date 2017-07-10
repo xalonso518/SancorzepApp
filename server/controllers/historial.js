@@ -19,15 +19,10 @@ exports.getHistory = function(req, res, next){
 	var dat = req.body.date.split("-");
 	var y = dat[0];
 	var m = dat[1];
-	console.log('YEAR:'+y);
-	console.log('MONTH:'+m);
-	//req.body.month
-	//{"fecha": {"$gte": new Date(2017, 1, 1), "$lt": new Date(2012, 1, 31)}}
-	//console.log(new Date(2017, 1, 1).toISOString());
+	
 	var x = new Date(y, m, 1).toISOString();
 	var y = new Date(y, m, 31).toISOString();
-	//console.log(x);
-	//historial.find({"fecha": {"$gte": x, "$lt": y}})
+
 	historial.find({"fecha": {"$gte": x, "$lt": y}}).populate({
             path: 'usuario',
             select: 'nombre_usuario empresa nombre',

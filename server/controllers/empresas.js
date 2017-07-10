@@ -360,11 +360,6 @@ function altaRegistroArchivo(callback, data){
 		}else{
 			if(empresa){
 				var reg = {anio : data.anio, mes : data.mes, nombre : data.nombre, f_carga : Date.now(), u_carga : data.u_carga}
-				console.log(reg.mes);
-				console.log(reg.anio);
-				console.log(reg.nombre);
-				console.log(reg.f_carga);
-				console.log(reg.u_carga);
 				empresa.archivos.push(reg);
 				empresa.save(function(e) {
 			    	if (e) {console.log(e);callback(new Error("Error al crear el registro."), false);}
@@ -378,7 +373,6 @@ function altaRegistroArchivo(callback, data){
 }
 
 function altaAchivo(callback, req, res, file, name, dir, data){
-	console.log(dir);
 	var extPermitidas = ['png','jpg','svg','pdf','xls','rar','zip','doc','txt','7zip','jpeg','pptx','ppt','docx','xlsx'];
 	var root = path.dirname(require.main.filename);
 	var originalFilename = file.originalFilename.split('.')
@@ -617,7 +611,6 @@ exports.editDatosAnuales = function(req,res, next){
 
 
 exports.empresaInfoEdit = function(req, res, next){
-	console.log(req.body.empresa.id);
 	Empresa.findOne({status : 1, _id: ObjectId(req.body.empresa.id)}).select({ _id: 1, nombre: 1,  img: 1, rfc: 1, responsable: 1})
 	.exec(function (err, empresa){
 		if (err) {
@@ -630,7 +623,6 @@ exports.empresaInfoEdit = function(req, res, next){
 };	
 
 exports.addYearEmpresa = function(req, res, next){
-	console.log(req.body.empresa.id);
 	var tipos = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 	var anioM = req.body.empresa.anio;
 
@@ -661,7 +653,6 @@ exports.editEmpresa = function(req, res, next){
 	
 	var imgDir = 'logo_s1.svg';
 
-	console.log(req.body._id);
 	Empresa.findOne({_id : req.body._id})
 	.exec(function (err, empresa){
 		if (err) {
@@ -839,8 +830,7 @@ exports.archivoDateHistory = function(req, res, next){
 	var mes = 1 + parseInt(req.body.mes);
 	mes = mes  < 10 ? '0' + mes : mes;
 	var anio = parseInt(req.body.anio);
-	console.log(mes);
-	console.log(anio);
+
 	Empresa.aggregate([
 		{
 			$unwind: '$archivos'
@@ -877,8 +867,7 @@ exports.archivoDate = function(req, res, next){
 	var mes = 1 + parseInt(req.body.mes);
 	mes = mes  < 10 ? '0' + mes : mes;
 	var anio = parseInt(req.body.anio);
-	console.log(mes);
-	console.log(anio);
+
 	Empresa.aggregate([
 		{
 			$unwind: '$archivos'
@@ -945,8 +934,6 @@ exports.archivoDateAll = function(req, res, next){
 
 exports.lastArchivos = function(req, res, next){
 	var d = new Date(Date.now());
-	console.log('m'+d.getMonth());
-	console.log('y:'+d.getFullYear());
 	var x = new Date('2017', '03', 1).toISOString();
 	var y = new Date('2017', '03', 31).toISOString();
 
