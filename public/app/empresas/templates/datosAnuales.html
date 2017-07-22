@@ -58,12 +58,14 @@
                             <th class="text-center thMes">Septiembre</th>
                             <th class="text-center thMes">Octubre</th>
                             <th class="text-center thMes">Noviembre</th>
-                            <th class="text-center thMes">Diciembre</th>
-                            <th class="th_noContent text-center" style=""></th>    
+                            <th class="text-center thMes">Diciembre</th>  
                         </tr>
                         </thead>
                         <tbody>
                           <tr ng-repeat="dato in datos | filter:searchText | orderBy:sortType:sortReverse" ng-class="{even: $even, odd: $odd}">
+
+
+
                               <td ng-click="mostrarGrafica(dato)" class="text-center">{{tipos[dato.tipo]}}</td>
                               <td ng-mouseover="selectColumn(2)" ng-mouseleave="unSelectColumn(2)">
                                 <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m1">    

@@ -4167,6 +4167,10 @@ margin-left: 10px;
   width: 39%;
 }
 
+.c_pointer{
+  cursor: pointer;
+}
+
 /*Give content full width on xs screens*/
 @media screen and (max-width: 992px) {
   .wl_r{

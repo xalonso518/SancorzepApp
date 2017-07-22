@@ -190,11 +190,11 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 	$scope.patternLetSim = /^[a-zA-Z]+$/;
 	$scope.patternLetCom = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
 	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
-	$scope.tipos = ['','Pedimento Exportación', 'Pedimento Importación', 'Pedimento por vencer', 'Monto exportación', 'Monto Importación', 'IVA', 'DTA', 'Multas', 'Recargas'];
-	$scope.tiposSmall = ['','P. Exp', 'P. Imp', 'P. ven', 'M. exp', 'M. Imp', 'IVA', 'DTA', 'Mul', 'Rec'];
+	$scope.tipos = ['','Pedimento Exportación Definitivo', 'Pedimento Exportación MEX', 'Pedimento Importación Definitivo', 'Pedimento Importación MEX', 'Pedimento por vencer', 'Monto Exportación Definitivo', 'Monto Exportación MEX', 'Monto Importación Definitivo', 'Monto Importación MEX', 'IVA 0', 'IVA 1', 'Exportación DTA 0', 'Exportación DTA 9', 'Importación DTA 0', 'Multas', 'Recargos'];
+	$scope.tiposSmall = ['','PE Def.', 'PE Mex.', 'PI Def.', 'PI Mex.', 'P. ven', 'ME Def.', 'ME Mex.', 'MI Def.', 'MI Mex.', 'IVA 0', 'IVA 1', 'EDTA 0', 'EDTA 9', 'IDTA 0', 'Mul', 'Rec'];
  	$scope.anios = null; 	
  	$scope.anio = null;
- 	$scope.anioS = null;
+ 	$scope.anioSel = null;
  	$scope.id_empresa = null;
 	
 	$scope.editBandera = false;
@@ -224,14 +224,18 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 
  	$scope.agregarAnio = function(){
 		$('#myModal').modal('hide');
- 		var anioMax = parseInt($scope.anios[$scope.anios.length - 1].anio);
+		var anioMax = 0;
+		if($scope.anios[0].anio == "NA") anioMax = 2016;
+ 		else anioMax = parseInt($scope.anios[$scope.anios.length - 1].anio);
+
  		if( anioMax - yyyy > 2) ToastService.error('No se puede agregar otro año, el año máximo actual es ' + anioMax);
  		else {
 	        EmpresaService.addYearEmpresa({id : $scope.id_empresa, anio : 1 + anioMax})
 	        .then(function (response){	      
 	        	if(response.data.success) {	        		
 	        		ToastService.success('Se agrego el año ' + (1 + anioMax) + ' a los datos anuales,vuelva a cargar la página para verificar los cambios');
-	        		$scope.anios.push({anio: 1 + anioMax});
+	        		if($scope.anios[0].anio == "NA") $scope.anios[0] = {anio: 1 + anioMax};
+	        		else $scope.anios.push({anio: 1 + anioMax});
 	        	}
 				else ToastService.error('Error al crear el año, vuelva a cargar la página');	            
 	        });
@@ -244,7 +248,7 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 	        .then(function (response){
 	        	if(response.data.success) {
 	        		$scope.datos = response.data.datos;
-	        		$scope.anioS = parseInt($scope.anio);
+	        		$scope.anioSel = parseInt($scope.anio);
 	        	}
 				else ToastService.error(response.data.message);	            
 	        });
@@ -367,15 +371,22 @@ app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, 
  	$scope.anioS = null;
  	$scope.id_empresa = null;
 
-	$scope.tipos = [{i : 1 , tipo : 'Pedimento Exportación'},
-					{i : 2 , tipo : 'Pedimento Importación'},
-					{i : 3 , tipo : 'Pedimento por vencer'},
-					{i : 4 , tipo : 'Monto exportación'},
-					{i : 5 , tipo : 'Monto Importación'},
-					{i : 6 , tipo : 'IVA'},
-					{i : 7 , tipo : 'DTA'},
-					{i : 8 , tipo : 'Multas'},
-					{i : 9 , tipo : 'Recargas'}];
+	$scope.tipos = [{i : 1 , tipo : 'Pedimento Exportación Definitivo'},
+					{i : 2 , tipo : 'Pedimento Exportación MEX'},
+					{i : 3 , tipo : 'Pedimento Importación Definitivo'},
+					{i : 4 , tipo : 'Pedimento Importación MEX'},
+					{i : 5 , tipo : 'Pedimento por vencer'},
+					{i : 6 , tipo : 'Monto Exportación Definitivo'},
+					{i : 7 , tipo : 'Monto Exportación MEX'},
+					{i : 8 , tipo : 'Monto Importación Definitivo'},
+					{i : 9 , tipo : 'Monto Importación MEX'},
+					{i : 10 , tipo : 'IVA 0'},
+					{i : 11 , tipo : 'IVA 1'},
+					{i : 12 , tipo : 'Exportación DTA 0'},
+					{i : 13 , tipo : 'Exportación DTA 9'},
+					{i : 14 , tipo : 'Importación DTA 0'},
+					{i : 15 , tipo : 'Multas'},
+					{i : 16 , tipo : 'Recargos'}];
 
 	$scope.tipo = 1;					
 

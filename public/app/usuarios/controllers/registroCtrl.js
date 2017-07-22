@@ -24,6 +24,7 @@ angular.module('Teamapp').controller('registroCtrl', function($scope, $http, $st
 			var data = response.data;
 			if (data.success) {				
 				$('#myModal').modal('show');
+				
 				$scope.userForm.$setPristine();
 				$scope.userForm.$setUntouched();
 			}else{

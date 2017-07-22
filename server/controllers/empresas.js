@@ -423,8 +423,7 @@ exports.empresaImagen = function(req, res, next){
 exports.empresaAnios = function(req, res, next){
 	var anios = [];
 	var aniosA = [];
-	aniosA.push({anio: "2015"});
-	aniosA.push({anio: "2016"});
+	aniosA.push({anio: "NA"});
 	
 
 	var id = req.body.empresa.id;
@@ -549,7 +548,10 @@ exports.getEmpresaDatosAnuales = function(req, res, next){
 function acomodarDatosAnuales(datos){
 
 	var emp = [];
-	for(var i = 0; i < 108; i += 12){
+	var lim = 16 * 12;
+	if(datos.length == (12 * 9)) lim = 12 * 9;
+	if(datos.length == (12 * 16)) lim = 12 * 16;
+	for(var i = 0; i < lim; i += 12){
 		emp.push({
 			"tipo" : datos[i]["tipo"], 
 			"m1" : datos[i]["dato"] == 'Na' ? '' : datos[i]["dato"], 
@@ -623,7 +625,8 @@ exports.empresaInfoEdit = function(req, res, next){
 };	
 
 exports.addYearEmpresa = function(req, res, next){
-	var tipos = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+	//'Pedimento Exportación Definitivo', 'Pedimento Exportación MEX', 'Pedimento Importación Definitivo', 'Pedimento Importación MEX', 'Pedimento por vencer', 'Monto Exportación Definitivo', 'Monto Exportación MEX', 'Monto Importación Definitivo', 'Monto Importación MEX', 'IVA 0', 'IVA 1', 'Exportación DTA 0', 'Exportación DTA 9', 'Importación DTA 0', 'Multas', 'Recargos'
+	var tipos = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];	
 	var anioM = req.body.empresa.anio;
 
 	Empresa.findOne({status : 1, _id: ObjectId(req.body.empresa.id)})

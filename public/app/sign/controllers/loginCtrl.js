@@ -14,11 +14,11 @@ angular.module('Teamapp').controller('loginCtrl', function($scope, $http, $state
 		.then(function (response){
 			if (response.data.success) {
 				ToastService.success('Iniciaste sesión correctamente!');
-				if(response.data.flogin) $state.transitionTo('cambioPassword');
-				else {
+				//if(response.data.flogin) $state.transitionTo('cambioPassword');
+				//else {
 					if(response.data.user.tipo == 'Admin') $state.transitionTo('appAdm');
 					else $state.transitionTo('appEmpresa');
-				}
+				//}
 			}else{
 				ToastService.error('Error de autenticación, verifica tus datos!');
 				$scope.usuario = angular.copy($scope.master);
