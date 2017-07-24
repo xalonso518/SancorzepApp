@@ -190,8 +190,8 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 	$scope.patternLetSim = /^[a-zA-Z]+$/;
 	$scope.patternLetCom = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
 	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
-	$scope.tipos = ['','Pedimento Exportación Definitivo', 'Pedimento Exportación MEX', 'Pedimento Importación Definitivo', 'Pedimento Importación MEX', 'Pedimento por vencer', 'Monto Exportación Definitivo', 'Monto Exportación MEX', 'Monto Importación Definitivo', 'Monto Importación MEX', 'IVA 0', 'IVA 1', 'Exportación DTA 0', 'Exportación DTA 9', 'Importación DTA 0', 'Multas', 'Recargos'];
-	$scope.tiposSmall = ['','PE Def.', 'PE Mex.', 'PI Def.', 'PI Mex.', 'P. ven', 'ME Def.', 'ME Mex.', 'MI Def.', 'MI Mex.', 'IVA 0', 'IVA 1', 'EDTA 0', 'EDTA 9', 'IDTA 0', 'Mul', 'Rec'];
+	$scope.tipos = ['','Pedimento Exportación Definitivo', 'Pedimento Exportación IMMEX', 'Pedimento Importación Definitivo', 'Pedimento Importación IMMEX', 'Pedimento por vencer', 'Monto Exportación Definitivo', 'Monto Exportación IMMEX', 'Monto Importación Definitivo', 'Monto Importación IMMEX', 'IVA 0', 'IVA 1', 'Exportación DTA 0', 'Exportación DTA 9', 'Importación DTA 0', 'Multas', 'Recargos'];
+	$scope.tiposSmall = ['','PE Def.', 'PE IMMEX.', 'PI Def.', 'PI IMMEX.', 'P. ven', 'ME Def.', 'ME IMMEX.', 'MI Def.', 'MI IMMEX.', 'IVA 0', 'IVA 1', 'EDTA 0', 'EDTA 9', 'IDTA 0', 'Mul', 'Rec'];
  	$scope.anios = null; 	
  	$scope.anio = null;
  	$scope.anioSel = null;
@@ -372,14 +372,14 @@ app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, 
  	$scope.id_empresa = null;
 
 	$scope.tipos = [{i : 1 , tipo : 'Pedimento Exportación Definitivo'},
-					{i : 2 , tipo : 'Pedimento Exportación MEX'},
+					{i : 2 , tipo : 'Pedimento Exportación IMMEX'},
 					{i : 3 , tipo : 'Pedimento Importación Definitivo'},
-					{i : 4 , tipo : 'Pedimento Importación MEX'},
+					{i : 4 , tipo : 'Pedimento Importación IMMEX'},
 					{i : 5 , tipo : 'Pedimento por vencer'},
 					{i : 6 , tipo : 'Monto Exportación Definitivo'},
-					{i : 7 , tipo : 'Monto Exportación MEX'},
+					{i : 7 , tipo : 'Monto Exportación IMMEX'},
 					{i : 8 , tipo : 'Monto Importación Definitivo'},
-					{i : 9 , tipo : 'Monto Importación MEX'},
+					{i : 9 , tipo : 'Monto Importación IMMEX'},
 					{i : 10 , tipo : 'IVA 0'},
 					{i : 11 , tipo : 'IVA 1'},
 					{i : 12 , tipo : 'Exportación DTA 0'},
