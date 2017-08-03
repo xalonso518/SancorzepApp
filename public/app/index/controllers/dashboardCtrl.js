@@ -51,7 +51,9 @@ app.controller('dashboardCtrl', function($scope, $stateParams, $state, $http, $t
 	$scope.init = function(){	
 		
 		$scope.id_empresa = $stateParams.id_empresa;
-		if($scope.id_empresa == null) $state.go('appEmpresa');
+		if($scope.id_empresa == null || $scope.id_empresa == "") {			
+			$state.go('appEmpresa');
+		}
 		
 		if ($stateParams.hasOwnProperty('id_empresa')) {
 			$scope.id_empresa = $stateParams.id_empresa;

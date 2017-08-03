@@ -385,9 +385,9 @@ app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, 
 					{i : 12 , tipo : 'Exportación DTA 0'},
 					{i : 13 , tipo : 'Exportación DTA 9'},
 					{i : 14 , tipo : 'Importación DTA 0'},
-					{i : 14 , tipo : 'Importación DTA 9'},
-					{i : 15 , tipo : 'Multas'},
-					{i : 16 , tipo : 'Recargos'}];
+					{i : 15 , tipo : 'Importación DTA 9'},
+					{i : 16 , tipo : 'Multas'},
+					{i : 17 , tipo : 'Recargos'}];
 
 	$scope.tipo = 1;					
 
