@@ -108,7 +108,7 @@ angular.module('Teamapp').controller('archivosEmpresaCtrl', function($scope, $ht
 		
 	}
 
-	$scope.buscarArchivosAll = function(){	
+	$scope.buscarArchivosAll = function(){		
 		ArchivoService.getArchivoDateAll($scope.empresa._id)
 		.then(function (response){
 			if(response.data.success){

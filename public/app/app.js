@@ -101,8 +101,7 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			controller : 'archivosEmpresaCtrl'
 		})	
 		.state('appEmpresa.dashboard',{
-			url : '/dashboard',
-      		params : { id_empresa: null },
+			url : '/dashboard/:id_empresa',
 			templateUrl : 'partials/index/templates/dashboard.html',
 			controller : 'dashboardCtrl'
 		})

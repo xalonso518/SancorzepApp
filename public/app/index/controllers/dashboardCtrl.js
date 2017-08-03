@@ -1,15 +1,15 @@
 app.controller('dashboardCtrl', function($scope, $stateParams, $state, $http, $timeout, ToastService, EmpresaService, Session){
 	
 	$scope.id_empresa = null;
-	$scope.empresa = {};
+	$scope.empresaD = {};
 	$scope.datos = null;
 	$scope.datoSelected = {};
 	$scope.tiposUsuario = ['Admin', 'Empresa'];
 	$scope.patternLetSim = /^[a-zA-Z]+$/;
 	$scope.patternLetCom = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
 	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
-	$scope.tipos = ['','Pedimento Exportación', 'Pedimento Importación', 'Pedimento por vencer', 'Monto exportación', 'Monto Importación', 'IVA', 'DTA', 'Multas', 'Recargas'];
-	$scope.tiposSmall = ['','P. Exp', 'P. Imp', 'P. ven', 'M. exp', 'M. Imp', 'IVA', 'DTA', 'Mul', 'Rec'];
+	$scope.tipos = ['','Pedimento Exportación Definitivo', 'Pedimento Exportación IMMEX', 'Pedimento Importación Definitivo', 'Pedimento Importación IMMEX', 'Pedimento por vencer', 'Monto Exportación Definitivo', 'Monto Exportación IMMEX', 'Monto Importación Definitivo', 'Monto Importación IMMEX', 'IVA 0', 'IVA 1', 'Exportación DTA 0', 'Exportación DTA 9', 'Importación DTA 0', 'Importación DTA 9', 'Multas', 'Recargos'];
+	$scope.tiposSmall = ['','PE Def.', 'PE IMMEX.', 'PI Def.', 'PI IMMEX.', 'P. ven', 'ME Def.', 'ME IMMEX.', 'MI Def.', 'MI IMMEX.', 'IVA 0', 'IVA 1', 'EDTA 0', 'EDTA 9', 'IDTA 0', 'IDTA 9', 'Mul', 'Rec'];
  	$scope.anios = null; 	
  	$scope.anio = null;
  	$scope.anioS = null;
@@ -59,7 +59,7 @@ app.controller('dashboardCtrl', function($scope, $stateParams, $state, $http, $t
 	        EmpresaService.getEmpresaInfoEdit({id : $scope.id_empresa})
 	        .then(function (response){
 	        	if(response.data.success) {
-	        		$scope.empresa = response.data.empresa;
+	        		$scope.empresaD = response.data.empresa;
 	        	}
 				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
 	        });
