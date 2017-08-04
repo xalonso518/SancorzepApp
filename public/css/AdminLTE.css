@@ -4020,6 +4020,10 @@ margin-left: 10px;
     border-radius: 3px 3px 0 0;
 }
 
+.table_DataAnual .inputMinValues{
+  font-size: 11px;
+}
+
 .table_DataAnual .btnEdit{ 
   width: 100%;
   border-radius: 0px 0px 3px 3px;

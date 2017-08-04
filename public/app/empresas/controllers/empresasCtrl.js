@@ -190,8 +190,8 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 	$scope.patternLetSim = /^[a-zA-Z]+$/;
 	$scope.patternLetCom = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/;
 	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
-	$scope.tipos = ['','Pedimento Exportación Definitivo', 'Pedimento Exportación IMMEX', 'Pedimento Importación Definitivo', 'Pedimento Importación IMMEX', 'Pedimento por vencer', 'Monto Exportación Definitivo', 'Monto Exportación IMMEX', 'Monto Importación Definitivo', 'Monto Importación IMMEX', 'IVA 0', 'IVA 1', 'Exportación DTA 0', 'Exportación DTA 9', 'Importación DTA 0', 'Importación DTA 9', 'Multas', 'Recargos'];
-	$scope.tiposSmall = ['','PE Def.', 'PE IMMEX.', 'PI Def.', 'PI IMMEX.', 'P. ven', 'ME Def.', 'ME IMMEX.', 'MI Def.', 'MI IMMEX.', 'IVA 0', 'IVA 1', 'EDTA 0', 'EDTA 9', 'IDTA 0', 'IDTA 9', 'Mul', 'Rec'];
+	$scope.tipos = ['','Pedimento Exportación Definitivo', 'Pedimento Exportación IMMEX', 'Pedimento Importación Definitivo', 'Pedimento Importación IMMEX', 'Pedimento por vencer', 'Monto Exportación Definitivo', 'Monto Exportación IMMEX', 'Monto Importación Definitivo', 'Monto Importación IMMEX', 'IVA 0', 'IVA 21', 'Exportación DTA 0', 'Exportación DTA 9', 'Importación DTA 0', 'Importación DTA 9', 'Multas', 'Recargos'];
+	$scope.tiposSmall = ['','PE Def.', 'PE IMMEX.', 'PI Def.', 'PI IMMEX.', 'P. ven', 'ME Def.', 'ME IMMEX.', 'MI Def.', 'MI IMMEX.', 'IVA 0', 'IVA 21', 'EDTA 0', 'EDTA 9', 'IDTA 0', 'IDTA 9', 'Mul', 'Rec'];
  	$scope.anios = null; 	
  	$scope.anio = null;
  	$scope.anioSel = null;
@@ -201,6 +201,13 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 
 	var today = new Date();
 	var yyyy = today.getFullYear();
+
+	$scope.getCSSClass = function(tipo){		
+		var clases = "form-control inputEdit";
+		if(tipo < 5)	clases += " inputMinValues";
+		return clases;
+		
+	}
 
 	$scope.comparacion = function(){
 		$state.go('appAdm.Comparacion', { id_empresa: $scope.id_empresa});
@@ -381,7 +388,7 @@ app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, 
 					{i : 8 , tipo : 'Monto Importación Definitivo'},
 					{i : 9 , tipo : 'Monto Importación IMMEX'},
 					{i : 10 , tipo : 'IVA 0'},
-					{i : 11 , tipo : 'IVA 1'},
+					{i : 11 , tipo : 'IVA 21'},
 					{i : 12 , tipo : 'Exportación DTA 0'},
 					{i : 13 , tipo : 'Exportación DTA 9'},
 					{i : 14 , tipo : 'Importación DTA 0'},

@@ -20,7 +20,7 @@
                       <div class="col-xs-12 col-md-2">
                         <div class="input-group">
                           <div class="input-group-addon">Año</div>                      
-                        <select name="anio" id="anio" class="form-control" ng-model="anio" required>
+                        <select name="anio" id="anio" ng-class="getCSSClass({{dato.tipo}})"-model="anio" required>
                           <option ng-repeat="dato in anios" value="{{dato.anio}}" ng-selected="dato.anio == anio">{{dato.anio}}</option>
                         </select>
                         <div ng-show="busForm.$submitted || busForm.anio.$touched" class="form_error_msg">
@@ -63,78 +63,75 @@
                         </thead>
                         <tbody>
                           <tr ng-repeat="dato in datos" ng-class="{even: $even, odd: $odd}">
-
-
-
                               <td ng-click="mostrarGrafica(dato)" class="text-center">{{tipos[dato.tipo]}}</td>
                               <td ng-mouseover="selectColumn(2)" ng-mouseleave="unSelectColumn(2)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m1">    
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m1}}" maxlength="11" ng-model = "dato.m1">    
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m1, 1)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(3)" ng-mouseleave="unSelectColumn(3)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m2">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m2}}" maxlength="11" ng-model = "dato.m2">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m2, 2)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(4)" ng-mouseleave="unSelectColumn(4)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m3">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m3}}" maxlength="11" ng-model = "dato.m3">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m3, 3)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(5)" ng-mouseleave="unSelectColumn(5)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m4">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m4}}" maxlength="11" ng-model = "dato.m4">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m4, 4)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(6)" ng-mouseleave="unSelectColumn(6)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m5">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m5}}" maxlength="11" ng-model = "dato.m5">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m5, 5)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(7)" ng-mouseleave="unSelectColumn(7)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m6">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m6}}" maxlength="11" ng-model = "dato.m6">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m6, 6)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(8)" ng-mouseleave="unSelectColumn(8)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m7">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m7}}" maxlength="11" ng-model = "dato.m7">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m7, 7)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(9)" ng-mouseleave="unSelectColumn(9)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m8">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m8}}" maxlength="11" ng-model = "dato.m8">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m8, 8)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(10)" ng-mouseleave="unSelectColumn(10)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m9">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m9}}" maxlength="11" ng-model = "dato.m9">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m9, 9)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(11)" ng-mouseleave="unSelectColumn(11)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m10">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m10}}" maxlength="11" ng-model = "dato.m10">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m10, 10)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(12)" ng-mouseleave="unSelectColumn(12)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m11">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m11}}" maxlength="11" ng-model = "dato.m11">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m11, 11)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
                               </td>
                               <td ng-mouseover="selectColumn(13)" ng-mouseleave="unSelectColumn(13)">
-                                <input type="text" class="form-control inputEdit" placeholder="{{tiposSmall[dato.tipo]}}" maxlength="10" ng-model = "dato.m12">   
+                                <input type="text" ng-class="getCSSClass({{dato.tipo}})" placeholder="{{tiposSmall[dato.tipo]}}" title="{{dato.m12}}" maxlength="11" ng-model = "dato.m12">   
                                 <button class="btn btn-primary btnEdit" type="button" ng-show="editBandera == true" ng-click="editarDatos(dato.tipo, dato.m12, 12)">
                                   <i class="glyphicon glyphicon-edit"></i>
                                 </button>
