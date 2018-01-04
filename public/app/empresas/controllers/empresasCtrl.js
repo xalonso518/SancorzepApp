@@ -250,7 +250,6 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
  	}
 
  	$scope.buscar = function(){
-
 	        EmpresaService.getEmpresaDatosAnuales({id : $scope.id_empresa, anio : parseInt($scope.anio)})
 	        .then(function (response){
 	        	if(response.data.success) {
@@ -310,7 +309,8 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 	        .then(function (response){
 	        	if(response.data.success) {
 	        		$scope.anios = response.data.anios;
-	        		$scope.anio = yyyy;
+	        		//alert($scope.anios[$scope.anios.length - 1].anio);
+	        		$scope.anio = $scope.anios[$scope.anios.length - 1].anio;
 	        	}
 				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
 	        });

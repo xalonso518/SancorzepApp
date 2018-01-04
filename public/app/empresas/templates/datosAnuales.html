@@ -20,7 +20,7 @@
                       <div class="col-xs-12 col-md-2">
                         <div class="input-group">
                           <div class="input-group-addon">Año</div>                      
-                        <select name="anio" id="anio" ng-class="getCSSClass({{dato.tipo}})"-model="anio" required>
+                        <select name="anio" id="anio" ng-class="getCSSClass({{dato.tipo}})" ng-model="anio" required>
                           <option ng-repeat="dato in anios" value="{{dato.anio}}" ng-selected="dato.anio == anio">{{dato.anio}}</option>
                         </select>
                         <div ng-show="busForm.$submitted || busForm.anio.$touched" class="form_error_msg">
