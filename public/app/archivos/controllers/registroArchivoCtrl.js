@@ -5,7 +5,7 @@ angular.module('Teamapp').controller('registroArchivoCtrl', function($scope, $ht
 	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
 
 
-	$scope.years = ['2016', '2017'];
+	$scope.years = ['2016', '2017', '2018'];
 	
 	//$scope.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 

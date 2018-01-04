@@ -1,6 +1,6 @@
 angular.module('Teamapp').controller('archivosEmpresaCtrl', function($scope, $http, $stateParams, $state, ToastService, EmpresaService, ArchivoService){
 	
-	$scope.years = ['2017', '2016'];
+	$scope.years = ['2018','2017', '2016'];
 	$scope.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
 	var today = new Date();

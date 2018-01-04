@@ -1,6 +1,6 @@
 angular.module('Teamapp').controller('historyCtrl', function($scope, $http, $state, ToastService, HistorialService){
 	
-	$scope.years = ['2017', '2016'];
+	$scope.years = ['2018','2017', '2016'];
 	$scope.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
 	var today = new Date();
