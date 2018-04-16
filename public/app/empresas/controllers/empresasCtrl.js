@@ -267,10 +267,31 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 		return regex.test(num);
 	}
 
+	$scope.editarDatosMensuales = function(mes){
+		var f = true;
+		var anio = $scope.anio;
+ 		var id = $scope.empresa._id;
+
+		for(var i = 0; i < ($scope.tipos.length - 1); i++ ){
+			var dt = $scope.datos[i]["m"+mes];
+			var tipo = i + 1;
+			EmpresaService.editDatosAnuales({id : $scope.id_empresa, tipo : tipo, anio : anio,  mes : mes, dato : dt})
+		        .then(function (response){
+		        	if(response.data.success) {
+		        		f = true;
+		        	}
+					else f = false;
+		        });
+		}
+		if(f) ToastService.success('Datos actualizados correctamente');
+	}
+
+
+
  	$scope.editarDatos = function(tipo, dato, mes){
  		var anio = $scope.anio;
  		var id = $scope.empresa._id;
-		
+		$scope.editarDatosMensuales(mes);
  		if(validarDecimal(dato)){
 
  		EmpresaService.editDatosAnuales({id : $scope.id_empresa, tipo : tipo, anio : anio,  mes : mes, dato : dato})
@@ -278,7 +299,7 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 	        	if(response.data.success) {
 	        		ToastService.success('Dato actualizado correctamente');
 	        	}
-				else ToastService.error('Error al los datos, vuelva a cargar la página');	            
+				else ToastService.error('Error al actualizar los datos, vuelva a cargar la página');	            
 	        });
 	    } else ToastService.error('Ingresar solo numeros enteros o decimales');	     
  	}
@@ -311,6 +332,7 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 	        		$scope.anios = response.data.anios;
 	        		//alert($scope.anios[$scope.anios.length - 1].anio);
 	        		$scope.anio = $scope.anios[$scope.anios.length - 1].anio;
+	        		$scope.buscar();
 	        	}
 				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
 	        });
@@ -339,7 +361,7 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 		  "type": "area",
 		  "plot": {
 		    "tooltip": {
-		      "text": "%kt <br> %vt"
+		      "text": "%kt <br> $%vt",
 		    },
             "animation":{
             	"effect":"11",
@@ -354,6 +376,11 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 		  "scale-x": {
     		"format":"%v",
 		    "labels": val.labels
+		  },
+		  "scale-y":{
+		    "format":"$%v",
+		    "negation":"currency",
+    		"thousands-separator":","
 		  },
 		  "series": [
 		    {"values":val.values}
@@ -375,7 +402,6 @@ app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, 
 	$scope.tiposUsuario = ['Admin', 'Empresa'];
  	$scope.anios = null; 	
  	$scope.anio = null;
- 	$scope.anioS = null;
  	$scope.id_empresa = null;
 
 	$scope.tipos = [{i : 1 , tipo : 'Pedimento Exportación Definitivo'},
@@ -487,6 +513,11 @@ app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, 
 		  "scale-x": {
     		"format":"%v",
 		    "labels": val.labels
+		  },
+		  "scale-y":{
+		    "format":"$%v",
+		    "negation":"currency",
+    		"thousands-separator":","
 		  },
 		  "series": [
 		    {"values":val.values, "text":$scope.anio1},

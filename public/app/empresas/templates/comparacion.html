@@ -29,7 +29,7 @@
                         <div class="input-group">
                             <div class="input-group-addon">Fecha 1</div>                       
                           <select name="anio1" id="anio1" class="form-control" ng-model="anio1" required>
-                            <option ng-repeat="dato in anios" value="{{dato.anio}}" ng-selected="dato.anio == anio">{{dato.anio}}</option>
+                            <option ng-repeat="dato in anios" value="{{dato.anio}}" ng-selected="dato.anio == anio1">{{dato.anio}}</option>
                           </select>
                           <div ng-show="busForm.$submitted || busForm.anio.$touched" class="form_error_msg">
                               <p ng-show="busForm.anio.$error.required">Favor de completar este campo</p>
@@ -40,7 +40,7 @@
                         <div class="input-group">
                             <div class="input-group-addon">Fecha 2</div>                                           
                           <select name="anio2" id="anio2" class="form-control" ng-model="anio2" required>
-                            <option ng-repeat="dato in anios" value="{{dato.anio}}" ng-selected="dato.anio == anio">{{dato.anio}}</option>
+                            <option ng-repeat="dato in anios" value="{{dato.anio}}" ng-selected="dato.anio == anio2">{{dato.anio}}</option>
                           </select>
                           <div ng-show="busForm.$submitted || busForm.anio.$touched" class="form_error_msg">
                               <p ng-show="busForm.anio.$error.required">Favor de completar este campo</p>
@@ -63,12 +63,12 @@
                             <table class="table_Gragicas">
                               <thead></thead>
                               <tbody>
-                                <tr class="text-right"><td>Enero</td><td>{{datos[0].m1}}</td></tr>
-                                <tr class="text-right"><td>Febrero</td><td>{{datos[0].m2}}</td></tr>
-                                <tr class="text-right"><td>Marzo</td><td>{{datos[0].m3}}</td></tr>
-                                <tr class="text-right"><td>Abril</td><td>{{datos[0].m4}}</td></tr>
-                                <tr class="text-right"><td>Mayo</td><td>{{datos[0].m5}}</td></tr>
-                                <tr class="text-right"><td>Junio</td><td>{{datos[0].m6}}</td></tr>
+                                <tr class="text-right"><td>Enero</td><td>{{datos[0].m1 | currency}}</td></tr>
+                                <tr class="text-right"><td>Febrero</td><td>{{datos[0].m2 | currency}}</td></tr>
+                                <tr class="text-right"><td>Marzo</td><td>{{datos[0].m3 | currency}}</td></tr>
+                                <tr class="text-right"><td>Abril</td><td>{{datos[0].m4 | currency}}</td></tr>
+                                <tr class="text-right"><td>Mayo</td><td>{{datos[0].m5 | currency}}</td></tr>
+                                <tr class="text-right"><td>Junio</td><td>{{datos[0].m6 | currency}}</td></tr>
                               </tbody>
                             </table>
                           </div>          
@@ -76,12 +76,12 @@
                             <table class="table_Gragicas">
                               <thead></thead>
                               <tbody>
-                                <tr class="text-right"><td>Julio</td><td>{{datos[0].m7}}</td></tr>
-                                <tr class="text-right"><td>Agosto</td><td>{{datos[0].m8}}</td></tr>
-                                <tr class="text-right"><td>Septiembre</td><td>{{datos[0].m9}}</td></tr>
-                                <tr class="text-right"><td>Octubre</td><td>{{datos[0].m10}}</td></tr>
-                                <tr class="text-right"><td>Noviembre</td><td>{{datos[0].m11}}</td></tr>
-                                <tr class="text-right"><td>Diciembre</td><td>{{datos[0].m12}}</td></tr>
+                                <tr class="text-right"><td>Julio</td><td>{{datos[0].m7 | currency}}</td></tr>
+                                <tr class="text-right"><td>Agosto</td><td>{{datos[0].m8 | currency}}</td></tr>
+                                <tr class="text-right"><td>Septiembre</td><td>{{datos[0].m9 | currency}}</td></tr>
+                                <tr class="text-right"><td>Octubre</td><td>{{datos[0].m10 | currency}}</td></tr>
+                                <tr class="text-right"><td>Noviembre</td><td>{{datos[0].m11 | currency}}</td></tr>
+                                <tr class="text-right"><td>Diciembre</td><td>{{datos[0].m12 | currency}}</td></tr>
                               </tbody>
                             </table>
                           </div>
@@ -98,12 +98,12 @@
                             <table class="table_Gragicas">
                               <thead></thead>
                               <tbody>
-                                <tr class="text-right"><td>Enero</td><td>{{datos[1].m1}}</td></tr>
-                                <tr class="text-right"><td>Febrero</td><td>{{datos[1].m2}}</td></tr>
-                                <tr class="text-right"><td>Marzo</td><td>{{datos[1].m3}}</td></tr>
-                                <tr class="text-right"><td>Abril</td><td>{{datos[1].m4}}</td></tr>
-                                <tr class="text-right"><td>Mayo</td><td>{{datos[1].m5}}</td></tr>
-                                <tr class="text-right"><td>Junio</td><td>{{datos[1].m6}}</td></tr>
+                                <tr class="text-right"><td>Enero</td><td>{{datos[1].m1 | currency}}</td></tr>
+                                <tr class="text-right"><td>Febrero</td><td>{{datos[1].m2 | currency}}</td></tr>
+                                <tr class="text-right"><td>Marzo</td><td>{{datos[1].m3 | currency}}</td></tr>
+                                <tr class="text-right"><td>Abril</td><td>{{datos[1].m4 | currency}}</td></tr>
+                                <tr class="text-right"><td>Mayo</td><td>{{datos[1].m5 | currency}}</td></tr>
+                                <tr class="text-right"><td>Junio</td><td>{{datos[1].m6 | currency}}</td></tr>
                               </tbody>
                             </table>
                           </div>          
@@ -111,12 +111,12 @@
                             <table class="table_Gragicas">
                               <thead></thead>
                               <tbody>
-                                <tr class="text-right"><td>Julio</td><td>{{datos[1].m7}}</td></tr>
-                                <tr class="text-right"><td>Agosto</td><td>{{datos[1].m8}}</td></tr>
-                                <tr class="text-right"><td>Septiembre</td><td>{{datos[1].m9}}</td></tr>
-                                <tr class="text-right"><td>Octubre</td><td>{{datos[1].m10}}</td></tr>
-                                <tr class="text-right"><td>Noviembre</td><td>{{datos[1].m11}}</td></tr>
-                                <tr class="text-right"><td>Diciembre</td><td>{{datos[1].m12}}</td></tr>
+                                <tr class="text-right"><td>Julio</td><td>{{datos[1].m7 | currency}}</td></tr>
+                                <tr class="text-right"><td>Agosto</td><td>{{datos[1].m8 | currency}}</td></tr>
+                                <tr class="text-right"><td>Septiembre</td><td>{{datos[1].m9 | currency}}</td></tr>
+                                <tr class="text-right"><td>Octubre</td><td>{{datos[1].m10 | currency}}</td></tr>
+                                <tr class="text-right"><td>Noviembre</td><td>{{datos[1].m11 | currency}}</td></tr>
+                                <tr class="text-right"><td>Diciembre</td><td>{{datos[1].m12 | currency}}</td></tr>
                               </tbody>
                             </table>
                           </div>

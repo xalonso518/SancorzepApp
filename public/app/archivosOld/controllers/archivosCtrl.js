@@ -34,7 +34,7 @@ angular.module('Teamapp').controller('archivosCtrl', function($scope, $http, $st
 				$scope.registros = response.data.empresas.length;
 				if($scope.registros > 0) {
 					$scope.empresas = response.data.empresas;
-					$scope.sizeRecursos = response.data.sizes;
+					//$scope.sizeRecursos = response.data.sizes;
 				}
 				else {
 					ToastService.info('No se encontraron datos en esa fecha, vuelva a intentarlo');
@@ -50,7 +50,7 @@ angular.module('Teamapp').controller('archivosCtrl', function($scope, $http, $st
 		ArchivoService.getLastArchivos()
 		.then(function (response){
 			if(response.data.success){
-				if(response.data.empresas.length > 0) $scope.lastArchivos = response.data.empresas;
+				if(response.data.archivos.length > 0) $scope.lastArchivos = response.data.archivos;
 				else {
 					ToastService.info('No se encontraron archivos, vuelva a intentarlo');
 					$scope.lastArchivos = {};	
@@ -63,11 +63,21 @@ angular.module('Teamapp').controller('archivosCtrl', function($scope, $http, $st
 	$scope.sizeDirectory = function(){
 		ArchivoService.getSizeDirectory()
 		.then(function (response){
-			if(response.data.success){
-				$scope.sizeFiles = response.data.size;
+			if(response.data.success){				
+				$scope.setSizeEmpresas(response.data.files);
 			}
 			else ToastService.error('Error al cargar los datos, vuelva a intentarlo');
 		});		
+	}
+
+	$scope.setSizeEmpresas = function(data){
+		var total = 0;
+		$scope.sizeRecursos = {};
+		angular.forEach(data, function(v, i){
+			total += v.total;
+			$scope.sizeRecursos[v._id] = (v.total / 1024 / 1024).toFixed(2);
+		});
+		$scope.sizeFiles = (total / 1024 /1024).toFixed(2);
 	}
 
 	$scope.getValuesG2 = function(data){

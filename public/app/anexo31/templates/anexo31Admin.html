@@ -1,0 +1,309 @@
+<div class="mailbox row" data-ng-init="init()">
+    <div class="col-xs-12">
+        <div class="box box-solid">
+            <div class="box-body">
+              <div class="">
+                <div class="row">
+                  <div class="col-xs-12">
+
+                    <div class="row info_tableArchivo info_table table-empresa-archivo noPrint">
+                      <div class="col-xs-4 text-center">
+                        <p>Empresa: <b>{{empresa.nombre}}</b></p>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <div class="text-center"><img ng-src="{{empresa.img}}" class="img-empresa-archivo"></div>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <p ng-show="creadoPor1 != ''" style="font-size:12px;margin-bottom: 0px;margin-top: 5px;">{{anio1_selected}} - creado/editado por: <b>{{creadoPor1}} </b></p>
+                        <p ng-show="creadoPor2 != ''" style="font-size:12px;margin-bottom: 10px;margin-top: 0px;">{{anio2_selected}} - creado/editado por: <b>{{creadoPor2}} </b></p>
+                      </div>
+                    </div>
+
+                    <div class="row noPrint">
+                     
+                      <div class="col-xs-12 col-md-2">
+                        <div class="input-group">
+                          <div class="input-group-addon">Año</div>
+                              <select name="anio1" id="anio1" class="form-control" ng-model="anio1" required>
+                                  <option value="" disabled selected hidden>...</option>
+                                  <option ng-repeat="y in aniosAgregar" value="{{y}}" ng-selected="y == anio1">{{y}}</option>
+                              </select>
+                        </div>
+                      </div>
+                     
+                      <div class="col-xs-12 col-md-2">
+                        <div class="input-group">
+                          <div class="input-group-addon">Año</div>
+                              <select name="anio2" id="anio2" class="form-control" ng-model="anio2" required>
+                                  <option value="" disabled selected hidden>...</option>
+                                  <option ng-repeat="y in aniosAgregar" value="{{y}}" ng-selected="y == anio2">{{y}}</option>
+                              </select>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-1">
+                        <button type="button" class="btn btn-primary btn-block" ng-click="buscarReportes()"><i class="glyphicon glyphicon-search"></i></button>
+                      </div>
+                      <div class="col-xs-12 col-md-4">
+                      </div>
+                      <div class="col-xs-12 col-md-2">
+                        <button type="button" class="btn btn-primary btn-block" ng-click="showModalAddDatos()"><i class="glyphicon glyphicon-plus"></i> Datos</button>
+                      </div>
+                      <div class="col-xs-12 col-md-1">
+                        <button type="button" class="btn btn-primary btn-block" ng-click="imprimir()"><i class="glyphicon glyphicon-print"></i></button>
+                      </div>
+                    </div>
+                    <div class=" table-responsive">
+                      <div ng-show="datos[0] || datos[1]" class="reporteAnexo31 reporteImp">
+                        <div class="reporteHead">
+                          <img src="img/logo_s2.svg">
+                        </div>
+                        <div class="reporteBody">
+                          <div class="reporteColumns">
+                            <div class="reporteBox">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th class="th_anio">Año</th>
+                                    <th ng-show="anio1_selected && datos[0]">{{anio1_selected}}</th>
+                                    <th ng-show="anio2_selected && datos[1]">{{anio2_selected}}</th>
+                                    <th class="th_total">TOTAL</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr class="montoSelected">
+                                    <td class="td_titulo" style="text-align: center">Monto Total Importado</td>
+                                    <td ng-show="datos[0]">{{datos[0].totalImportado | currency}}</td>
+                                    <td ng-show="datos[1]">{{datos[1].totalImportado | currency}}</td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].totalImportado + datos[1].totalImportado | currency}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td_titulo">MONTOS DE MATERIA PRIMA IMPORTADOS</td>
+                                    <td ng-show="datos[0]">{{datos[0].materiaPrima | currency}}</td>
+                                    <td ng-show="datos[1]">{{datos[1].materiaPrima | currency}}</td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].materiaPrima + datos[1].materiaPrima | currency}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td_titulo">MONTOS DE IMPORTACIONES ACTIVO FIJO</td>
+                                    <td ng-show="datos[0]">{{datos[0].activoFijo | currency}}</td>
+                                    <td ng-show="datos[1]">{{datos[1].activoFijo | currency}}</td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].activoFijo + datos[1].activoFijo | currency}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <hr>
+                            <div class="reporteGrafica">  
+                              <div id="graficaAnio1" class="col-xs-12 col-md-6">
+                                <h4>Monto Total</h4>
+                                <div id='myChart1' class="chartStyle"></div>
+                              </div>
+                              <div id="graficaAnio2" class="col-xs-12 col-md-6">
+                                <h4>Saldos</h4>
+                                <div id='myChart2' class="chartStyle"></div>                                
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="reporteBox">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th class="th_anio">Año</th>
+                                    <th ng-show="anio1_selected && datos[0]">{{anio1_selected}}</th>
+                                    <th ng-show="anio2_selected && datos[1]">{{anio2_selected}}</th>
+                                    <th class="th_total">TOTAL</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr class="montoSelected">
+                                    <td class="td_titulo" style="text-align: center">MONTO DESCARGADO</td>
+                                    <td ng-show="datos[0]">{{datos[0].descargado | currency}}</td>
+                                    <td ng-show="datos[1]">{{datos[1].descargado | currency}}</td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].descargado + datos[1].descargado | currency}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td_titulo">MONTO EXISTENTE MATERIA PRIMA</td>
+                                    <td ng-show="datos[0]">{{datos[0].eMateriaPrima | currency}}</td>
+                                    <td ng-show="datos[1]">{{datos[1].eMateriaPrima | currency}}</td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].eMateriaPrima + datos[1].eMateriaPrima | currency}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td_titulo">MONTO EXISTENTE IMPORTACIONES ACTIVO FIJO</td>
+                                    <td ng-show="datos[0]">{{datos[0].eActivoFijo | currency}}</td>
+                                    <td ng-show="datos[1]">{{datos[1].eActivoFijo | currency}}</td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].eActivoFijo + datos[1].eActivoFijo | currency}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td_titulo">Monto Existente Temporal VENCIDO</td>
+                                    <td ng-show="datos[0]">{{datos[0].eVencido | currency}}</td>
+                                    <td ng-show="datos[1]">{{datos[1].eVencido | currency}}</td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].eVencido + datos[1].eVencido | currency}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>                            
+                            </div>
+                            <hr>
+                            <div class="reporteGrafica">  
+                              <div id="graficaAnio2" class="col-xs-12 col-md-6">
+                                <h4>Monto Descargado</h4>
+                                <div id='myChart3' class="chartStyle"></div>
+                              </div>
+                              <div id="graficaAnio3" class="col-xs-12 col-md-6">
+                                <h4>% Monto Descargado</h4>
+                                <div id='myChart4' class="chartStyle"></div>                                
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="reporteBox">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th class="th_anio">Año</th>
+                                    <th ng-show="anio1_selected && datos[0]">{{anio1_selected}}</th>
+                                    <th ng-show="anio2_selected && datos[1]">{{anio2_selected}}</th>
+                                    <th class="th_total">TOTAL</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr class="montoSelected">
+                                    <td class="td_titulo" style="text-align: center">MONTO DESCARGADO</td>
+                                    <td ng-show="datos[0]">{{datos[0].peDescargado | number:2}} % </td>
+                                    <td ng-show="datos[1]">{{datos[1].peDescargado | number:2}} % </td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].peDescargado + datos[1].peDescargado | number:2}} % </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td_titulo">MONTO EXISTENTE MATERIA PRIMA</td>
+                                    <td ng-show="datos[0]">{{datos[0].peMateriaPrima | number:2}} % </td>
+                                    <td ng-show="datos[1]">{{datos[1].peMateriaPrima | number:2}} % </td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].peMateriaPrima + datos[1].peMateriaPrima | number:2}} % </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="td_titulo">MONTO EXISTENTE IMPORTACIONES DEFINITIVAS</td>
+                                    <td ng-show="datos[0]">{{datos[0].peDefinitivas | number:2}} % </td>
+                                    <td ng-show="datos[1]">{{datos[1].peDefinitivas | number:2}} % </td>
+                                    <td ng-show="datos[0] || datos[1]" class="td_total">{{datos[0].peDefinitivas + datos[1].peDefinitivas | number:2}} % </td>
+                                  </tr>
+                                </tbody>
+                              </table>                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalAddDatos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Datos Reporte Anexo 31</h4>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <div class="input-group-addon">Año</div>
+          <select name="aniosAgregar" id="aniosAgregar " class="form-control" ng-model="aniosAgregarSelected" required ng-change="buscarDatosAgregar()">
+            <option value="" disabled selected hidden>...</option>
+            <option ng-repeat="y in aniosAgregar" value="{{y}}" >{{y}}</option>
+          </select>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-xs-12 col-md-4">
+            <label for="totalImportado">Total Importado</label>
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <input type="text" maxlength="15" name="totalImportado" ng-model="agregarData.totalImportado" class="form-control" placeholder="" format="number">
+            </div><br>
+            <label for="materiaPrima">Materia Prima</label>
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <input type="text" maxlength="15" name="materiaPrima" ng-model="agregarData.materiaPrima" class="form-control" placeholder="" format="number">
+            </div><br>
+            <label for="activoFijo">Activo Fijo</label>
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <input type="text" maxlength="15" name="activoFijo" ng-model="agregarData.activoFijo" class="form-control" placeholder="" format="number">
+            </div>  
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <label for="descargado">Descargado</label>
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <input type="text" maxlength="15" name="descargado" ng-model="agregarData.descargado" class="form-control" placeholder="" format="number">
+            </div><br>
+            <label for="eMateriaPrima">Existente Materia Prima</label>
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <input type="text" maxlength="15" name="eMateriaPrima" ng-model="agregarData.eMateriaPrima" class="form-control" placeholder="" format="number">
+            </div>  <br>
+            <label for="eActivoFijo">Exitente Activo Fijo</label>
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <input type="text" maxlength="15" name="eActivoFijo" ng-model="agregarData.eActivoFijo" class="form-control" placeholder="" format="number">
+            </div> <br>
+            <label for="eVencido">Existente Vencido</label>
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <input type="text" maxlength="15" name="eVencido" ng-model="agregarData.eVencido" class="form-control" placeholder="" format="number">
+            </div>  
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <label for="peDescargado">% Existente Descargado</label>
+            <div class="input-group">
+              <input type="text" maxlength="5" name="peDescargado" ng-model="agregarData.peDescargado" class="form-control inputPorcentaje" placeholder="" format="number">
+              <div class="input-group-addon">%</div>
+            </div><br>
+            <label for="peMateriaPrima">% Existente Materia Prima</label>
+            <div class="input-group">
+              <input type="text" maxlength="5" name="peMateriaPrima" ng-model="agregarData.peMateriaPrima" class="form-control inputPorcentaje" placeholder="" format="number">
+              <div class="input-group-addon">%</div>
+            </div>  <br>
+            <label for="peDefinitivas">% Existente Importaciones Definitivas</label>
+            <div class="input-group">
+              <input type="text" maxlength="5" name="peDefinitivas" ng-model="agregarData.peDefinitivas" class="form-control inputPorcentaje" placeholder="" format="number">
+              <div class="input-group-addon">%</div>
+            </div>  
+          </div>   
+
+        </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" ng-click="agregarDatosReporte()" ng-show="isAgregar">Agregar</button>
+        <button type="button" class="btn btn-success" ng-click="editarDatosReporte()" ng-show="!isAgregar">Editar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- Modal Start here-->
+<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
+    role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-time">
+                    </span>Espere un momento
+                 </h4>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info
+                    progress-bar-striped active"
+                    style="width: 100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal ends Here -->

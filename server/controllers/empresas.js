@@ -791,13 +791,16 @@ exports.restaurarEmpresa = function(req, res, next){
 };
 exports.empresasArchivos = function(req, res, next){
 
-	Empresa.find({status : 1}).select({ _id: 1, nombre: 1, rfc: 1, carpeta: 1, f_alta:1, img: 1})
+	Empresa.find({status : 1})
+	.select({ _id: 1, nombre: 1, rfc: 1, carpeta: 1, f_alta:1, img: 1})
+	.sort({_id: -1})
 	.exec(function (err, empresas){
 		if (err) {
 			console.log(err);
 			res.send({success : false});
 		}else{
-			setFullEmpresasArchivos(res, empresas);
+			//setFullEmpresasArchivos(res, empresas);
+			res.send({success : true, empresas : empresas});
 		}
 	});
 };

@@ -51,6 +51,7 @@
                             <th class="th_noContent text-center" style=""></th>
                             <th class="th_noContent text-center" style=""></th>
                             <th class="th_noContent text-center" style=""></th>
+                            <th class="th_noContent text-center" style=""></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -61,11 +62,21 @@
                               <td>{{emp.responsable}}</td>
                               <td>{{emp.f_alta | date : "short" }}</td>
                               <td>{{emp.u_alta.nombre_usuario}}</td>
-                              <td ng-show="emp.status == 1" class="eliminar_cell"><button type="button" class="btn btn-primary btn-block" ui-sref="appAdm.Datos_Anuales({ id_empresa : '{{emp._id.toString()}}' })"><i class="glyphicon glyphicon-th-list"></i></button></td>
-                              <td ng-show="emp.status == 1" class="eliminar_cell"><button type="button" class="btn btn-info btn-block" ui-sref="appAdm.Editar_Empresa({ id_empresa : '{{emp._id.toString()}}' })"><i class="glyphicon glyphicon-edit"></i></button></td>
+                              <td ng-show="emp.status == 1" class="eliminar_cell">
+                                <button type="button" class="btn btn-primary btn-block" ui-sref="appAdm.Anexo_31({ id_empresa : '{{emp._id.toString()}}' })">
+                                  Anexo 31
+                                </button>
+                              </td>
+                              <td>
+                                <button title="Archivos" type="button" class="btn btn-primary" ui-sref="appAdm.archivos({ id_empresa : '{{emp._id.toString()}}' })">
+                                  <i class="glyphicon glyphicon-folder-open" style=""></i>
+                                </button>
+                              </td>
+                              <td ng-show="emp.status == 1" class="eliminar_cell"><button type="button" class="btn btn-primary btn-block" ui-sref="appAdm.Datos_Anuales({ id_empresa : '{{emp._id.toString()}}' })">Datos Anuales</button></td>
+                              <td title="Editar" ng-show="emp.status == 1" class="eliminar_cell"><button type="button" class="btn btn-info btn-block" ui-sref="appAdm.Editar_Empresa({ id_empresa : '{{emp._id.toString()}}' })"><i class="glyphicon glyphicon-edit"></i></button></td>
                               <td class="eliminar_cell">
-                                <button ng-show="emp.status == 1" type="button" class="btn btn-danger btn-block" ng-click="showModalEliminar(emp)"><i class="glyphicon glyphicon-trash"></i></button>
-                                <button ng-show="emp.status == 0" type="button" class="btn btn-success btn-block" ng-click="restaurarEmpresa(emp._id)"><i class="glyphicon glyphicon-check"></i></button>
+                                <button title="Eliminar" ng-show="emp.status == 1" type="button" class="btn btn-danger btn-block" ng-click="showModalEliminar(emp)"><i class="glyphicon glyphicon-trash"></i></button>
+                                <button title="Eliminar" ng-show="emp.status == 0" type="button" class="btn btn-success btn-block" ng-click="restaurarEmpresa(emp._id)"><i class="glyphicon glyphicon-check"></i></button>
                               </td>
                           </tr>
                         </tbody>

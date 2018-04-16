@@ -1,5 +1,31 @@
 var app = angular.module('Teamapp',['ui.router', 'ngAnimate', 'toastr', 'zingchart-angularjs']);
 
+app.directive('format', ['$filter', function ($filter) {
+    return {
+        require: '?ngModel',
+        link: function (scope, elem, attrs, ctrl) {
+            if (!ctrl) return;
+
+
+            ctrl.$formatters.unshift(function (a) {
+                return $filter(attrs.format)(ctrl.$modelValue)
+            });
+
+
+            ctrl.$parsers.unshift(function (viewValue) {
+                //console.log(viewValue);
+                if(viewValue){
+                    var plainNumber = viewValue.replace(/[^\d|\-+|\.+]/g, '');
+                    elem.val($filter('number')(plainNumber));
+                    return plainNumber;
+                }else{
+                    return '';
+                }
+            });
+        }
+    };
+}]);
+
 app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMatcherFactoryProvider", function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider){
 	$urlRouterProvider.otherwise('/login');
 	$locationProvider.html5Mode(true);
@@ -50,26 +76,6 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			templateUrl : 'partials/empresas/templates/registroEmpresa.html',
 			controller : 'registroEmpresaCtrl'
 		})
-		.state('appAdm.registro_Archivo',{
-			url : '/registroArchivo',
-			templateUrl : 'partials/archivos/templates/registroArchivo.html',
-			controller : 'registroArchivoCtrl'
-		})	
-		.state('appAdm.archivos',{
-			url : '/archivos',
-			templateUrl : 'partials/archivos/templates/archivos.html',
-			controller : 'archivosCtrl'
-		})		
-		.state('appAdm.archivos_Empresa',{
-			url : '/archivosEmpresas/:id_empresa',
-			templateUrl : 'partials/archivos/templates/archivosEmpresaAdm.html',
-			controller : 'archivosEmpresaAdmCtrl'
-		})
-		.state('appAdm.historial_archivos',{
-			url : '/historialArchivos',
-			templateUrl : 'partials/archivos/templates/historialArchivos.html',
-			controller : 'historialArchivosCtrl'
-		})	
 		.state('appAdm.empresas',{
 			url : '/empresas',
 			templateUrl : 'partials/empresas/templates/empresas.html',
@@ -95,11 +101,11 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			templateUrl : 'partials/empresas/templates/comparacion.html',
 			controller : 'empresaComparacionCtrl'
 		})
-		.state('appEmpresa.archivos',{
-			url : '/archivosEmpresa/:id_empresa',
-			templateUrl : 'partials/archivos/templates/archivosEmpresa.html',
-			controller : 'archivosEmpresaCtrl'
-		})	
+		.state('appEmpresa.Comparacion',{
+			url : '/Comparacion/:id_empresa',
+			templateUrl : 'partials/empresas/templates/comparacion.html',
+			controller : 'empresaComparacionCtrl'
+		})
 		.state('appEmpresa.dashboard',{
 			url : '/dashboard/:id_empresa',
 			templateUrl : 'partials/index/templates/dashboard.html',
@@ -116,5 +122,56 @@ app.config(['$stateProvider',"$urlRouterProvider", "$locationProvider", "$urlMat
 			controller : 'cambioPasswordCtrl'
 		})
 
+		.state('appEmpresa.archivosOld',{ //OLD VERSION
+			url : '/archivosEmpresa/:id_empresa',
+			templateUrl : 'partials/archivosOld/templates/archivosEmpresa.html',
+			controller : 'archivosEmpresaCtrl'
+		})	
+		.state('appEmpresa.archivos',{ //NEW VERSION
+			url : '/archivos/:id_empresa',
+			templateUrl : 'partials/archivos/templates/archivosEmpresa.html',
+			controller : 'archivosEmpresaNewCtrl'
+		})	
+
+		.state('appAdm.archivos',{ //NEW VERSION
+			url : '/archivos/:id_empresa',
+			templateUrl : 'partials/archivos/templates/archivosAdmin.html',
+			controller : 'archivosEmpresaNewCtrl'
+		})	
+		// .state('appAdm.registro_Archivo',{
+		// 	url : '/registroArchivo',
+		// 	templateUrl : 'partials/archivos/templates/registroArchivo.html',
+		// 	controller : 'registroArchivoCtrl'
+		// })	
+		.state('appAdm.archivos_Busqueda',{
+			url : '/archivosBusqueda',
+			templateUrl : 'partials/archivosOld/templates/archivos.html',
+			controller : 'archivosCtrl'
+		})		
+		// .state('appAdm.archivos_Empresa',{
+		// 	url : '/archivosEmpresas/:id_empresa',
+		// 	templateUrl : 'partials/archivos/templates/archivosEmpresaAdm.html',
+		// 	controller : 'archivosEmpresaAdmCtrl'
+		// })
+		.state('appAdm.historial_archivos',{
+			url : '/historialArchivos',
+			templateUrl : 'partials/archivosOld/templates/historialArchivos.html',
+			controller : 'historialArchivosCtrl'
+		})			
+
+		////////// ANEXO 31 ///////////
+
+
+		.state('appAdm.Anexo_31',{
+			url : '/anexo31/:id_empresa',
+			templateUrl : 'partials/anexo31/templates/anexo31Admin.html',
+			controller : 'anexo31Ctrl'
+		})	
+
+		.state('appEmpresa.Anexo_31',{
+			url : '/anexo31/:id_empresa',
+			templateUrl : 'partials/anexo31/templates/anexo31Empresa.html',
+			controller : 'anexo31Ctrl'
+		})	
 
 }]);

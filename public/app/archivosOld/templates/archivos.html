@@ -6,8 +6,8 @@
         <i class="fa fa-line-history fa-lg"></i>
         <hr>
         <div ng-repeat="lastArchivo in lastArchivos">
-          <span class="bx-usuario">{{lastArchivo.name}}</span>
-          <span class="bx-fecha">{{ lastArchivo.fecha | date : "short" }}</span>
+          <span class="bx-usuario">{{lastArchivo.nombre}}</span>
+          <span class="bx-fecha">{{ lastArchivo.f_carga | date : "short" }}</span>
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
                         </thead>
                         <tbody>
                           <tr ng-repeat="emp in empresas | filter:searchText | orderBy:sortType:sortReverse" ng-class="{even: $even, odd: $odd}">
-                              <td><button type="button" class="btn btn-primary" ui-sref="appAdm.archivos_Empresa({ id_empresa : '{{emp._id.toString()}}' })">Acceder</button></td>
+                              <td><button type="button" class="btn btn-primary" ui-sref="appAdm.archivos({ id_empresa : '{{emp._id.toString()}}' })">Acceder</button></td>
                               <td class="text-center"><img class="table_sm_img" ng-src="{{emp.img}}" style="width: 90% !important; max-width: none !important; border-radius: 3px;"></td>
                               <td>{{emp.nombre}}</td>
                               <td>{{emp.rfc}}</td>

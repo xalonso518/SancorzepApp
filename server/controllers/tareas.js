@@ -55,7 +55,7 @@ exports.createTarea = function(req, res, next){
 	tarea.anio = anio;
 	tarea.mes = mes;
 	tarea.usuario = usuario;
-	tarea.valor = valor;
+	tarea.valor = valor;	
 
 	tarea.save(function (err, log){
 		if (err) {console.log(err); res.send({success : false});}

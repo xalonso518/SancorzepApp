@@ -73,6 +73,7 @@ app.controller('dashboardCtrl', function($scope, $stateParams, $state, $http, $t
 	        	if(response.data.success) {
 	        		$scope.anios = response.data.anios;
 	        		$scope.anio = yyyy;
+	        		//if($scope.empresaD != null) $scope.buscar();
 	        	}
 				else ToastService.error('Error al cargar los datos, vuelva a cargar la página');	            
 	        });
@@ -116,6 +117,11 @@ app.controller('dashboardCtrl', function($scope, $stateParams, $state, $http, $t
 		  "scale-x": {
     		"format":"%v",
 		    "labels": val.labels
+		  },
+		  "scale-y":{
+		    "format":"$%v",
+		    "negation":"currency",
+    		"thousands-separator":","
 		  },
 		  "series": [
 		    {"values":val.values}

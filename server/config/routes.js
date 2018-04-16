@@ -2,6 +2,8 @@ var usuarios = require('../controllers/usuarios');
 var empresas = require('../controllers/empresas');
 var historial = require('../controllers/historial');
 var tareas = require('../controllers/tareas');
+var archivos = require('../controllers/archivos');
+var anexo31 = require('../controllers/anexo31');
 var passport = require('./passport');
 var multiparty = require('connect-multiparty')();
 
@@ -49,9 +51,9 @@ module.exports = function(app){
 
 	app.get('/empresasArchivos', empresas.empresasArchivos);
 
-	app.get('/lastArchivos', empresas.lastArchivos);
+	// app.get('/lastArchivos', empresas.lastArchivos);
 	
-	app.get('/sizeDirectory', empresas.sizeDirectory);
+	// app.get('/sizeDirectory', empresas.sizeDirectory);
 
 	app.post('/archivoDate', empresas.archivoDate);
 	
@@ -63,7 +65,7 @@ module.exports = function(app){
 	
 	app.post('/deleteArchivoAnio', empresas.deleteArchivoAnio);
 
-	app.post('/archivoDateHistory', empresas.archivoDateHistory);
+	//app.post('/archivoDateHistory', empresas.archivoDateHistory);
 
 	app.post('/getTareasMes', tareas.getTareasMes);
 
@@ -96,6 +98,39 @@ module.exports = function(app){
 	app.get('/usuario/:id_usuario', usuarios.getUsuario);
 
 	app.post('/history', historial.getHistory);
+
+	/*NUEVOS MODULOS*/
+	//app.post('/archivosNew', archivos.registroArchivo);
+	
+	app.post('/crearDirectorio', archivos.crearDirectorio);
+
+	app.post('/getFilesDirectory', archivos.getFilesDirectory);
+
+	app.post('/getFilesDirectoryNombre', archivos.getFilesDirectoryNombre);
+
+	app.post('/registroArchivoNuevo', multiparty, archivos.registroArchivo);
+
+	app.post('/deleteArchivoNuevo', archivos.deleteArchivo);
+
+	app.post('/deleteDirectorioNuevo', archivos.deleteDirectorio);
+
+	app.post('/archivoDateHistory', archivos.archivoDateHistory);
+
+	app.get('/lastArchivos', archivos.lastArchivos);
+	
+	app.get('/sizeDirectory', archivos.sizeDirectory);
+
+	app.post('/migracion', archivos.migracion);
+
+	/*Anexo 31*/
+	app.post('/crearReporte', anexo31.crearReporte);
+	
+	app.post('/editarReporte', anexo31.editarReporte);
+
+	app.post('/getDatosAnio', anexo31.getDatosAnio);
+
+	app.post('/getReportes', anexo31.getReportes);
+	
 	
 	app.get('*', function(req, res) {
 	  	res.render('index');

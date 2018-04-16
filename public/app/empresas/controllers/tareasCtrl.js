@@ -5,7 +5,8 @@ angular.module('Teamapp').controller('tareasCtrl', function($scope, $http, $stat
 	$scope.tipos = ['','DATA','INEGI','LAYOUT','ANEXO 24','DATA vs SISTEMA','SALDOS','ANEXO 31','VALIDO','HISTORICO','REPORTE','R. ANUAL','CD', 'Comentarios'];
 	
 	var today = new Date();
-	var mm = today.getMonth();
+	var mesActual = today.getMonth();
+	var mm = mesActual != 0 ? mesActual - 1 : 0;
 	var yyyy = today.getFullYear();
 
 	$scope.historial = {};
@@ -142,12 +143,13 @@ angular.module('Teamapp').controller('tareasCtrl', function($scope, $http, $stat
 		} else {
 			$scope.regSelect = {empresa : key , id : reg.id, valor : reg.valor, tipo : tipo, accion : 2};
 		}
-		$('#myModal').modal('show');		
+		$scope.cambiarValorTarea();
+		//$('#myModal').modal('show');		
 	}
 
 
 	$scope.cambiarValorTarea = function(){		
-		$('#myModal').modal('hide');
+		//$('#myModal').modal('hide');
 		if($scope.regSelect.accion === 1){
 			$scope.crearTarea($scope.regSelect.empresa, $scope.regSelect.id, $scope.regSelect.tipo);
 		}else {
@@ -166,5 +168,6 @@ angular.module('Teamapp').controller('tareasCtrl', function($scope, $http, $stat
 
 	$scope.init = function () {		
 		$('[data-toggle="tooltip"]').tooltip();
+		$scope.buscar();
 	};
 });

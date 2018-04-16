@@ -1,0 +1,81 @@
+<div class="form-box form-boxAdm" id="login-box" data-ng-init="init()">
+    <div class="header headerLogin">Registro de Archivo</div>
+    <form name="fileForm" ng-submit="registerFile()" enctype="multipart/form-data">
+        <div class="body bg-gray">
+            <div class="form-group text-center">
+                <img ng-src="{{file.logo}}" class="img_logo_form">
+            </div>
+            <div class="form-group">
+                <select name="empresa" id="empresa" class="form-control" ng-model="file.empresa" ng-change="changeImg()" required>
+                    <option ng-repeat="emp in empresaNombres" value="{{emp._id}}">{{emp.nombre}}</option>
+                </select>
+                <div ng-show="fileForm.$submitted || fileForm.empresa.$touched" class="form_error_msg">
+                    <p ng-show="fileForm.empresa.$error.required">Favor de completar este campo</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <select name="year" id="year" class="form-control" ng-model="file.year" ng-change="changeName()" required>
+                    <option ng-repeat="y in years" value="{{y}}" ng-selected="y == year">{{y}}</option>
+                </select>
+                <div ng-show="fileForm.$submitted || fileForm.year.$touched" class="form_error_msg">
+                    <p ng-show="fileForm.year.$error.required">Favor de completar este campo</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <select name="month" id="month" class="form-control" ng-model="file.month" ng-change="changeName()" required>                
+                    <option ng-repeat="m in months" value="{{m.i}}" ng-selected="m.i == month">{{m.month}}</option>
+                </select>
+                <div ng-show="fileForm.$submitted || fileForm.month.$touched" class="form_error_msg">
+                    <p ng-show="fileForm.month.$error.required">Favor de completar este campo</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                  <input type="text" name="name" ng-model="file.name" class="form-control" placeholder="Nombre del archivo" ng-disabled="isDisable" required ng-minlength="5" ng-maxlength="20" ng-pattern="patternLetNum">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button" ng-click="enableNameFile()" ><span class="glyphicon glyphicon-pencil"></span></button>
+                  </span>
+                </div>            
+                <div ng-show="fileForm.$submitted || fileForm.name.$touched" class="form_error_msg">
+                    <p ng-show="!fileForm.name.$valid">Campo no valido (sólo letras y números)</p>
+                    <p ng-show="fileForm.name.$error.minlength">Nombre muy corto(min 12)</p>
+                    <p ng-show="fileForm.name.$error.maxlength">Nombre muy largo(max 13)</p>
+                    <p ng-show="fileForm.name.$error.required">Favor de completar este campo</p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <input type="file" file-input="files" class="filestyle" data-buttonText=" Archivo" data-buttonName="btn-primary" required/>
+                <p class="small text-primary">*Tamaño Máximo: 15MB. Extensiones permitidas: png, jpg, jpeg, svg, rar, zip, pdf, xls, doc, txt, ppt</p>
+            </div>
+        </div>
+        <div class="footer">
+            <!--<button type="submit" ng-disabled="enviando" class="btn bg-olive btn-block">Alta</button>-->
+            <button type="submit" class="btn bg-olive btn-block" id="bt_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order">Alta</button>
+        </div>
+    </form>
+
+</div><!-- Modal Start here-->
+<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
+    role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-time">
+                    </span>Espere un momento
+                 </h4>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info
+                    progress-bar-striped active"
+                    style="width: 100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal ends Here -->
