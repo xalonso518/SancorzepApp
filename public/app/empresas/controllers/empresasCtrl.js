@@ -215,8 +215,12 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 
 	$scope.mostrarGrafica = function(dato){
 		$scope.datoSelected = dato;
-		$scope.renderG1($scope.getValuesG1(dato));
-		$('#modalGrafica').modal('show');
+		if(dato.tipo == "1" || dato.tipo == "2" || dato.tipo == "3" || dato.tipo == "4") {
+			$scope.renderG1($scope.getValuesG1(dato),'myChart2');
+			$('#modalGrafica2').modal('show');}
+		else {
+			$scope.renderG1($scope.getValuesG1(dato), 'myChart1');
+			$('#modalGrafica').modal('show');}
 	}
 
 	$scope.changeEditBandera = function(){
@@ -356,12 +360,12 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 		return {'labels': labels, 'values':values};
 	}	
 
-	$scope.renderG1 = function(val){
+	$scope.renderG1 = function(val, grafica){
 		var config = {
 		  "type": "area",
 		  "plot": {
 		    "tooltip": {
-		      "text": "%kt <br> $%vt",
+		      "text": "%kt <br> %vt",
 		    },
             "animation":{
             	"effect":"11",
@@ -378,8 +382,8 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 		    "labels": val.labels
 		  },
 		  "scale-y":{
-		    "format":"$%v",
-		    "negation":"currency",
+		    "format":"%v",
+		    "negation":"number",
     		"thousands-separator":","
 		  },
 		  "series": [
@@ -387,7 +391,7 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 		  ]
 		};
 		zingchart.render({
-			id: 'myChart1',
+			id: grafica,
 		    data:config,
 		    height: 150
 		});

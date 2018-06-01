@@ -27,7 +27,8 @@ app.controller('dashboardCtrl', function($scope, $stateParams, $state, $http, $t
 			if($scope.datos != null){
 				for(var i = 0; i < $scope.datos.length; i++){
 					var c = "myChart" + (1 + i);
-					$scope.renderChart($scope.getValuesChart($scope.datos[i]), c);
+					if(i < 4) $scope.renderChartNumber($scope.getValuesChart($scope.datos[i]), c);
+					else $scope.renderChart($scope.getValuesChart($scope.datos[i]), c);
 				}
 			}
     	}, 10);	
@@ -102,7 +103,7 @@ app.controller('dashboardCtrl', function($scope, $stateParams, $state, $http, $t
 		  "type": "area",
 		  "plot": {
 		    "tooltip": {
-		      "text": "%kt <br> %vt"
+		      "text": "%kt <br> $%vt"
 		    },
             "animation":{
             	"effect":"11",
@@ -121,6 +122,43 @@ app.controller('dashboardCtrl', function($scope, $stateParams, $state, $http, $t
 		  "scale-y":{
 		    "format":"$%v",
 		    "negation":"currency",
+    		"thousands-separator":","
+		  },
+		  "series": [
+		    {"values":val.values}
+		  ]
+		};
+		zingchart.render({
+			id: idChart,
+		    data:config,
+		    height: 150
+		});
+	}
+
+	$scope.renderChartNumber = function(val, idChart){
+		var config = {
+		  "type": "area",
+		  "plot": {
+		    "tooltip": {
+		      "text": "%kt <br> %vt"
+		    },
+            "animation":{
+            	"effect":"11",
+                "method":"3",
+                "sequence":"ANIMATION_NO_SEQUENCE",
+                "speed":"ANIMATION_FAST"
+            },		    
+		  },		  
+		  "plotarea": {
+		    "adjust-layout":true /* For automatic margin adjustment. */
+		  },
+		  "scale-x": {
+    		"format":"%v",
+		    "labels": val.labels
+		  },
+		  "scale-y":{
+		    "format":"%v",
+		    "negation":"number",
     		"thousands-separator":","
 		  },
 		  "series": [
