@@ -215,7 +215,7 @@ app.controller('empresaDatosAnualesCtrl', function($scope, $stateParams, $state,
 
 	$scope.mostrarGrafica = function(dato){
 		$scope.datoSelected = dato;
-		if(dato.tipo == "1" || dato.tipo == "2" || dato.tipo == "3" || dato.tipo == "4") {
+		if(dato.tipo == "1" || dato.tipo == "2" || dato.tipo == "3" || dato.tipo == "4" || dato.tipo == "5") {
 			$scope.renderG1($scope.getValuesG1(dato),'myChart2');
 			$('#modalGrafica2').modal('show');}
 		else {
@@ -432,7 +432,8 @@ app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, 
 	var yyyy = today.getFullYear();
 
 	$scope.mostrarGrafica = function(datos){		
-		$scope.renderG1($scope.getValuesG1(datos[0]), $scope.getValuesG1(datos[1]));
+		if($scope.tipo < 6) $scope.renderG2($scope.getValuesG1(datos[0]), $scope.getValuesG1(datos[1]));
+		else $scope.renderG1($scope.getValuesG1(datos[0]), $scope.getValuesG1(datos[1]));		
 	}
 
  	$scope.buscar = function(){
@@ -534,5 +535,46 @@ app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, 
 		    height: 250
 		});
 	}
+
+	$scope.renderG2 = function(val, val2){
+		var config = {
+		  "type": "area",
+		  "legend":{
+  			},
+		  "plot": {
+		    "tooltip": {
+		      "text": "%kt <br> %vt"
+		    },
+            "animation":{
+            	"effect":"11",
+                "method":"3",
+                "sequence":"ANIMATION_NO_SEQUENCE",
+                "speed":"ANIMATION_FAST"
+            },		    
+		  },		  
+		  "plotarea": {
+		    "adjust-layout":true /* For automatic margin adjustment. */
+		  },
+		  "scale-x": {
+    		"format":"%v",
+		    "labels": val.labels
+		  },
+		  "scale-y":{
+		    "format":"%v",
+		    "negation":"number",
+    		"thousands-separator":","
+		  },
+		  "series": [
+		    {"values":val.values, "text":$scope.anio1},
+		    {"values":val2.values, "text":$scope.anio2}
+		  ]
+		};
+		zingchart.render({
+			id: 'myChart1',
+		    data:config,
+		    height: 250
+		});
+	}
+
 
 });

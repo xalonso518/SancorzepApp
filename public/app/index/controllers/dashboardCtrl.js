@@ -27,7 +27,7 @@ app.controller('dashboardCtrl', function($scope, $stateParams, $state, $http, $t
 			if($scope.datos != null){
 				for(var i = 0; i < $scope.datos.length; i++){
 					var c = "myChart" + (1 + i);
-					if(i < 4) $scope.renderChartNumber($scope.getValuesChart($scope.datos[i]), c);
+					if(i < 5) $scope.renderChartNumber($scope.getValuesChart($scope.datos[i]), c);
 					else $scope.renderChart($scope.getValuesChart($scope.datos[i]), c);
 				}
 			}
