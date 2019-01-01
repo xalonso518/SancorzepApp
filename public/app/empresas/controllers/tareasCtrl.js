@@ -1,6 +1,6 @@
 angular.module('Teamapp').controller('tareasCtrl', function($scope, $http, $state, ToastService, TareasService){
 	
-	$scope.years = ['2018','2017', '2016'];
+	$scope.years = [];
 	$scope.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 	$scope.tipos = ['','DATA','INEGI','LAYOUT','ANEXO 24','DATA vs SISTEMA','SALDOS','ANEXO 31','VALIDO','HISTORICO','REPORTE','R. ANUAL','CD', 'Comentarios'];
 	
@@ -167,7 +167,19 @@ angular.module('Teamapp').controller('tareasCtrl', function($scope, $http, $stat
 	}
 
 	$scope.init = function () {		
+		$scope.initAnios();
 		$('[data-toggle="tooltip"]').tooltip();
 		$scope.buscar();
 	};
+
+	$scope.initAnios = function(user){		
+		var anioActual = new Date().getFullYear();
+		var anioMin = 2016;
+		$scope.years = [];
+		for(var i = anioActual; i >= anioMin; i--)
+			{
+				$scope.years.push(i);
+			}
+	}
+
 });

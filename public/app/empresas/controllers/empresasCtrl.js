@@ -480,6 +480,7 @@ app.controller('empresaComparacionCtrl', function($scope, $stateParams, $state, 
 		}
 	}
 
+
 	$scope.getValuesG1 = function(data){
 		var labels = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 

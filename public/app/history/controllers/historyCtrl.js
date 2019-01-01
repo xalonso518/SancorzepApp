@@ -1,6 +1,6 @@
 angular.module('Teamapp').controller('historyCtrl', function($scope, $http, $state, ToastService, HistorialService){
 	
-	$scope.years = ['2018','2017', '2016'];
+	$scope.years = [];
 	$scope.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
 	var today = new Date();
@@ -177,7 +177,19 @@ angular.module('Teamapp').controller('historyCtrl', function($scope, $http, $sta
 		});
 	}
 
-	$scope.init = function () {
+	$scope.init = function () {		
+		$scope.initAnios();
 		$scope.buscarHistory();
 	};
+
+
+	$scope.initAnios = function(user){		
+		var anioActual = new Date().getFullYear();
+		var anioMin = 2016;
+		$scope.years = [];
+		for(var i = anioActual; i >= anioMin; i--)
+			{
+				$scope.years.push(i);
+			}
+	}
 });

@@ -5,7 +5,7 @@ angular.module('Teamapp').controller('registroArchivoNewCtrl', function($scope, 
 	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
 
 
-	$scope.years = ['2016', '2017', '2018'];
+	$scope.years = ['2016', '2017', '2018','2019'];
 	
 	//$scope.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
@@ -53,12 +53,23 @@ angular.module('Teamapp').controller('registroArchivoNewCtrl', function($scope, 
 
 	}
 
-	$scope.init = function () {		
+	$scope.init = function () {	
+		$scope.initAnios();	
 		EmpresaService.getEmpresasImg().success(function (response){
         	$scope.empresaNombres = response;
     	});
 	};
 
+	$scope.initAnios = function(user){		
+		var anioActual = new Date().getFullYear();
+		var anioMin = 2016;
+		$scope.years = [];
+		for(var i = anioActual; i >= anioMin; i--)
+			{
+				$scope.years.push(i);
+			}
+	}
+	
 	$scope.enableNameFile = function(){
 		$scope.isDisable ? $scope.isDisable = false : $scope.isDisable = true;
 	}

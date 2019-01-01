@@ -1,5 +1,5 @@
 angular.module('Teamapp').controller('archivosEmpresaNewCtrl', function($scope, $http, $stateParams, $state, ToastService, EmpresaService, FilesService, ArchivoNuevoService){
-	
+
 	$scope.years = ['2018','2017', '2016'];
 	$scope.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 	$scope.patternLetNum = /^[0-9a-zA-Z]+$/;
@@ -29,6 +29,18 @@ angular.module('Teamapp').controller('archivosEmpresaNewCtrl', function($scope, 
 	$scope.archivoSelect;
 
 	$scope.tipoDelete = 0;
+
+
+	$scope.initAnios = function(user){		
+		var anioActual = new Date().getFullYear();
+		var anioMin = 2016;
+		$scope.years = [];
+		for(var i = anioActual; i >= anioMin; i--)
+			{
+				$scope.years.push(i);
+			}
+	}
+
 
 	$scope.showModalEliminarAnio = function(){
 		$("#text_modalELiminar").empty();
@@ -131,6 +143,7 @@ angular.module('Teamapp').controller('archivosEmpresaNewCtrl', function($scope, 
 	}
 
 	$scope.init = function () {
+		$scope.initAnios();
 	    if ($stateParams.hasOwnProperty('id_empresa')) {
 	        $scope.id_empresa = $stateParams.id_empresa;
 	        $scope.buscarEmpresa($scope.id_empresa);
